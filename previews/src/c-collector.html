@@ -1,0 +1,446 @@
+<title>Saint Vincent — Cabinet</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Saint Vincent Studio — Direction C, The Collector's World. Design preview.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@500;700;900&family=Instrument+Sans:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap">
+<style>
+/* Layout: a collector's cabinet. Deep bottle-green vitrine with bone specimen tags and brass hardware.
+   Condensed signage type, catalogue numbers in mono, a horizontal shelf you browse like a display case. */
+:root{
+  --green:#12302A;      /* cabinet interior */
+  --green-2:#1B4038;
+  --green-3:#285A4F;
+  --bone:#EFE6D4;       /* specimen tags, text */
+  --bone-dim:#B9B29F;
+  --brass:#C9A45C;      /* hardware: rules, active states */
+  --plate:#FDF5EA;      /* logo background, only behind the logo */
+  --ink:#10201C;
+  --f-display:"Big Shoulders Display","Oswald","Arial Narrow",sans-serif;
+  --f-body:"Instrument Sans","Helvetica Neue",Arial,sans-serif;
+  --f-mono:"Space Mono",ui-monospace,Menlo,monospace;
+  --s-1:.5rem;--s-2:1rem;--s-3:1.5rem;--s-4:2.5rem;--s-5:4rem;--s-6:7rem;
+  --ease-out:cubic-bezier(.22,1,.36,1);--spring:cubic-bezier(.34,1.4,.64,1);--dur-1:180ms;--dur-2:420ms;--dur-3:850ms;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--green);color:var(--bone);font:400 16px/1.55 var(--f-body);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:var(--green)}
+.wrap{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));max-width:1480px;margin-inline:auto}
+@media(min-width:900px){.wrap{padding-left:max(36px,env(safe-area-inset-left,0px));padding-right:max(36px,env(safe-area-inset-right,0px))}}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--brass);outline-offset:3px}
+.mono{font-family:var(--f-mono);font-size:.7rem;letter-spacing:.04em;text-transform:uppercase}
+.dim{color:var(--bone-dim)}
+.brass{color:var(--brass)}
+h1,h2,h3{font-family:var(--f-display);font-weight:900;text-transform:uppercase;line-height:.86;letter-spacing:-.005em;margin:0;text-wrap:balance}
+p{margin:0}
+
+/* header */
+.hdr{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:var(--green);border-bottom:1px solid var(--green-3)}
+.hdr .wrap{display:flex;align-items:center;justify-content:space-between;gap:1rem;height:78px}
+.cert{display:block;width:60px;height:60px;background:var(--plate);box-shadow:0 0 0 1px var(--brass),0 0 0 5px var(--green),0 0 0 6px var(--brass)}
+.cert img{width:60px;height:60px;display:block}
+.nav{display:none;gap:1.6rem;font-family:var(--f-display);font-weight:700;text-transform:uppercase;font-size:1.15rem;letter-spacing:.02em}
+.nav a{text-decoration:none;transition:color var(--dur-1)}
+.nav a:hover{color:var(--brass)}
+.tools{display:flex;gap:.5rem;align-items:center}
+.pill{font:700 .68rem/1 var(--f-mono);text-transform:uppercase;letter-spacing:.04em;background:none;border:1px solid var(--green-3);color:var(--bone);padding:.65rem .8rem;cursor:pointer;border-radius:999px}
+.pill:hover{border-color:var(--brass);color:var(--brass)}
+.pill[aria-pressed="true"]{background:var(--brass);color:var(--ink);border-color:var(--brass)}
+.saved{display:none}
+.menu-btn{display:inline-block}
+@media(min-width:960px){.nav{display:flex}.menu-btn{display:none}.saved{display:inline-block}}
+.overlay{position:fixed;inset:0;z-index:70;background:var(--green-2);display:flex;flex-direction:column;padding:calc(env(safe-area-inset-top,0px) + 18px) max(18px,env(safe-area-inset-right,0px)) calc(env(safe-area-inset-bottom,0px) + 18px) max(18px,env(safe-area-inset-left,0px));opacity:0;visibility:hidden;transition:opacity var(--dur-2),visibility var(--dur-2)}
+.overlay.open{opacity:1;visibility:visible}
+.overlay nav{margin-top:auto;display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.overlay nav a{background:var(--bone);color:var(--ink);text-decoration:none;padding:1rem;min-height:7.5rem;display:flex;flex-direction:column;justify-content:space-between;font-family:var(--f-display);font-weight:900;text-transform:uppercase;font-size:1.7rem;line-height:.9;transform:translateY(20px);transition:transform var(--dur-3) var(--spring)}
+.overlay.open nav a{transform:none}
+.overlay nav a .mono{font-size:.62rem}
+.overlay .pill{align-self:flex-end}
+
+/* hero: the vitrine */
+.hero{padding-block:var(--s-4) var(--s-5)}
+.hero .top{display:grid;grid-template-columns:1fr;gap:var(--s-3);align-items:end;margin-bottom:var(--s-4)}
+.hero h1{font-size:clamp(3.6rem,13vw,13rem)}
+.hero h1 .w{display:inline-block;animation:drop var(--dur-3) var(--spring) both}
+.hero h1 .w:nth-child(2){animation-delay:70ms}.hero h1 .w:nth-child(3){animation-delay:140ms;color:var(--brass)}
+@keyframes drop{from{transform:translateY(-30%) rotate(-4deg);opacity:0}to{transform:none;opacity:1}}
+.hero .copy{display:flex;flex-direction:column;gap:var(--s-3);max-width:28rem}
+@media(min-width:960px){.hero .top{grid-template-columns:1.7fr 1fr}}
+.lede{font-size:1.1rem}
+.ctas{display:flex;flex-wrap:wrap;gap:.7rem}
+.btn{display:inline-flex;align-items:center;gap:.8rem;background:var(--brass);color:var(--ink);text-decoration:none;padding:1rem 1.3rem;border-radius:999px;font-weight:600;transition:transform var(--dur-2) var(--spring)}
+.btn:hover{transform:translateY(-2px)}
+.btn.ghost{background:none;color:var(--bone);box-shadow:inset 0 0 0 1px var(--bone-dim)}
+.vitrine{background:linear-gradient(180deg,var(--green-2),var(--green));border:10px solid var(--ink);box-shadow:inset 0 0 0 1px var(--brass),0 30px 60px -30px #000;padding:clamp(10px,2vw,22px)}
+.shelf{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(6px,1.4vw,16px);padding-bottom:clamp(10px,1.6vw,18px);border-bottom:4px solid var(--brass);margin-bottom:clamp(10px,1.6vw,18px)}
+.shelf:last-child{margin-bottom:0}
+@media(min-width:700px){.shelf{grid-template-columns:repeat(6,minmax(0,1fr))}}
+.slot{all:unset;cursor:pointer;position:relative;aspect-ratio:1/1.05;background:radial-gradient(ellipse at 50% 30%,rgba(239,230,212,.12),transparent 70%);display:flex;flex-direction:column;justify-content:flex-end;align-items:center;transition:transform var(--dur-2) var(--spring)}
+.slot:hover,.slot:focus-visible{transform:translateY(-6px) rotate(-1.5deg)}
+.slot:focus-visible{outline:2px solid var(--brass)}
+.slot svg{width:82%;height:auto;margin-bottom:6px}
+.slot .tag{background:var(--bone);color:var(--ink);font:700 .55rem/1 var(--f-mono);padding:.25rem .35rem;transform:rotate(-2deg);white-space:nowrap}
+.slot.empty .tag{background:transparent;color:var(--bone-dim);border:1px dashed var(--bone-dim)}
+.vit-cap{display:flex;justify-content:space-between;gap:1rem;margin-top:.7rem}
+
+section{padding-block:var(--s-6)}
+.sh{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:var(--s-2) var(--s-4);margin-bottom:var(--s-4)}
+.sh h2{font-size:clamp(2.8rem,7.6vw,7rem);max-width:14ch}
+.sh .mono{flex-basis:100%}
+.sh p.d{max-width:26rem}
+
+/* intro: catalogue page */
+.intro{background:var(--bone);color:var(--ink)}
+.intro .grid{display:grid;grid-template-columns:1fr;gap:var(--s-4)}
+.intro .big{font-family:var(--f-display);font-weight:700;font-size:clamp(2rem,4.4vw,4rem);line-height:.98;text-transform:uppercase}
+.intro .facts{display:grid;gap:0;border-top:2px solid var(--ink)}
+.intro .facts div{display:grid;grid-template-columns:7.5rem 1fr;gap:1rem;padding:.9rem 0;border-bottom:1px solid rgba(16,32,28,.25)}
+@media(min-width:900px){.intro .grid{grid-template-columns:1.4fr 1fr}}
+
+/* collections: horizontal shelf */
+.rail{display:grid;grid-auto-flow:column;grid-auto-columns:min(82%,26rem);gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:1rem;scrollbar-color:var(--brass) var(--green-2)}
+.world{scroll-snap-align:start;position:relative;min-height:32rem;padding:var(--s-3);display:flex;flex-direction:column;justify-content:space-between;overflow:hidden;text-decoration:none;isolation:isolate}
+.world::before{content:"";position:absolute;inset:0;z-index:-1;background:var(--tint);transition:transform var(--dur-3) var(--ease-out)}
+.world:hover::before{transform:scale(1.04)}
+.world h3{font-size:clamp(3rem,5vw,4.6rem);color:var(--fg)}
+.world svg{position:absolute;right:-8%;top:18%;width:85%;z-index:-1;opacity:.95;transition:transform var(--dur-3) var(--ease-out)}
+.world:hover svg{transform:translate(-4%,-3%) rotate(-3deg)}
+.world .meta{display:flex;justify-content:space-between;color:var(--fg);opacity:.8}
+.world p{color:var(--fg);max-width:18rem}
+.rail-ctrl{display:flex;gap:.5rem}
+
+/* product cards */
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,17rem),1fr));gap:var(--s-3)}
+.card{display:flex;flex-direction:column;gap:.8rem}
+.card .img{position:relative;aspect-ratio:4/5;background:var(--green-2);overflow:hidden}
+.card .img svg{width:100%;height:100%;transition:transform var(--dur-3) var(--ease-out)}
+.card:hover .img svg{transform:scale(1.05)}
+.card .stamp{position:absolute;left:.7rem;top:.7rem;background:var(--bone);color:var(--ink);font:700 .6rem/1 var(--f-mono);padding:.35rem .45rem;transform:rotate(-3deg)}
+.card .save{position:absolute;right:.6rem;top:.6rem}
+.card h3{font-size:2rem}
+.card .row{display:flex;justify-content:space-between;gap:1rem;border-top:1px solid var(--green-3);padding-top:.6rem}
+
+/* featured with scale */
+.feat{display:grid;grid-template-columns:1fr;gap:var(--s-4);align-items:center}
+@media(min-width:900px){.feat{grid-template-columns:1.3fr 1fr}}
+.scene{position:relative;background:var(--green-2);aspect-ratio:4/3;max-width:100%;overflow:hidden;border:1px solid var(--green-3)}
+.scene svg{position:absolute;inset:0;width:100%;height:100%;transition:transform var(--dur-3) var(--ease-out);transform-origin:52% 66%}
+.scale-ctl{display:flex;flex-direction:column;gap:.6rem}
+.seg{display:flex;flex-wrap:wrap;gap:.4rem}
+.cat{background:var(--bone);color:var(--ink);padding:var(--s-3);display:flex;flex-direction:column;gap:.9rem;transform:rotate(-.6deg)}
+.cat h3{font-size:2.6rem}
+.cat dl{display:grid;grid-template-columns:auto 1fr;gap:.35rem 1.2rem;margin:0;font-size:.92rem}
+.cat dt{font:700 .62rem/1.8 var(--f-mono);text-transform:uppercase}
+.cat dd{margin:0}
+
+/* process: ticket stubs */
+.stubs{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,13rem),1fr));gap:12px}
+.stub{background:var(--green-2);border:1px solid var(--green-3);padding:1.1rem;display:flex;flex-direction:column;gap:2.4rem;position:relative}
+.stub::after{content:"";position:absolute;left:0;right:0;top:3.2rem;border-top:1px dashed var(--green-3)}
+.stub h3{font-size:2.2rem}
+.stub .no{font-family:var(--f-display);font-weight:900;font-size:1.2rem;color:var(--brass)}
+
+/* modular */
+.mod{display:grid;grid-template-columns:1fr;gap:var(--s-4)}
+@media(min-width:900px){.mod{grid-template-columns:1.4fr 1fr}}
+.board{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;aspect-ratio:4/3;max-width:100%;background:var(--ink);padding:8px;border:1px solid var(--brass)}
+.cell{all:unset;cursor:pointer;background:var(--green-2);display:grid;place-items:center;transition:background var(--dur-1),transform var(--dur-2) var(--spring)}
+.cell:hover{background:var(--green-3)}
+.cell:active{transform:scale(.94)}
+.cell:focus-visible{outline:2px solid var(--brass);outline-offset:-3px}
+.cell svg{width:70%;height:70%}
+.cell span{font:700 .9rem var(--f-mono);color:var(--green-3)}
+
+/* journal */
+.mags{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,16rem),1fr));gap:var(--s-3)}
+.mag{text-decoration:none;display:flex;flex-direction:column;gap:.7rem}
+.mag .cover{aspect-ratio:3/4;background:var(--bone);color:var(--ink);padding:1rem;display:flex;flex-direction:column;justify-content:space-between;transition:transform var(--dur-2) var(--spring)}
+.mag:hover .cover{transform:rotate(-1.5deg) translateY(-4px)}
+.mag .cover h3{font-size:2.6rem}
+.mag:nth-child(2) .cover{background:var(--brass)}
+.mag:nth-child(3) .cover{background:var(--green-3);color:var(--bone)}
+
+/* drops board */
+.drops{display:grid;grid-template-columns:1fr;gap:var(--s-4)}
+@media(min-width:900px){.drops{grid-template-columns:1.4fr 1fr}}
+.board-dep{background:var(--ink);border:1px solid var(--green-3);padding:1rem;overflow-x:auto}
+.board-dep table{width:100%;border-collapse:separate;border-spacing:0 6px;min-width:30rem}
+.board-dep th{text-align:left;font:700 .62rem var(--f-mono);color:var(--bone-dim);text-transform:uppercase;padding:0 .5rem}
+.board-dep td{background:#0B1714;padding:.7rem .5rem;font:700 .92rem var(--f-mono);text-transform:uppercase;color:var(--bone)}
+.board-dep td.st{color:var(--brass)}
+.flap{display:inline-block;animation:flap .6s steps(6) both}
+@keyframes flap{0%{opacity:.2;transform:scaleY(.2)}100%{opacity:1;transform:none}}
+form.notify{background:var(--bone);color:var(--ink);padding:var(--s-3);display:flex;flex-direction:column;gap:.9rem}
+form.notify h3{font-size:2.4rem}
+.field{display:flex;background:#fff;border:2px solid var(--ink);border-radius:999px;overflow:hidden}
+.field input{flex:1;min-width:0;border:0;padding:.9rem 1rem;font:400 1rem var(--f-body);background:transparent;color:var(--ink)}
+.field input:focus{outline:none}
+.field:focus-within{box-shadow:0 0 0 3px var(--brass)}
+.field button{all:unset;cursor:pointer;background:var(--ink);color:var(--bone);padding:0 1.2rem;font-weight:600}
+.field button:focus-visible{background:var(--brass);color:var(--ink)}
+.msg{min-height:1.3em;font-size:.88rem}
+
+/* closing + footer */
+.closing{padding-block:var(--s-6);overflow:hidden;border-top:1px solid var(--green-3)}
+.closing p{font-family:var(--f-display);font-weight:900;text-transform:uppercase;font-size:clamp(3.4rem,14vw,14rem);line-height:.82}
+.closing p span{color:var(--brass)}
+footer{background:var(--ink);padding-block:var(--s-5) calc(var(--s-3) + env(safe-area-inset-bottom,0px))}
+.fgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,11rem),1fr));gap:var(--s-4)}
+footer h4{font:700 .64rem var(--f-mono);text-transform:uppercase;color:var(--brass);margin:0 0 .9rem}
+footer ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.4rem}
+footer a{text-decoration:none}footer a:hover{color:var(--brass)}
+.fcert{width:120px;height:120px;background:var(--plate);box-shadow:0 0 0 1px var(--brass),0 0 0 6px var(--ink),0 0 0 7px var(--brass)}
+.fcert img{width:120px;height:120px;display:block}
+.legal{display:flex;flex-wrap:wrap;justify-content:space-between;gap:1rem;margin-top:var(--s-5);padding-top:var(--s-2);border-top:1px solid var(--green-3);color:var(--bone-dim)}
+
+.drawer{position:fixed;z-index:80;right:0;top:0;bottom:0;width:min(440px,100%);background:var(--bone);color:var(--ink);padding:calc(env(safe-area-inset-top,0px) + 20px) max(20px,env(safe-area-inset-right,0px)) calc(env(safe-area-inset-bottom,0px) + 20px) 20px;overflow-y:auto;transform:translateX(102%);transition:transform var(--dur-2) var(--ease-out);display:flex;flex-direction:column;gap:1.4rem}
+.drawer.open{transform:none}
+.drawer .pill{color:var(--ink);border-color:var(--ink)}
+.sw{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.sw div{aspect-ratio:1.3;padding:.4rem;display:flex;align-items:flex-end;font:400 .58rem/1.3 var(--f-mono);border:1px solid rgba(16,32,28,.2)}
+.badge{position:fixed;z-index:40;left:max(12px,env(safe-area-inset-left,0px));bottom:calc(12px + env(safe-area-inset-bottom,0px));background:var(--bone);color:var(--ink);padding:.45rem .65rem;font:700 .62rem var(--f-mono);text-transform:uppercase;transform:rotate(-2deg)}
+@supports (animation-timeline:view()){
+  .reveal{animation:rv linear both;animation-timeline:view();animation-range:entry 0% entry 45%}
+  @keyframes rv{from{transform:translateY(50px) rotate(1deg)}to{transform:none}}
+}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+</style>
+
+<div class="badge" data-vi="Bản xem trước · Hướng C">Preview · Direction C</div>
+
+<header class="hdr">
+  <div class="wrap">
+    <a class="cert" href="#top" aria-label="Saint Vincent Studio — home"><img src="{{LOGO}}" alt="Saint Vincent Studio" width="60" height="60"></a>
+    <nav class="nav" aria-label="Primary">
+      <a href="#worlds" data-vi="Thế giới">Worlds</a>
+      <a href="#pieces" data-vi="Vật phẩm">Pieces</a>
+      <a href="#process" data-vi="Quy trình">Process</a>
+      <a href="#journal" data-vi="Nhật ký">Journal</a>
+      <a href="#drops" data-vi="Sắp ra mắt">Drops</a>
+    </nav>
+    <div class="tools">
+      <span class="pill saved" id="savedCount" aria-live="polite">♡ 0</span>
+      <button class="pill" type="button" data-lang="en" aria-pressed="true">EN</button><button class="pill" type="button" data-lang="vi" aria-pressed="false">VI</button>
+      <button class="pill" type="button" id="specBtn" aria-expanded="false" aria-controls="drawer">Spec</button>
+      <button class="pill menu-btn" type="button" id="menuBtn" aria-expanded="false" aria-controls="overlay">Menu</button>
+    </div>
+  </div>
+</header>
+
+<div class="overlay" id="overlay" aria-hidden="true">
+  <button class="pill" type="button" id="menuClose">Close</button>
+  <nav aria-label="Mobile">
+    <a href="#worlds"><span class="mono">SV—01</span><span data-vi="Thế giới">Worlds</span></a>
+    <a href="#pieces"><span class="mono">SV—02</span><span data-vi="Vật phẩm">Pieces</span></a>
+    <a href="#process"><span class="mono">SV—03</span><span data-vi="Quy trình">Process</span></a>
+    <a href="#journal"><span class="mono">SV—04</span><span data-vi="Nhật ký">Journal</span></a>
+    <a href="#drops" style="grid-column:1/-1;min-height:5rem"><span class="mono">SV—05</span><span data-vi="Sắp ra mắt">Drops</span></a>
+  </nav>
+</div>
+
+<main id="top">
+<section class="hero">
+  <div class="wrap">
+    <div class="top">
+      <h1><span class="w" data-vi="Thế giới">Small</span> <span class="w" data-vi="nhỏ.">worlds.</span><br><span class="w" data-vi="Vô hạn.">Endless.</span></h1>
+      <div class="copy">
+        <p class="lede" data-vi="Thế giới thu nhỏ, mô hình module và những vật phẩm sưu tầm được thiết kế độc quyền bởi Saint Vincent Studio. Để trưng bày, để lắp ráp, để giữ lại.">Miniature worlds, modular models and collectible objects, designed in-house by Saint Vincent Studio. To display, to build, to keep.</p>
+        <div class="ctas"><a class="btn" href="#worlds"><span data-vi="Khám phá bộ sưu tập">Explore the collections</span><span>→</span></a><a class="btn ghost" href="#process" data-vi="Về studio">Discover the studio</a></div>
+      </div>
+    </div>
+    <div class="vitrine" id="vitrine" aria-label="Display cabinet of concept pieces"></div>
+    <div class="vit-cap mono dim"><span data-vi="Tủ trưng bày · minh hoạ concept">Cabinet · concept illustrations</span><span data-vi="Chạm vào một ngăn">Tap a slot</span></div>
+  </div>
+</section>
+
+<section class="intro">
+  <div class="wrap grid">
+    <p class="big reveal" data-vi="Chúng tôi thiết kế những vật phẩm mà người sưu tầm muốn xếp lên kệ, tự tay lắp ráp và kể lại câu chuyện phía sau.">We design pieces that collectors want on the shelf, want to build with their own hands, and want to tell the story behind.</p>
+    <dl class="facts">
+      <div><dt class="mono" data-vi="Studio">Studio</dt><dd data-vi="Thiết kế &amp; sản xuất độc lập">Independent design &amp; manufacturing</dd></div>
+      <div><dt class="mono" data-vi="Thiết kế">Design</dt><dd data-vi="Nguyên bản, phát triển tại studio">Original, developed in-house</dd></div>
+      <div><dt class="mono" data-vi="Tỷ lệ">Scale</dt><dd data-vi="1:64 và các tỷ lệ khác">1:64 and beyond</dd></div>
+      <div><dt class="mono" data-vi="Trạng thái">Status</dt><dd data-vi="Bộ sưu tập đầu tiên đang phát triển">First collection in development</dd></div>
+    </dl>
+  </div>
+</section>
+
+<section id="worlds">
+  <div class="wrap">
+    <div class="sh"><p class="mono brass">SV—01 · <span data-vi="Bộ sưu tập">Collections</span></p><h2 data-vi="Chọn một thế giới.">Pick a world.</h2><div class="rail-ctrl"><button class="pill" type="button" id="prev" aria-label="Previous world">←</button><button class="pill" type="button" id="next" aria-label="Next world">→</button></div></div>
+    <div class="rail" id="rail" tabindex="0" aria-label="Collections, scroll sideways"></div>
+  </div>
+</section>
+
+<section id="pieces">
+  <div class="wrap">
+    <div class="sh"><p class="mono brass">SV—02 · <span data-vi="Vật phẩm">Pieces</span></p><h2 data-vi="Danh mục sưu tầm.">The catalogue.</h2><p class="d dim" data-vi="Thiết kế thẻ sản phẩm. Tất cả là concept; giá chỉ hiện ở chế độ bán hàng.">Product card design. Everything here is a concept; prices appear only in commerce mode.</p></div>
+    <div class="cards" id="cards"></div>
+  </div>
+</section>
+
+<section id="featured" style="background:var(--green-2)">
+  <div class="wrap feat">
+    <div class="scene" id="scene">
+      <svg viewBox="0 0 800 600" role="img" aria-label="Concept scene: street corner diorama shown at room, shelf and 1:64 street scale" id="sceneSvg">
+        <rect width="800" height="600" fill="#1B4038"/>
+        <rect x="0" y="470" width="800" height="130" fill="#10201C"/>
+        <rect x="120" y="300" width="240" height="170" fill="#285A4F"/><rect x="420" y="380" width="260" height="90" fill="#285A4F"/>
+        <rect x="300" y="420" width="220" height="50" fill="#EFE6D4"/>
+        <path d="M330 420 L380 380 h80 l40 40z" fill="#C9A45C"/>
+        <rect x="360" y="398" width="34" height="22" fill="#12302A"/><rect x="400" y="388" width="44" height="32" fill="#12302A"/>
+        <rect x="402" y="408" width="30" height="8" fill="#EFE6D4"/>
+        <g fill="#EFE6D4" opacity=".5"><rect x="140" y="320" width="30" height="30"/><rect x="190" y="320" width="30" height="30"/><rect x="140" y="370" width="30" height="30"/><rect x="190" y="370" width="30" height="30"/></g>
+      </svg>
+      <span class="mono dim" style="position:absolute;left:.7rem;bottom:.6rem" data-vi="Minh hoạ concept">Concept illustration</span>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:var(--s-3)">
+      <p class="mono brass" data-vi="Thiết kế tiêu biểu">Featured design</p>
+      <h2 style="font-size:clamp(2.8rem,6vw,5.4rem)" data-vi="Góc phố 1:64">The Corner 1:64</h2>
+      <div class="scale-ctl"><span class="mono dim" data-vi="Xem ở tỷ lệ">View at</span>
+        <div class="seg" role="group" aria-label="Scale view"><button class="pill" type="button" data-z="1" aria-pressed="true" data-vi="Căn phòng">Room</button><button class="pill" type="button" data-z="1.9" aria-pressed="false" data-vi="Kệ trưng bày">Shelf</button><button class="pill" type="button" data-z="3.4" aria-pressed="false" data-vi="Đường phố 1:64">1:64 street</button></div>
+      </div>
+      <div class="cat">
+        <span class="mono">SV-MW-001 · <span data-vi="Concept">Concept</span></span>
+        <h3>The Corner</h3>
+        <dl><dt data-vi="Bộ sưu tập">Collection</dt><dd>Miniature Worlds</dd><dt data-vi="Tỷ lệ">Scale</dt><dd>1:64</dd><dt data-vi="Module">Modules</dt><dd data-vi="Nối tiếp nhiều góc phố">Joins into longer streets</dd><dt data-vi="Thông số">Specs</dt><dd data-vi="Công bố khi mẫu hoàn thiện">Published when the prototype is final</dd></dl>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="process">
+  <div class="wrap">
+    <div class="sh"><p class="mono brass">SV—03 · <span data-vi="Quy trình">Process</span></p><h2 data-vi="Từ ý tưởng đến vật thể.">From idea to object.</h2></div>
+    <div class="stubs">
+      <div class="stub reveal"><span class="no">01</span><h3 data-vi="Ý tưởng">Concept</h3><p class="dim" data-vi="Một thế giới bắt đầu từ một câu chuyện.">A world starts with a story.</p></div>
+      <div class="stub reveal"><span class="no">02</span><h3 data-vi="Thiết kế">Design</h3><p class="dim" data-vi="Mỗi chi tiết được vẽ đúng tỷ lệ.">Every detail drawn to scale.</p></div>
+      <div class="stub reveal"><span class="no">03</span><h3 data-vi="Mẫu thử">Prototype</h3><p class="dim" data-vi="Cầm trên tay, đặt lên kệ, thử lại.">Held, shelved, tested again.</p></div>
+      <div class="stub reveal"><span class="no">04</span><h3 data-vi="Tinh chỉnh">Refine</h3><p class="dim" data-vi="Sửa cho đến khi không còn gì để bỏ.">Revised until nothing can go.</p></div>
+      <div class="stub reveal"><span class="no">05</span><h3 data-vi="Sản xuất">Manufacture</h3><p class="dim" data-vi="Làm ra tại studio.">Made in the studio.</p></div>
+      <div class="stub reveal"><span class="no">06</span><h3 data-vi="Hoàn thiện">Finish</h3><p class="dim" data-vi="Hoàn thiện và đóng gói để sưu tầm.">Finished and boxed to collect.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="modular" style="background:var(--green-2)">
+  <div class="wrap">
+    <div class="sh"><p class="mono brass">SV—M · <span data-vi="Vũ trụ module">Modular Universe</span></p><h2 data-vi="Tự xây khu phố của bạn.">Build your own block.</h2></div>
+    <div class="mod">
+      <div class="board" id="board" aria-label="Base plate 4 by 3"></div>
+      <div style="display:flex;flex-direction:column;gap:var(--s-3)">
+        <p class="dim" data-vi="Chọn một module rồi chạm vào ô để đặt. Đây là nền móng cho trình cấu hình trong tương lai.">Pick a module, then tap a tile to place it. This is the groundwork for a future configurator.</p>
+        <div class="seg" id="pal" role="group" aria-label="Modules"></div>
+        <p class="mono"><span data-vi="Đã đặt">Placed</span>: <span id="count" style="font-variant-numeric:tabular-nums">0 / 12</span></p>
+        <button class="pill" type="button" id="clear" style="align-self:flex-start" data-vi="Xoá bố cục">Clear layout</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="journal">
+  <div class="wrap">
+    <div class="sh"><p class="mono brass">SV—04 · <span data-vi="Nhật ký">Journal</span></p><h2 data-vi="Nhật ký studio.">Studio journal.</h2></div>
+    <div class="mags">
+      <a class="mag" href="#journal"><div class="cover"><span class="mono" data-vi="Hậu trường">Behind the design</span><h3 data-vi="Một góc phố ra đời thế nào">How a corner is born</h3></div><span class="mono dim" data-vi="Bài mẫu">Sample entry</span></a>
+      <a class="mag" href="#journal"><div class="cover"><span class="mono" data-vi="Cảm hứng">Inspiration</span><h3 data-vi="Kệ trưng bày của người sưu tầm">The collector's shelf</h3></div><span class="mono dim" data-vi="Bài mẫu">Sample entry</span></a>
+      <a class="mag" href="#journal"><div class="cover"><span class="mono" data-vi="Lắp ráp">Assembly</span><h3 data-vi="Ba module đầu tiên">The first three modules</h3></div><span class="mono dim" data-vi="Bài mẫu">Sample entry</span></a>
+    </div>
+  </div>
+</section>
+
+<section id="drops">
+  <div class="wrap">
+    <div class="sh"><p class="mono brass">SV—05 · <span data-vi="Sắp ra mắt">Upcoming drops</span></p><h2 data-vi="Bảng ra mắt.">The drop board.</h2></div>
+    <div class="drops">
+      <div class="board-dep" tabindex="0"><table><thead><tr><th>No.</th><th data-vi="Vật phẩm">Piece</th><th data-vi="Giai đoạn">Stage</th><th data-vi="Ra mắt">Release</th></tr></thead><tbody id="dep"></tbody></table></div>
+      <form class="notify" id="notify" novalidate>
+        <span class="mono" data-vi="Danh sách người sưu tầm">Collector list</span>
+        <h3 data-vi="Biết trước khi ra mắt.">Hear first.</h3>
+        <label for="email" class="mono" data-vi="Email của bạn">Your email</label>
+        <div class="field"><input id="email" type="email" autocomplete="email" placeholder="you@example.com"><button type="submit" data-vi="Đăng ký">Join</button></div>
+        <p class="msg" id="msg" role="status"></p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<div class="closing"><div class="wrap"><p class="reveal" data-vi="Thế giới nhỏ.<br><span>Câu chuyện lớn.</span>">Small worlds.<br><span>Big stories.</span></p></div></div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="fgrid">
+      <div class="fcert"><img src="{{LOGO}}" alt="Saint Vincent Studio" width="120" height="120"></div>
+      <div><h4 data-vi="Khám phá">Explore</h4><ul><li><a href="#worlds" data-vi="Thế giới">Worlds</a></li><li><a href="#pieces" data-vi="Vật phẩm">Pieces</a></li><li><a href="#journal" data-vi="Nhật ký">Journal</a></li><li><a href="#drops" data-vi="Sắp ra mắt">Drops</a></li></ul></div>
+      <div><h4 data-vi="Hỗ trợ">Support</h4><ul><li><a href="#top">FAQ</a></li><li><a href="#top" data-vi="Vận chuyển">Shipping</a></li><li><a href="#top" data-vi="Đổi trả">Returns</a></li><li><a href="#top" data-vi="Bảo quản">Product care</a></li></ul></div>
+      <div><h4 data-vi="Liên hệ">Contact</h4><ul><li>hello@saintvincent.studio</li><li>Instagram</li><li>TikTok</li></ul></div>
+    </div>
+    <div class="legal mono"><span>© 2026 Saint Vincent Studio</span><span data-vi="Bảo mật · Điều khoản">Privacy · Terms</span></div>
+  </div>
+</footer>
+
+<aside class="drawer" id="drawer" aria-hidden="true" aria-label="Direction C specification">
+  <div style="display:flex;justify-content:space-between;align-items:center"><span class="mono">Direction C — Spec</span><button class="pill" type="button" id="specClose">Close</button></div>
+  <h2 style="font-size:3rem">The Collector's World</h2>
+  <p>A collector's cabinet. Pieces live in a vitrine, carry catalogue numbers and specimen tags, and collections are worlds you browse along a shelf.</p>
+  <div><p class="mono" style="margin-bottom:.6rem">Palette</p><div class="sw"><div style="background:#12302A;color:#EFE6D4">Cabinet<br>#12302A</div><div style="background:#285A4F;color:#EFE6D4">Felt<br>#285A4F</div><div style="background:#EFE6D4">Bone<br>#EFE6D4</div><div style="background:#C9A45C">Brass<br>#C9A45C</div><div style="background:#10201C;color:#EFE6D4">Ink<br>#10201C</div><div style="background:#FDF5EA">Logo plate<br>#FDF5EA</div></div></div>
+  <div><p class="mono" style="margin-bottom:.6rem">Type</p><p style="font-family:var(--f-display);font-weight:900;font-size:2.2rem;line-height:1;text-transform:uppercase">Big Shoulders</p><p>Instrument Sans — body &amp; UI</p><p style="font-family:var(--f-mono);font-size:.85rem">Space Mono — catalogue numbers</p></div>
+  <div><p class="mono" style="margin-bottom:.6rem">Motion</p><p>Springy lifts on shelf slots, a split-flap drop board, scale zoom on the featured scene, playful tilts on cards. Livelier than A or B.</p></div>
+  <div><p class="mono" style="margin-bottom:.6rem">Best for</p><p>Dioramas, 1:64 displays, drops and community. Risk: can read as a hobby shop if overused on lamps and home objects.</p></div>
+</aside>
+
+<script>
+(()=>{
+  const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+  const store={get(k){try{return localStorage.getItem(k)}catch(e){return null}},set(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
+  const vi=()=>document.documentElement.lang==='vi';
+  const ov=$('#overlay'),mb=$('#menuBtn');const setMenu=o=>{ov.classList.toggle('open',o);ov.setAttribute('aria-hidden',!o);mb.setAttribute('aria-expanded',o);document.body.style.overflow=o?'hidden':''};
+  mb.onclick=()=>setMenu(true);$('#menuClose').onclick=()=>setMenu(false);$$('#overlay a').forEach(a=>a.onclick=()=>setMenu(false));
+  const dr=$('#drawer'),sb=$('#specBtn');const setDr=o=>{dr.classList.toggle('open',o);dr.setAttribute('aria-hidden',!o);sb.setAttribute('aria-expanded',o)};
+  sb.onclick=()=>setDr(!dr.classList.contains('open'));$('#specClose').onclick=()=>setDr(false);
+  addEventListener('keydown',e=>{if(e.key==='Escape'){setMenu(false);setDr(false)}});
+  // shapes
+  const S={
+    house:'<path d="M15 80V40L50 15l35 25v40z" fill="#EFE6D4"/><rect x="40" y="55" width="20" height="25" fill="#12302A"/>',
+    car:'<path d="M8 70h84v-12l-14-4-10-14H34L22 54H8z" fill="#C9A45C"/><circle cx="28" cy="72" r="8" fill="#10201C"/><circle cx="72" cy="72" r="8" fill="#10201C"/>',
+    lamp:'<path d="M28 20h44l-8 34H36z" fill="#EFE6D4"/><rect x="47" y="54" width="6" height="26" fill="#C9A45C"/><rect x="34" y="80" width="32" height="6" fill="#EFE6D4"/>',
+    tree:'<circle cx="50" cy="38" r="24" fill="#285A4F" stroke="#EFE6D4"/><rect x="47" y="60" width="6" height="24" fill="#EFE6D4"/>',
+    tower:'<rect x="34" y="10" width="32" height="76" fill="#EFE6D4"/><g fill="#12302A"><rect x="40" y="18" width="8" height="8"/><rect x="52" y="18" width="8" height="8"/><rect x="40" y="34" width="8" height="8"/><rect x="52" y="34" width="8" height="8"/><rect x="40" y="50" width="8" height="8"/><rect x="52" y="50" width="8" height="8"/></g>',
+    block:'<rect x="18" y="30" width="30" height="30" fill="#C9A45C"/><rect x="52" y="30" width="30" height="30" fill="#EFE6D4"/><rect x="35" y="62" width="30" height="22" fill="#285A4F" stroke="#EFE6D4"/>'
+  };
+  const svg=(k,vb='0 0 100 100')=>`<svg viewBox="${vb}" aria-hidden="true">${S[k]}</svg>`;
+  // vitrine
+  const shelves=[[['house','SV-MW-001'],['car','1:64'],['lamp','SV-LO-001'],['tree','SV-MW-002'],['block','SV-MM-001'],[null,'—']],[['tower','SV-MW-003'],[null,'—'],['block','SV-MM-002'],['house','SV-MW-004'],['car','1:64'],['lamp','SV-LO-002']]];
+  $('#vitrine').innerHTML=shelves.map(r=>`<div class="shelf">${r.map(([k,t])=>`<button type="button" class="slot${k?'':' empty'}" aria-label="${k?'Concept piece '+t:'Empty slot, reserved for a future piece'}">${k?svg(k):''}<span class="tag">${k?t:'Reserved'}</span></button>`).join('')}</div>`).join('');
+  // worlds
+  const W=[['Miniature Worlds','Thế giới thu nhỏ','#C9A45C','#10201C','Dioramas, architecture and 1:64 displays.','Sa bàn, kiến trúc và không gian trưng bày 1:64.','house'],['Modular Models','Mô hình module','#EFE6D4','#10201C','Kits that click together and keep growing.','Bộ lắp ráp khớp nối và tiếp tục mở rộng.','block'],['Lighting Objects','Đèn trang trí','#285A4F','#EFE6D4','Lamps that glow like a lit shop window.','Những chiếc đèn sáng như ô cửa hiệu lúc tối.','lamp'],['Everyday Objects','Đồ dùng hằng ngày','#10201C','#EFE6D4','Desk pieces with a collector’s eye.','Đồ để bàn dành cho con mắt người sưu tầm.','tower'],['Studio Editions','Studio Editions','#B5543C','#EFE6D4','Experiments and collaborations.','Thử nghiệm và các dự án hợp tác.','car']];
+  const rail=$('#rail');
+  const renderWorlds=()=>{rail.innerHTML=W.map((w,i)=>`<a class="world" href="#worlds" style="--tint:${w[2]};--fg:${w[3]}"><div class="meta mono"><span>SV—0${i+1}</span><span>${vi()?'Đang phát triển':'In development'}</span></div>${svg(w[6])}<div style="display:flex;flex-direction:column;gap:.8rem"><h3>${vi()?w[1]:w[0]}</h3><p>${vi()?w[5]:w[4]}</p></div></a>`).join('')};
+  $('#prev').onclick=()=>rail.scrollBy({left:-rail.clientWidth*.8,behavior:'smooth'});$('#next').onclick=()=>rail.scrollBy({left:rail.clientWidth*.8,behavior:'smooth'});
+  // cards with wishlist
+  const C=[['SV-MW-001','The Corner','Miniature Worlds','1:64','house','Prototype','Mẫu thử'],['SV-LO-001','Shop Window Lamp','Lighting Objects','—','lamp','Design','Thiết kế'],['SV-MM-001','Block Kit 01','Modular Models','—','block','Concept','Ý tưởng'],['SV-MW-003','Tower Study','Miniature Worlds','1:64','tower','Concept','Ý tưởng']];
+  let saved=[];try{saved=JSON.parse(store.get('sv-saved')||'[]')}catch(e){}
+  const renderCards=()=>{$('#cards').innerHTML=C.map(c=>{const on=saved.includes(c[0]);return `<article class="card"><div class="img">${svg(c[4],'-20 -20 140 140')}<span class="stamp">${c[0]}</span><button class="pill save" type="button" data-id="${c[0]}" aria-pressed="${on}" aria-label="${on?'Remove from':'Add to'} wishlist: ${c[1]}">${on?'♥':'♡'}</button></div><span class="mono dim">${c[2]}</span><h3>${c[1]}</h3><div class="row mono"><span>${vi()?'Tỷ lệ':'Scale'} ${c[3]}</span><span class="brass">${vi()?c[6]:c[5]}</span></div></article>`}).join('');
+    $('#savedCount').textContent='♡ '+saved.length;
+    $$('.save').forEach(b=>b.onclick=()=>{const id=b.dataset.id;saved=saved.includes(id)?saved.filter(x=>x!==id):[...saved,id];store.set('sv-saved',JSON.stringify(saved));renderCards()})};
+  // scale zoom
+  const sv=$('#sceneSvg');$$('[data-z]').forEach(b=>b.onclick=()=>{$$('[data-z]').forEach(x=>x.setAttribute('aria-pressed',x===b));sv.style.transform=`scale(${b.dataset.z})`});
+  // modular
+  const M={house:'House',tree:'Tree',car:'Car',tower:'Tower'};let cur='house';
+  $('#pal').innerHTML=Object.entries(M).map(([k,n])=>`<button class="pill" type="button" data-m="${k}" aria-pressed="${k===cur}">${n}</button>`).join('');
+  $$('#pal button').forEach(b=>b.onclick=()=>{cur=b.dataset.m;$$('#pal button').forEach(x=>x.setAttribute('aria-pressed',x===b))});
+  const st=Array(12).fill(null);st[0]='house';st[1]='tree';st[5]='car';
+  const board=$('#board');const render=()=>{board.innerHTML='';st.forEach((v,i)=>{const c=document.createElement('button');c.type='button';c.className='cell';c.setAttribute('aria-label',v?`${M[v]} on tile ${i+1}, press to remove`:`Empty tile ${i+1}`);c.innerHTML=v?svg(v):'<span>+</span>';c.onclick=()=>{st[i]=st[i]?null:cur;render();board.children[i].focus()};board.appendChild(c)});$('#count').textContent=st.filter(Boolean).length+' / 12'};render();$('#clear').onclick=()=>{st.fill(null);render()};
+  // drop board
+  const D=[['SV-MW-001','The Corner 1:64','Prototype','Mẫu thử'],['SV-LO-001','Shop Window Lamp','Design','Thiết kế'],['SV-MM-001','Block Kit 01','Concept','Ý tưởng']];
+  const renderDep=()=>{$('#dep').innerHTML=D.map((d,i)=>`<tr><td>${d[0]}</td><td><span class="flap" style="animation-delay:${i*120}ms">${d[1]}</span></td><td class="st">${vi()?d[3]:d[2]}</td><td>${vi()?'Sẽ thông báo':'To be announced'}</td></tr>`).join('')};
+  $('#notify').addEventListener('submit',e=>{e.preventDefault();const v=$('#email').value.trim(),m=$('#msg');m.textContent=/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)?(vi()?'Bản xem trước: chưa có email nào được gửi hoặc lưu.':'Preview only: nothing was sent or saved.'):(vi()?'Vui lòng nhập một địa chỉ email hợp lệ.':'Enter a valid email address, like name@example.com.')});
+  const setLang=l=>{$$('[data-vi]').forEach(el=>{if(el.dataset.en===undefined)el.dataset.en=el.innerHTML;el.innerHTML=l==='vi'?el.dataset.vi:el.dataset.en});document.documentElement.lang=l;$$('[data-lang]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.lang===l));store.set('sv-lang',l);renderWorlds();renderCards();renderDep()};
+  $$('[data-lang]').forEach(b=>b.onclick=()=>setLang(b.dataset.lang));
+  setLang(store.get('sv-lang')==='vi'?'vi':'en');
+})();
+</script>

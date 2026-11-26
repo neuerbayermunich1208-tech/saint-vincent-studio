@@ -1,0 +1,470 @@
+<title>Saint Vincent — Objects</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Saint Vincent Studio — Direction B, The Future of Objects. Design preview.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..800&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a technical product sheet. Visible 12-col hairline grid, expanded grotesk at poster size,
+   mono spec rows. The cream logo plate is the one warm object on cool aluminium; signal yellow marks state. */
+:root{
+  --alu:#E3E4E0;       /* anodised aluminium ground */
+  --alu-2:#D3D5D0;
+  --steel:#9A9D98;
+  --graphite:#151617;
+  --graphite-2:#3B3E40;
+  --signal:#F2B705;    /* signal yellow: active states, markers */
+  --plate:#FDF5EA;     /* logo background, used only behind the logo */
+  --f-display:"Archivo","Helvetica Neue",Arial,sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
+  --s-1:.5rem;--s-2:1rem;--s-3:1.5rem;--s-4:2.5rem;--s-5:4rem;--s-6:7rem;
+  --ease:cubic-bezier(.65,0,.35,1);--ease-out:cubic-bezier(.16,1,.3,1);--dur-1:160ms;--dur-2:360ms;--dur-3:800ms;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--alu);color:var(--graphite);font:400 16px/1.5 var(--f-display);font-variation-settings:"wdth" 100;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:var(--alu)}
+.wrap{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));max-width:1480px;margin-inline:auto;position:relative}
+@media(min-width:900px){.wrap{padding-left:max(32px,env(safe-area-inset-left,0px));padding-right:max(32px,env(safe-area-inset-right,0px))}}
+/* visible grid */
+.gridlines{position:fixed;inset:0;pointer-events:none;z-index:0}
+.gridlines .wrap{height:100%;display:grid;grid-template-columns:repeat(4,1fr)}
+@media(min-width:900px){.gridlines .wrap{grid-template-columns:repeat(12,1fr)}}
+.gridlines .wrap span{border-left:1px solid rgba(21,22,23,.06)}
+.gridlines .wrap span:last-child{border-right:1px solid rgba(21,22,23,.06)}
+main,footer,header{position:relative;z-index:1}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--graphite);outline-offset:2px;box-shadow:0 0 0 4px var(--signal)}
+.mono{font-family:var(--f-mono);font-size:.72rem;letter-spacing:.02em;text-transform:uppercase}
+.dim{color:var(--graphite-2)}
+h1,h2,h3{margin:0;font-weight:800;line-height:.88;letter-spacing:-.035em;text-wrap:balance}
+p{margin:0}
+.x{font-variation-settings:"wdth" 125}
+.c{font-variation-settings:"wdth" 62}
+
+/* header */
+.hdr{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:var(--alu);border-bottom:1px solid var(--graphite)}
+.hdr .wrap{display:grid;grid-template-columns:auto 1fr auto;align-items:stretch;height:64px}
+.plate-logo{display:block;background:var(--plate);height:64px;width:64px;border-right:1px solid var(--graphite);border-left:1px solid var(--graphite)}
+.plate-logo img{width:64px;height:64px;display:block}
+.nav{display:none;align-items:stretch}
+.nav a{display:flex;align-items:center;gap:.5rem;padding:0 1.1rem;text-decoration:none;border-right:1px solid var(--graphite);font-weight:600;font-size:.9rem;transition:background var(--dur-1)}
+.nav a:hover{background:var(--graphite);color:var(--alu)}
+.nav a .mono{opacity:.55}
+.tools{display:flex;align-items:stretch}
+.tools>*{border-left:1px solid var(--graphite)}
+.tbtn{all:unset;cursor:pointer;display:flex;align-items:center;padding:0 1rem;font:500 .72rem/1 var(--f-mono);text-transform:uppercase}
+.tbtn:hover{background:var(--graphite);color:var(--alu)}
+.tbtn:focus-visible{outline:2px solid var(--graphite);outline-offset:-4px;box-shadow:none;background:var(--signal)}
+.lang{display:flex}
+.lang .tbtn{padding:0 .7rem}
+.lang .tbtn[aria-pressed="true"]{background:var(--signal);color:var(--graphite)}
+.menu-btn{display:flex}
+@media(min-width:960px){.nav{display:flex}.menu-btn{display:none}}
+.status{display:none;align-items:center;gap:.5rem;padding:0 1rem}
+@media(min-width:1200px){.status{display:flex}}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--signal);box-shadow:0 0 0 3px rgba(242,183,5,.25)}
+.overlay{position:fixed;inset:0;z-index:70;background:var(--graphite);color:var(--alu);display:flex;flex-direction:column;padding:calc(env(safe-area-inset-top,0px) + 16px) max(16px,env(safe-area-inset-right,0px)) calc(env(safe-area-inset-bottom,0px) + 16px) max(16px,env(safe-area-inset-left,0px));transform:translateY(-100%);transition:transform var(--dur-3) var(--ease);visibility:hidden}
+.overlay.open{transform:none;visibility:visible}
+.overlay nav{margin-top:auto;display:flex;flex-direction:column;border-top:1px solid var(--graphite-2)}
+.overlay nav a{display:flex;justify-content:space-between;align-items:baseline;text-decoration:none;font-weight:800;font-size:clamp(2.2rem,11vw,3.6rem);letter-spacing:-.03em;padding:.7rem 0;border-bottom:1px solid var(--graphite-2);font-variation-settings:"wdth" 110}
+.overlay .close{align-self:flex-end;border:1px solid var(--alu);padding:.8rem 1rem}
+
+/* hero */
+.hero{border-bottom:1px solid var(--graphite)}
+.hero .wrap{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:0 var(--s-3);padding-block:var(--s-4) 0}
+.hero .meta{grid-column:1/-1;display:flex;justify-content:space-between;gap:1rem;padding-bottom:var(--s-3)}
+.hero h1{grid-column:1/-1;font-size:clamp(3.2rem,11.6vw,12.4rem);font-variation-settings:"wdth" 125;text-transform:uppercase;letter-spacing:-.045em}
+.hero h1 .row{display:block;overflow:hidden}
+.hero h1 .row>span{display:inline-block;animation:up var(--dur-3) var(--ease-out) both}
+.hero h1 .row:nth-child(2)>span{animation-delay:80ms}.hero h1 .row:nth-child(3)>span{animation-delay:160ms}
+@keyframes up{from{transform:translateY(100%)}to{transform:none}}
+.hero .obj{grid-column:1/-1;position:relative;aspect-ratio:1/1;max-width:100%;margin-top:var(--s-3)}
+.hero .obj svg{width:100%;height:100%;display:block;transition:transform 600ms var(--ease-out)}
+.hero .copy{grid-column:1/-1;display:flex;flex-direction:column;gap:var(--s-3);padding-block:var(--s-4)}
+@media(min-width:900px){
+  .hero h1{grid-column:1/13}
+  .hero .obj{grid-column:8/13;grid-row:3/5;margin-top:-6vw}
+  .hero .copy{grid-column:1/6;grid-row:3}
+}
+.lede{font-size:clamp(1.05rem,1.35vw,1.3rem);line-height:1.4;max-width:30rem}
+.ctas{display:flex;flex-wrap:wrap;gap:.6rem}
+.btn{position:relative;display:inline-flex;align-items:center;gap:1.2rem;padding:1rem 1.2rem;background:var(--graphite);color:var(--alu);text-decoration:none;font-weight:600;overflow:hidden;isolation:isolate}
+.btn::before{content:"";position:absolute;inset:0;background:var(--signal);transform:translateY(101%);transition:transform var(--dur-2) var(--ease);z-index:-1}
+.btn:hover{color:var(--graphite)}.btn:hover::before{transform:none}
+.btn.alt{background:transparent;color:var(--graphite);box-shadow:inset 0 0 0 1px var(--graphite)}
+.callout{position:absolute;font:500 .66rem/1.3 var(--f-mono);text-transform:uppercase;display:flex;align-items:center;gap:.4rem;white-space:nowrap}
+.callout::before{content:"";width:28px;height:1px;background:var(--graphite)}
+
+section{border-bottom:1px solid var(--graphite);padding-block:var(--s-6)}
+.sh{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:var(--s-3);margin-bottom:var(--s-5)}
+.sh .mono{grid-column:1/-1}
+.sh h2{grid-column:1/-1;font-size:clamp(2.4rem,6.2vw,6rem);font-variation-settings:"wdth" 115;text-transform:uppercase}
+.sh p.d{grid-column:1/-1;max-width:28rem}
+@media(min-width:900px){.sh .mono{grid-column:1/3}.sh h2{grid-column:3/11}.sh p.d{grid-column:3/8}}
+
+/* intro: 3 principles */
+.principles{display:grid;grid-template-columns:1fr;border-top:1px solid var(--graphite)}
+.principles article{display:grid;grid-template-columns:auto 1fr;gap:.4rem 1.2rem;padding:var(--s-3) 0;border-bottom:1px solid var(--graphite)}
+.principles h3{font-size:clamp(1.6rem,2.6vw,2.4rem);font-variation-settings:"wdth" 110}
+.principles p{grid-column:2;max-width:30rem;color:var(--graphite-2)}
+@media(min-width:900px){.principles{grid-template-columns:repeat(3,1fr);border-bottom:1px solid var(--graphite)}.principles article{grid-template-columns:1fr;border-bottom:0;padding:var(--s-3) var(--s-3) var(--s-4) 0}.principles article+article{border-left:1px solid var(--graphite);padding-left:var(--s-3)}.principles p{grid-column:1}}
+
+/* collections: tabbed */
+.tabs{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;border-top:1px solid var(--graphite);border-bottom:1px solid var(--graphite);scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{all:unset;cursor:pointer;flex:0 0 auto;scroll-snap-align:start;padding:1rem 1.2rem;border-right:1px solid var(--graphite);font-weight:700;font-size:1rem;display:flex;gap:.6rem;align-items:baseline}
+.tab[aria-selected="true"]{background:var(--graphite);color:var(--alu)}
+.tab:focus-visible{background:var(--signal);color:var(--graphite)}
+.panel{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:var(--s-3);padding-top:var(--s-4)}
+.panel .big{grid-column:1/-1;font-size:clamp(3rem,9vw,8.5rem);font-weight:800;line-height:.85;letter-spacing:-.045em;text-transform:uppercase;font-variation-settings:"wdth" 62}
+.panel .info{grid-column:1/-1;display:flex;flex-direction:column;gap:var(--s-3)}
+.panel .vis{grid-column:1/-1;background:var(--alu-2);aspect-ratio:4/3;max-width:100%;position:relative}
+.panel .vis svg{width:100%;height:100%;display:block}
+@media(min-width:900px){.panel .big{grid-column:1/8}.panel .vis{grid-column:8/13;grid-row:1/3}.panel .info{grid-column:1/6}}
+.rows{border-top:1px solid var(--graphite)}
+.rows div{display:grid;grid-template-columns:9rem 1fr;gap:1rem;padding:.55rem 0;border-bottom:1px solid rgba(21,22,23,.25);font-size:.92rem}
+.rows dt{font:500 .7rem/1.6 var(--f-mono);text-transform:uppercase;color:var(--graphite-2)}
+.rows dd{margin:0}
+.panel-anim{animation:swap var(--dur-2) var(--ease-out)}
+@keyframes swap{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+
+/* exploded sticky */
+.explode{padding:0;border-bottom:1px solid var(--graphite)}
+.explode .track{height:260vh;position:relative}
+.explode .pin{position:sticky;top:calc(64px + env(safe-area-inset-top,0px));height:calc(100vh - 64px);height:calc(100svh - 64px);display:grid;grid-template-rows:auto 1fr;overflow:hidden}
+.explode .top{display:flex;justify-content:space-between;align-items:flex-end;gap:1rem;padding-block:var(--s-3) var(--s-2);border-bottom:1px solid var(--graphite)}
+.explode h2{font-size:clamp(2rem,5vw,4.6rem);font-variation-settings:"wdth" 115;text-transform:uppercase}
+.explode .stage{position:relative;display:grid;grid-template-columns:1fr;align-items:center}
+@media(min-width:900px){.explode .stage{grid-template-columns:1fr 1.25fr 1fr}}
+.explode svg{width:100%;height:100%;max-height:72vh;display:block}
+.layer{transition:transform 80ms linear}
+.parts{display:none;flex-direction:column;gap:0;border-top:1px solid var(--graphite)}
+@media(min-width:900px){.parts{display:flex}}
+.parts li{list-style:none;display:grid;grid-template-columns:2.2rem 1fr;padding:.7rem 0;border-bottom:1px solid rgba(21,22,23,.25);opacity:.35;transition:opacity var(--dur-2)}
+.parts li.on{opacity:1}
+.parts li.on .mono:first-child{color:var(--graphite);background:var(--signal);justify-self:start;padding:0 .3rem}
+.progress{position:absolute;left:0;right:0;bottom:0;height:3px;background:var(--alu-2)}
+.progress i{display:block;height:100%;background:var(--graphite);transform-origin:left;transform:scaleX(var(--p,0))}
+
+/* process */
+.steps{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(16rem,1fr);overflow-x:auto;scroll-snap-type:x mandatory;border-top:1px solid var(--graphite);border-left:1px solid var(--graphite)}
+.steps article{scroll-snap-align:start;border-right:1px solid var(--graphite);border-bottom:1px solid var(--graphite);padding:var(--s-3);display:flex;flex-direction:column;gap:var(--s-3);min-height:20rem;transition:background var(--dur-2)}
+.steps article:hover{background:var(--graphite);color:var(--alu)}
+.steps article:hover .dim{color:var(--steel)}
+.steps h3{font-size:2rem;margin-top:auto;font-variation-settings:"wdth" 110;text-transform:uppercase}
+.steps .n{font-size:3.4rem;font-weight:300;font-variation-settings:"wdth" 62;line-height:1}
+.hint{margin-top:.8rem}
+@media(min-width:1100px){.hint{display:none}}
+
+/* modular */
+.mod{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:var(--s-3)}
+.board{grid-column:1/-1;display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--graphite);border-left:1px solid var(--graphite);aspect-ratio:4/3;max-width:100%;background:var(--alu-2)}
+.cell{all:unset;cursor:pointer;border-right:1px solid var(--graphite);border-bottom:1px solid var(--graphite);display:grid;place-items:center;position:relative}
+.cell:hover{background:var(--alu)}
+.cell:focus-visible{background:var(--signal)}
+.cell .id{position:absolute;top:.35rem;left:.4rem;font:400 .6rem var(--f-mono);color:var(--graphite-2)}
+.cell svg{width:66%;height:66%}
+.mod .side{grid-column:1/-1;display:flex;flex-direction:column;gap:var(--s-3)}
+.pal{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--graphite);border-left:1px solid var(--graphite)}
+.pal button{all:unset;cursor:pointer;padding:.9rem;border-right:1px solid var(--graphite);border-bottom:1px solid var(--graphite);font-weight:600;display:flex;justify-content:space-between}
+.pal button[aria-pressed="true"]{background:var(--graphite);color:var(--alu)}
+.pal button:focus-visible{background:var(--signal);color:var(--graphite)}
+@media(min-width:900px){.board{grid-column:1/8}.mod .side{grid-column:9/13}}
+
+/* journal */
+.jlist{border-top:1px solid var(--graphite)}
+.jrow{display:grid;grid-template-columns:1fr;gap:.4rem;padding:var(--s-3) 0;border-bottom:1px solid var(--graphite);text-decoration:none;position:relative}
+.jrow h3{font-size:clamp(1.5rem,3.2vw,2.8rem);font-variation-settings:"wdth" 105;transition:transform var(--dur-2) var(--ease-out)}
+.jrow:hover h3{transform:translateX(12px)}
+@media(min-width:900px){.jrow{grid-template-columns:2fr 7fr 3fr;align-items:baseline}}
+
+/* upcoming */
+.up{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:var(--s-3)}
+.table{grid-column:1/-1;overflow-x:auto}
+.table table{width:100%;border-collapse:collapse;font-size:.95rem;min-width:30rem}
+.table th{font:500 .68rem var(--f-mono);text-transform:uppercase;text-align:left;padding:.6rem .4rem;border-bottom:1px solid var(--graphite);color:var(--graphite-2)}
+.table td{padding:.9rem .4rem;border-bottom:1px solid rgba(21,22,23,.25)}
+.table td:first-child{font-weight:700;font-size:1.15rem}
+.stage-pill{font:500 .66rem var(--f-mono);text-transform:uppercase;padding:.25rem .45rem;border:1px solid var(--graphite)}
+.stage-pill.live{background:var(--signal);border-color:var(--signal)}
+form.notify{grid-column:1/-1;background:var(--graphite);color:var(--alu);padding:var(--s-3);display:flex;flex-direction:column;gap:var(--s-2)}
+form.notify h3{font-size:1.8rem;font-variation-settings:"wdth" 110;text-transform:uppercase}
+.field{display:flex;gap:0;border:1px solid var(--steel)}
+.field input{flex:1;min-width:0;background:transparent;border:0;color:var(--alu);font:400 1rem var(--f-display);padding:.9rem}
+.field input::placeholder{color:var(--steel)}
+.field input:focus{outline:none}
+.field:focus-within{border-color:var(--signal)}
+.field button{all:unset;cursor:pointer;background:var(--signal);color:var(--graphite);padding:0 1.1rem;font-weight:700}
+.field button:focus-visible{outline:2px solid var(--alu)}
+.msg{min-height:1.3em;font-size:.88rem;color:var(--alu-2)}
+@media(min-width:900px){.table{grid-column:1/8}form.notify{grid-column:9/13}}
+
+/* closing + footer */
+.closing{padding-block:var(--s-6);border-bottom:1px solid var(--graphite);overflow:hidden}
+.closing p{font-weight:800;font-size:clamp(3rem,13vw,13.5rem);line-height:.82;letter-spacing:-.05em;text-transform:uppercase;font-variation-settings:"wdth" 125}
+.closing p span{display:block}
+.closing p span:nth-child(2){font-variation-settings:"wdth" 62;padding-left:20%}
+footer{background:var(--graphite);color:var(--alu);padding-block:var(--s-5) calc(var(--s-3) + env(safe-area-inset-bottom,0px))}
+.fgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,11rem),1fr));gap:var(--s-4)}
+footer h4{font:500 .68rem var(--f-mono);text-transform:uppercase;color:var(--steel);margin:0 0 .9rem}
+footer ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.4rem}
+footer a{text-decoration:none}footer a:hover{color:var(--signal)}
+.fplate{background:var(--plate);width:128px;height:128px}
+.fplate img{width:128px;height:128px;display:block}
+.legal{display:flex;flex-wrap:wrap;justify-content:space-between;gap:1rem;margin-top:var(--s-5);padding-top:var(--s-2);border-top:1px solid var(--graphite-2);color:var(--steel)}
+
+/* drawer + badge */
+.drawer{position:fixed;z-index:80;right:0;top:0;bottom:0;width:min(440px,100%);background:var(--alu);border-left:1px solid var(--graphite);padding:calc(env(safe-area-inset-top,0px) + 20px) max(20px,env(safe-area-inset-right,0px)) calc(env(safe-area-inset-bottom,0px) + 20px) 20px;overflow-y:auto;transform:translateX(102%);transition:transform var(--dur-2) var(--ease);display:flex;flex-direction:column;gap:1.4rem}
+.drawer.open{transform:none}
+.sw{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--graphite);border-left:1px solid var(--graphite)}
+.sw div{aspect-ratio:1.4;border-right:1px solid var(--graphite);border-bottom:1px solid var(--graphite);padding:.4rem;display:flex;align-items:flex-end;font:400 .6rem/1.3 var(--f-mono)}
+.badge{position:fixed;z-index:40;left:max(12px,env(safe-area-inset-left,0px));bottom:calc(12px + env(safe-area-inset-bottom,0px));background:var(--signal);color:var(--graphite);padding:.45rem .6rem;font:500 .64rem var(--f-mono);text-transform:uppercase;border:1px solid var(--graphite)}
+@supports (animation-timeline:view()){
+  .reveal{animation:rv linear both;animation-timeline:view();animation-range:entry 0% entry 45%}
+  @keyframes rv{from{transform:translateY(32px)}to{transform:none}}
+}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+</style>
+
+<div class="gridlines" aria-hidden="true"><div class="wrap"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div></div>
+<div class="badge" data-vi="Bản xem trước · Hướng B">Preview · Direction B</div>
+
+<header class="hdr" id="hdr">
+  <div class="wrap">
+    <a class="plate-logo" href="#top" aria-label="Saint Vincent Studio — home"><img src="{{LOGO}}" alt="Saint Vincent Studio" width="64" height="64"></a>
+    <nav class="nav" aria-label="Primary">
+      <a href="#collections"><span class="mono">01</span><span data-vi="Bộ sưu tập">Collections</span></a>
+      <a href="#featured"><span class="mono">02</span><span data-vi="Thiết kế">Design</span></a>
+      <a href="#process"><span class="mono">03</span><span data-vi="Quy trình">Process</span></a>
+      <a href="#journal"><span class="mono">04</span><span data-vi="Nhật ký">Journal</span></a>
+      <a href="#upcoming"><span class="mono">05</span><span data-vi="Sắp ra mắt">Upcoming</span></a>
+    </nav>
+    <div class="tools">
+      <div class="status mono"><span class="dot"></span><span data-vi="Đang phát triển sản phẩm">Product development in progress</span></div>
+      <div class="lang" role="group" aria-label="Language"><button class="tbtn" type="button" data-lang="en" aria-pressed="true">EN</button><button class="tbtn" type="button" data-lang="vi" aria-pressed="false">VI</button></div>
+      <button class="tbtn" type="button" id="specBtn" aria-expanded="false" aria-controls="drawer">Spec</button>
+      <button class="tbtn menu-btn" type="button" id="menuBtn" aria-expanded="false" aria-controls="overlay">Menu</button>
+    </div>
+  </div>
+</header>
+
+<div class="overlay" id="overlay" aria-hidden="true">
+  <button class="tbtn close" type="button" id="menuClose">Close</button>
+  <nav aria-label="Mobile">
+    <a href="#collections"><span data-vi="Bộ sưu tập">Collections</span><span class="mono">01</span></a>
+    <a href="#featured"><span data-vi="Thiết kế">Design</span><span class="mono">02</span></a>
+    <a href="#process"><span data-vi="Quy trình">Process</span><span class="mono">03</span></a>
+    <a href="#journal"><span data-vi="Nhật ký">Journal</span><span class="mono">04</span></a>
+    <a href="#upcoming"><span data-vi="Sắp ra mắt">Upcoming</span><span class="mono">05</span></a>
+  </nav>
+</div>
+
+<main id="top">
+<section class="hero" style="padding:0">
+  <div class="wrap">
+    <div class="meta mono dim"><span>Saint Vincent Studio</span><span data-vi="Thiết kế &amp; sản xuất độc lập">Independent design &amp; manufacturing</span></div>
+    <h1><span class="row"><span data-vi="Thiết kế">Designed</span></span><span class="row"><span class="c" data-vi="vượt khỏi">beyond the</span></span><span class="row"><span data-vi="lối mòn.">ordinary.</span></span></h1>
+    <div class="copy">
+      <p class="lede" data-vi="Chúng tôi thiết kế và tự sản xuất những vật thể có hình khối rõ ràng, chi tiết chính xác và khả năng mở rộng: mô hình module, thế giới thu nhỏ, đèn và đồ dùng bàn làm việc.">We design and make objects with clear form, precise detail and room to grow: modular models, miniature worlds, lighting and desk objects.</p>
+      <div class="ctas"><a class="btn" href="#collections"><span data-vi="Khám phá bộ sưu tập">Explore the collections</span><span>↘</span></a><a class="btn alt" href="#process"><span data-vi="Về studio">Discover the studio</span></a></div>
+    </div>
+    <div class="obj" id="heroObj">
+      <svg viewBox="0 0 500 500" role="img" aria-label="Concept render of a modular lamp, product photography forthcoming">
+        <defs><linearGradient id="g1" x1="0" x2="1"><stop offset="0" stop-color="#C9CBC6"/><stop offset=".5" stop-color="#F1F2EE"/><stop offset="1" stop-color="#AEB1AC"/></linearGradient><linearGradient id="g2" x1="0" x2="1"><stop offset="0" stop-color="#2A2C2E"/><stop offset=".5" stop-color="#4A4D50"/><stop offset="1" stop-color="#1C1D1F"/></linearGradient></defs>
+        <ellipse cx="250" cy="440" rx="150" ry="22" fill="#151617" opacity=".12"/>
+        <path d="M150 400 h200 v24 a100 14 0 0 1 -200 0z" fill="url(#g2)"/><ellipse cx="250" cy="400" rx="100" ry="14" fill="#5A5D60"/>
+        <rect x="238" y="250" width="24" height="152" fill="url(#g2)"/>
+        <path d="M160 130 h180 l-30 130 h-120z" fill="url(#g1)"/><ellipse cx="250" cy="130" rx="90" ry="18" fill="#F6F6F2" stroke="#9A9D98"/>
+        <ellipse cx="250" cy="260" rx="60" ry="10" fill="#F2B705" opacity=".85"/>
+      </svg>
+      <span class="callout" style="left:68%;top:27%">Diffuser</span>
+      <span class="callout" style="left:56%;top:62%">Stem</span>
+      <span class="callout" style="left:70%;top:82%">Base</span>
+      <span class="mono dim" style="position:absolute;left:0;bottom:0" data-vi="Ảnh concept — ảnh sản phẩm sẽ cập nhật">Concept render — photography to follow</span>
+    </div>
+  </div>
+</section>
+
+<section id="studio">
+  <div class="wrap">
+    <div class="sh"><p class="mono">00 / Studio</p><h2 data-vi="Thiết kế dẫn dắt sản xuất.">Design-led <span class="c">manufacturing.</span></h2><p class="d dim" data-vi="Thiết kế, mẫu thử và sản xuất diễn ra trong cùng một studio. Nhờ vậy, ý tưởng đi từ bản vẽ đến vật thể mà không bị pha loãng.">Design, prototyping and production happen in one studio. Ideas travel from drawing to object without being diluted.</p></div>
+    <div class="principles">
+      <article class="reveal"><span class="mono">A</span><h3 data-vi="Thiết kế nguyên bản">Original design</h3><p data-vi="Mọi hình khối, khớp nối và tỷ lệ được phát triển tại studio.">Every form, joint and proportion is developed in-house.</p></article>
+      <article class="reveal"><span class="mono">B</span><h3 data-vi="Kỹ thuật sáng tạo">Creative engineering</h3><p data-vi="Chúng tôi thiết kế cả cách vật thể được lắp, tháo và mở rộng.">We design how an object assembles, comes apart and expands.</p></article>
+      <article class="reveal"><span class="mono">C</span><h3 data-vi="Hoàn thiện chính xác">Precision finish</h3><p data-vi="Dung sai được kiểm tra trên mẫu thật trước khi sản xuất.">Tolerances are tested on real prototypes before production.</p></article>
+    </div>
+  </div>
+</section>
+
+<section id="collections">
+  <div class="wrap">
+    <div class="sh"><p class="mono">01 / <span data-vi="Bộ sưu tập">Collections</span></p><h2 data-vi="Năm dòng sản phẩm.">Five product <span class="c">families.</span></h2></div>
+    <div class="tabs" role="tablist" id="tabs" aria-label="Collections"></div>
+    <div class="panel" id="panel" role="tabpanel"></div>
+  </div>
+</section>
+
+<section class="explode" id="featured">
+  <div class="track" id="track">
+    <div class="pin">
+      <div class="wrap top"><h2 data-vi="Đèn Module Nº1">Modular Lamp <span class="c">Nº1</span></h2><span class="mono dim" data-vi="Concept · cuộn để tách lớp">Concept · scroll to explode</span></div>
+      <div class="wrap stage">
+        <ul class="parts" id="parts" style="padding:0;margin:0">
+          <li data-k="0"><span class="mono">01</span><span><b data-vi="Nắp">Cap</b><br><span class="dim" data-vi="Khóa xoay, không cần dụng cụ">Twist-lock, tool-free</span></span></li>
+          <li data-k="1"><span class="mono">02</span><span><b data-vi="Chụp tán quang">Diffuser</b><br><span class="dim" data-vi="Tán ánh sáng đều, không chói">Even, glare-free light</span></span></li>
+          <li data-k="2"><span class="mono">03</span><span><b data-vi="Mô-đun đèn">Light module</b><br><span class="dim" data-vi="Thông số công bố khi kiểm định xong">Specs published after testing</span></span></li>
+        </ul>
+        <svg viewBox="0 0 500 640" aria-label="Exploded concept view of a modular lamp" role="img">
+          <g class="layer" id="L0"><path d="M175 70 h150 l-8 26 h-134z" fill="#2E3133"/><ellipse cx="250" cy="70" rx="75" ry="14" fill="#4A4D50"/></g>
+          <g class="layer" id="L1"><path d="M160 110 h180 l-30 130 h-120z" fill="#E9EAE6" stroke="#9A9D98"/><ellipse cx="250" cy="110" rx="90" ry="18" fill="#F6F6F2" stroke="#9A9D98"/></g>
+          <g class="layer" id="L2"><ellipse cx="250" cy="248" rx="58" ry="11" fill="#F2B705"/><rect x="226" y="248" width="48" height="22" fill="#3B3E40"/></g>
+          <g class="layer" id="L3"><rect x="238" y="270" width="24" height="200" fill="#2A2C2E"/></g>
+          <g class="layer" id="L4"><path d="M150 470 h200 v26 a100 14 0 0 1 -200 0z" fill="#1F2022"/><ellipse cx="250" cy="470" rx="100" ry="14" fill="#5A5D60"/></g>
+        </svg>
+        <ul class="parts" id="parts2" style="padding:0;margin:0">
+          <li data-k="3"><span class="mono">04</span><span><b data-vi="Thân">Stem</b><br><span class="dim" data-vi="Có thể thay đổi chiều cao">Interchangeable heights</span></span></li>
+          <li data-k="4"><span class="mono">05</span><span><b data-vi="Đế">Base</b><br><span class="dim" data-vi="Tương thích bộ đế Desk Plinth">Fits the Desk Plinth system</span></span></li>
+        </ul>
+      </div>
+      <div class="progress"><i id="prog"></i></div>
+    </div>
+  </div>
+</section>
+
+<section id="process">
+  <div class="wrap">
+    <div class="sh"><p class="mono">03 / <span data-vi="Quy trình">Process</span></p><h2 data-vi="Từ ý tưởng đến vật thể.">From idea <span class="c">to object.</span></h2></div>
+    <div class="steps" tabindex="0" aria-label="Process steps, scrollable">
+      <article><span class="n">01</span><p class="dim" data-vi="Xác định vấn đề, người dùng và lý do vật thể này nên tồn tại.">Define the problem, the user and why the object should exist.</p><h3 data-vi="Ý tưởng">Concept</h3></article>
+      <article><span class="n">02</span><p class="dim" data-vi="Dựng hình, tỷ lệ, khớp nối và dung sai trên bản vẽ.">Form, proportion, joints and tolerances, all drawn first.</p><h3 data-vi="Thiết kế">Design</h3></article>
+      <article><span class="n">03</span><p class="dim" data-vi="Mẫu vật lý để kiểm tra cảm giác cầm, lắp và ánh sáng.">Physical models to test feel, fit and light.</p><h3 data-vi="Mẫu thử">Prototype</h3></article>
+      <article><span class="n">04</span><p class="dim" data-vi="Lặp lại cho đến khi mọi chi tiết có lý do tồn tại.">Iterate until every detail has a reason to be there.</p><h3 data-vi="Tinh chỉnh">Refine</h3></article>
+      <article><span class="n">05</span><p class="dim" data-vi="Sản xuất tại studio với quy trình được kiểm soát.">Made in the studio under a controlled process.</p><h3 data-vi="Sản xuất">Manufacture</h3></article>
+      <article><span class="n">06</span><p class="dim" data-vi="Hoàn thiện bề mặt, kiểm tra và đóng gói.">Surface finishing, inspection and packing.</p><h3 data-vi="Hoàn thiện">Finish</h3></article>
+    </div>
+    <p class="mono dim hint" data-vi="← Vuốt để xem các bước →">← Swipe for all steps →</p>
+  </div>
+</section>
+
+<section id="modular">
+  <div class="wrap">
+    <div class="sh"><p class="mono">— / <span data-vi="Vũ trụ module">Modular Universe</span></p><h2 data-vi="Một hệ thống. Vô số cấu hình.">One system. <span class="c">Endless layouts.</span></h2><p class="d dim" data-vi="Phác thảo của trình cấu hình: chọn module, đặt lên lưới đế.">A configurator sketch: choose a module, place it on the base grid.</p></div>
+    <div class="mod">
+      <div class="board" id="board" aria-label="Base grid 4 by 3"></div>
+      <div class="side">
+        <div class="pal" id="pal" role="group" aria-label="Modules"></div>
+        <dl class="rows"><div><dt data-vi="Đã đặt">Placed</dt><dd id="count" style="font-variant-numeric:tabular-nums">0 / 12</dd></div><div><dt data-vi="Giá">Price</dt><dd class="dim" data-vi="Hiển thị ở chế độ bán hàng">Shown in commerce mode</dd></div></dl>
+        <button class="btn alt" type="button" id="clear" style="align-self:flex-start;border:0;cursor:pointer;font:inherit;font-weight:600" data-vi="Xoá bố cục">Clear layout</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="journal">
+  <div class="wrap">
+    <div class="sh"><p class="mono">04 / <span data-vi="Nhật ký">Journal</span></p><h2 data-vi="Nhật ký thiết kế.">Design <span class="c">journal.</span></h2></div>
+    <div class="jlist">
+      <a class="jrow" href="#journal"><span class="mono dim" data-vi="Thử nghiệm">Experiment</span><h3 data-vi="Kiểm tra dung sai cho khớp xoay">Testing tolerances for a twist-lock</h3><span class="mono dim" data-vi="Bài mẫu">Sample entry</span></a>
+      <a class="jrow" href="#journal"><span class="mono dim" data-vi="Phát triển sản phẩm">Development</span><h3 data-vi="Năm lớp của một chiếc đèn">Five layers of a lamp</h3><span class="mono dim" data-vi="Bài mẫu">Sample entry</span></a>
+      <a class="jrow" href="#journal"><span class="mono dim" data-vi="Hướng dẫn lắp ráp">Assembly</span><h3 data-vi="Lưới đế: quy tắc kết nối">The base grid: connection rules</h3><span class="mono dim" data-vi="Bài mẫu">Sample entry</span></a>
+    </div>
+  </div>
+</section>
+
+<section id="upcoming">
+  <div class="wrap">
+    <div class="sh"><p class="mono">05 / <span data-vi="Sắp ra mắt">Upcoming</span></p><h2 data-vi="Đang phát triển.">In <span class="c">development.</span></h2></div>
+    <div class="up">
+      <div class="table" tabindex="0">
+        <table><thead><tr><th data-vi="Sản phẩm">Object</th><th data-vi="Dòng">Family</th><th data-vi="Giai đoạn">Stage</th></tr></thead>
+        <tbody>
+          <tr><td>Modular Lamp Nº1</td><td>Lighting Objects</td><td><span class="stage-pill live" data-vi="Mẫu thử">Prototype</span></td></tr>
+          <tr><td>The Corner 1:64</td><td>Miniature Worlds</td><td><span class="stage-pill" data-vi="Thiết kế">Design</span></td></tr>
+          <tr><td>Desk Plinth</td><td>Everyday Objects</td><td><span class="stage-pill" data-vi="Ý tưởng">Concept</span></td></tr>
+        </tbody></table>
+      </div>
+      <form class="notify" id="notify" novalidate>
+        <h3 data-vi="Nhận thông báo ra mắt">Release notice</h3>
+        <label class="mono" for="email" data-vi="Email của bạn">Your email</label>
+        <div class="field"><input id="email" type="email" autocomplete="email" placeholder="you@example.com"><button type="submit" data-vi="Đăng ký">Notify</button></div>
+        <p class="msg" id="msg" role="status"></p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<div class="closing"><div class="wrap"><p class="reveal"><span data-vi="Chúng tôi làm">We build</span><span data-vi="điều mình">what we</span><span data-vi="hình dung.">imagine.</span></p></div></div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="fgrid">
+      <div class="fplate"><img src="{{LOGO}}" alt="Saint Vincent Studio" width="128" height="128"></div>
+      <div><h4 data-vi="Khám phá">Index</h4><ul><li><a href="#collections" data-vi="Bộ sưu tập">Collections</a></li><li><a href="#featured" data-vi="Thiết kế">Design</a></li><li><a href="#journal" data-vi="Nhật ký">Journal</a></li><li><a href="#upcoming" data-vi="Sắp ra mắt">Upcoming</a></li></ul></div>
+      <div><h4 data-vi="Hỗ trợ">Support</h4><ul><li><a href="#top">FAQ</a></li><li><a href="#top" data-vi="Vận chuyển">Shipping</a></li><li><a href="#top" data-vi="Đổi trả">Returns</a></li><li><a href="#top" data-vi="Hướng dẫn lắp ráp">Assembly instructions</a></li></ul></div>
+      <div><h4 data-vi="Liên hệ">Contact</h4><ul><li>hello@saintvincent.studio</li><li>Instagram</li><li>TikTok</li></ul></div>
+    </div>
+    <div class="legal mono"><span>© 2026 Saint Vincent Studio</span><span data-vi="Bảo mật · Điều khoản">Privacy · Terms</span></div>
+  </div>
+</footer>
+
+<aside class="drawer" id="drawer" aria-hidden="true" aria-label="Direction B specification">
+  <div style="display:flex;justify-content:space-between;align-items:center"><span class="mono">Direction B — Spec</span><button class="tbtn" style="border:1px solid var(--graphite);padding:.7rem" type="button" id="specClose">Close</button></div>
+  <h2 style="font-size:2.6rem;text-transform:uppercase;font-variation-settings:'wdth' 115">The Future of Objects</h2>
+  <p class="dim">A technical product sheet. Objects are shown like engineered things: exploded views, spec rows, a visible grid and precise motion.</p>
+  <div><p class="mono" style="margin-bottom:.6rem">Palette</p><div class="sw"><div style="background:#E3E4E0">Aluminium<br>#E3E4E0</div><div style="background:#D3D5D0">Alu 2<br>#D3D5D0</div><div style="background:#9A9D98">Steel<br>#9A9D98</div><div style="background:#151617;color:#E3E4E0">Graphite<br>#151617</div><div style="background:#F2B705">Signal<br>#F2B705</div><div style="background:#FDF5EA">Logo plate<br>#FDF5EA</div></div></div>
+  <div><p class="mono" style="margin-bottom:.6rem">Type</p><p style="font-weight:800;font-size:1.8rem;font-variation-settings:'wdth' 125;line-height:1">ARCHIVO 125</p><p style="font-weight:800;font-size:1.8rem;font-variation-settings:'wdth' 62;line-height:1">ARCHIVO 62</p><p style="font-family:var(--f-mono);font-size:.85rem">JetBrains Mono — specs, codes</p></div>
+  <div><p class="mono" style="margin-bottom:.6rem">Motion</p><p class="dim">Scroll-linked exploded view, wipe fills on buttons, clip reveals on headings, tab swaps. Mechanical easing, no bounce.</p></div>
+  <div><p class="mono" style="margin-bottom:.6rem">Best for</p><p class="dim">Modular kits, lamps, anything with parts and specs. Can feel cold for gift or lifestyle storytelling.</p></div>
+</aside>
+
+<script>
+(()=>{
+  const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+  const store={get(k){try{return localStorage.getItem(k)}catch(e){return null}},set(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
+  const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const vi=()=>document.documentElement.lang==='vi';
+  // menu + drawer
+  const ov=$('#overlay'),mb=$('#menuBtn');const setMenu=o=>{ov.classList.toggle('open',o);ov.setAttribute('aria-hidden',!o);mb.setAttribute('aria-expanded',o);document.body.style.overflow=o?'hidden':''};
+  mb.onclick=()=>setMenu(true);$('#menuClose').onclick=()=>setMenu(false);$$('#overlay a').forEach(a=>a.onclick=()=>setMenu(false));
+  const dr=$('#drawer'),sb=$('#specBtn');const setDr=o=>{dr.classList.toggle('open',o);dr.setAttribute('aria-hidden',!o);sb.setAttribute('aria-expanded',o)};
+  sb.onclick=()=>setDr(!dr.classList.contains('open'));$('#specClose').onclick=()=>setDr(false);
+  addEventListener('keydown',e=>{if(e.key==='Escape'){setMenu(false);setDr(false)}});
+  // hero tilt (pointer devices only)
+  const ho=$('#heroObj svg');
+  if(!reduce&&matchMedia('(hover:hover)').matches){addEventListener('pointermove',e=>{const x=e.clientX/innerWidth-.5,y=e.clientY/innerHeight-.5;ho.style.transform=`translate(${x*-14}px,${y*-10}px) rotate(${x*2}deg)`},{passive:true})}
+  // collections tabs
+  const cols=[
+    {n:'Miniature Worlds',v:'Thế giới thu nhỏ',d:'Dioramas, architectural miniatures and display environments for 1:64 cars.',dv:'Sa bàn, mô hình kiến trúc và không gian trưng bày cho xe 1:64.',sub:'Dioramas · Architecture · Street scenes · 1:64 displays',s:'<path d="M60 250 L250 320 L440 240 L250 180Z" fill="#C9CBC6"/><path d="M60 250v20l190 70v-20zM440 240v20l-190 80v-20z" fill="#9A9D98"/><path d="M280 200 l70 26 v-90 l-70 -26z" fill="#3B3E40"/><path d="M350 226 l50 -20 v-90 l-50 20z" fill="#151617"/>'},
+    {n:'Modular Models',v:'Mô hình module',d:'Assembly kits built from interchangeable modules.',dv:'Bộ lắp ráp từ các module có thể hoán đổi.',sub:'Kits · Modules · Expansion packs',s:'<rect x="130" y="110" width="110" height="110" fill="#3B3E40"/><rect x="250" y="110" width="110" height="110" fill="#C9CBC6"/><rect x="190" y="230" width="110" height="110" fill="#F2B705"/>'},
+    {n:'Lighting Objects',v:'Đèn trang trí',d:'Ambient, bedside and sculptural lamps.',dv:'Đèn không gian, đèn ngủ và đèn điêu khắc.',sub:'Ambient · Bedside · Sculptural',s:'<path d="M170 90h160l-26 120H196z" fill="#E9EAE6" stroke="#9A9D98"/><rect x="238" y="210" width="24" height="110" fill="#2A2C2E"/><rect x="180" y="320" width="140" height="20" fill="#151617"/>'},
+    {n:'Everyday Objects',v:'Đồ dùng hằng ngày',d:'Desk accessories and decorative objects that earn their place.',dv:'Phụ kiện bàn làm việc và vật trang trí có lý do để hiện diện.',sub:'Desk · Decor · Functional',s:'<rect x="110" y="230" width="280" height="40" fill="#3B3E40"/><rect x="140" y="160" width="60" height="70" fill="#C9CBC6"/><circle cx="300" cy="200" r="30" fill="#F2B705"/>'},
+    {n:'Studio Editions',v:'Studio Editions',d:'Original concepts, experiments and collaborations.',dv:'Concept nguyên bản, thử nghiệm và hợp tác.',sub:'Concepts · Experiments · Collaborations',s:'<circle cx="250" cy="200" r="110" fill="none" stroke="#151617" stroke-width="2"/><path d="M140 200h220M250 90v220" stroke="#151617"/><circle cx="250" cy="200" r="18" fill="#F2B705"/>'}
+  ];
+  const tabs=$('#tabs'),panel=$('#panel');let ci=0;
+  const showTab=i=>{ci=i;$$('#tabs .tab').forEach((t,k)=>{t.setAttribute('aria-selected',k===i);t.tabIndex=k===i?0:-1});const c=cols[i];
+    panel.innerHTML=`<p class="big">${vi()?c.v:c.n}</p><div class="vis"><svg viewBox="0 0 500 380" role="img" aria-label="Concept illustration">${c.s}</svg><span class="mono dim" style="position:absolute;left:.6rem;bottom:.5rem">${vi()?'Minh hoạ concept':'Concept illustration'}</span></div><div class="info"><p>${vi()?c.dv:c.d}</p><dl class="rows"><div><dt>${vi()?'Gồm':'Includes'}</dt><dd>${c.sub}</dd></div><div><dt>${vi()?'Trạng thái':'Status'}</dt><dd>${vi()?'Đang phát triển':'In development'}</dd></div></dl></div>`;
+    if(!reduce){panel.classList.remove('panel-anim');void panel.offsetWidth;panel.classList.add('panel-anim')}};
+  cols.forEach((c,i)=>{const b=document.createElement('button');b.className='tab';b.type='button';b.setAttribute('role','tab');b.innerHTML=`<span class="mono">0${i+1}</span><span data-vi="${c.v}">${c.n}</span>`;b.onclick=()=>showTab(i);b.onkeydown=e=>{if(e.key==='ArrowRight'||e.key==='ArrowLeft'){const n=(i+(e.key==='ArrowRight'?1:4))%5;showTab(n);tabs.children[n].focus()}};tabs.appendChild(b)});
+  // exploded view: native scroll drives a progress value
+  const track=$('#track'),offs=[-150,-80,-25,25,110],L=[0,1,2,3,4].map(i=>$('#L'+i)),lis=$$('.parts li'),prog=$('#prog');
+  const ex=()=>{let p;if(reduce){p=.75}else{const r=track.getBoundingClientRect();p=Math.min(1,Math.max(0,-r.top/(r.height-innerHeight)))}
+    const e=Math.min(1,p*1.6);L.forEach((l,i)=>l.setAttribute('transform',`translate(0 ${offs[i]*e})`));lis.forEach(li=>li.classList.toggle('on',p>(+li.dataset.k)*.14+.08));prog.style.setProperty('--p',p)};
+  let raf=0;addEventListener('scroll',()=>{if(!raf)raf=requestAnimationFrame(()=>{raf=0;ex()})},{passive:true});addEventListener('resize',ex);ex();
+  // modular
+  const mods={base:['Base','<rect x="12" y="38" width="76" height="30" fill="#9A9D98"/>'],block:['Block','<rect x="24" y="20" width="52" height="64" fill="#151617"/>'],light:['Light','<circle cx="50" cy="50" r="24" fill="#F2B705"/>'],green:['Green','<path d="M50 16 L82 80 H18z" fill="#3B3E40"/>']};
+  let cur='block';const pal=$('#pal');
+  Object.entries(mods).forEach(([k,[n]])=>{const b=document.createElement('button');b.type='button';b.innerHTML=`<span>${n}</span><span class="mono">${k.slice(0,2).toUpperCase()}</span>`;b.setAttribute('aria-pressed',k===cur);b.onclick=()=>{cur=k;$$('#pal button').forEach(x=>x.setAttribute('aria-pressed',x===b))};pal.appendChild(b)});
+  const board=$('#board'),st=Array(12).fill(null);
+  const render=()=>{board.innerHTML='';st.forEach((v,i)=>{const c=document.createElement('button');c.type='button';c.className='cell';c.setAttribute('aria-label',v?`${mods[v][0]} on ${String.fromCharCode(65+(i>>2))}${i%4+1}, press to remove`:`Empty ${String.fromCharCode(65+(i>>2))}${i%4+1}`);c.innerHTML=`<span class="id">${String.fromCharCode(65+(i>>2))}${i%4+1}</span>`+(v?`<svg viewBox="0 0 100 100">${mods[v][1]}</svg>`:'');c.onclick=()=>{st[i]=st[i]?null:cur;render();board.children[i].focus()};board.appendChild(c)});$('#count').textContent=st.filter(Boolean).length+' / 12'};
+  st[0]='base';st[1]='block';st[6]='light';render();$('#clear').onclick=()=>{st.fill(null);render()};
+  // notify
+  $('#notify').addEventListener('submit',e=>{e.preventDefault();const v=$('#email').value.trim(),m=$('#msg');m.textContent=/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)?(vi()?'Bản xem trước: chưa có email nào được gửi hoặc lưu.':'Preview only: nothing was sent or saved.'):(vi()?'Vui lòng nhập một địa chỉ email hợp lệ.':'Enter a valid email address, like name@example.com.')});
+  // language
+  const setLang=l=>{$$('[data-vi]').forEach(el=>{if(el.dataset.en===undefined)el.dataset.en=el.innerHTML;el.innerHTML=l==='vi'?el.dataset.vi:el.dataset.en});document.documentElement.lang=l;$$('.lang button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.lang===l));store.set('sv-lang',l);showTab(ci)};
+  $$('.lang button').forEach(b=>b.onclick=()=>setLang(b.dataset.lang));
+  setLang(store.get('sv-lang')==='vi'?'vi':'en');
+})();
+</script>

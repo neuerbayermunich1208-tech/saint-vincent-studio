@@ -1,0 +1,469 @@
+<title>Saint Vincent — Atelier</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Saint Vincent Studio — Direction A, The Creative Atelier. Design preview.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..700;1,6..96,400..600&family=Hanken+Grotesk:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: an editorial sketchbook. Asymmetric 12-col grid, huge high-contrast serif set against
+   small grotesk captions; the draftsman's blue pencil is the only accent and marks annotations. */
+:root{
+  --paper:#FDF5EA;      /* sampled from the official logo background */
+  --paper-2:#F6EBDC;
+  --ink:#141210;
+  --ink-soft:#5B544C;
+  --rule:#D9CBB8;
+  --pencil:#2B3FB0;     /* blue pencil: annotations, focus, active states only */
+  --f-display:"Bodoni Moda","Didot","Bodoni 72",Georgia,serif;
+  --f-body:"Hanken Grotesk","Helvetica Neue",Arial,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+  --s-1:.5rem;--s-2:1rem;--s-3:1.5rem;--s-4:2.5rem;--s-5:4rem;--s-6:7rem;
+  --ease-out:cubic-bezier(.2,.7,.1,1);--dur-1:180ms;--dur-2:420ms;--dur-3:900ms;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--paper);color:var(--ink);font:400 17px/1.55 var(--f-body);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:var(--paper)}
+.wrap{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));max-width:1440px;margin-inline:auto}
+@media(min-width:900px){.wrap{padding-left:max(40px,env(safe-area-inset-left,0px));padding-right:max(40px,env(safe-area-inset-right,0px))}}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--pencil);outline-offset:3px}
+.mono{font-family:var(--f-mono);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase}
+.muted{color:var(--ink-soft)}
+.pencil{color:var(--pencil)}
+h1,h2,h3{font-family:var(--f-display);font-weight:400;text-wrap:balance;margin:0;line-height:.95;letter-spacing:-.01em}
+p{margin:0}
+
+/* header */
+.hdr{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:color-mix(in srgb,var(--paper) 92%,transparent);backdrop-filter:saturate(1.2);border-bottom:1px solid transparent;transition:border-color var(--dur-2)}
+.hdr.scrolled{border-bottom-color:var(--rule)}
+.hdr .wrap{display:flex;align-items:center;justify-content:space-between;gap:var(--s-2);height:76px}
+.brand{display:flex;align-items:center;gap:.75rem;text-decoration:none}
+.brand img{width:64px;height:64px;display:block}
+.nav{display:none;gap:var(--s-4);align-items:center}
+.nav a{text-decoration:none;font-size:.92rem;position:relative}
+.nav a::after{content:"";position:absolute;left:0;right:0;bottom:-4px;height:1px;background:var(--ink);transform:scaleX(0);transform-origin:right;transition:transform var(--dur-2) var(--ease-out)}
+.nav a:hover::after{transform:scaleX(1);transform-origin:left}
+.tools{display:flex;gap:.5rem;align-items:center}
+.btn-ghost{font:500 .72rem/1 var(--f-mono);letter-spacing:.08em;text-transform:uppercase;background:none;border:1px solid var(--ink);color:var(--ink);padding:.6rem .8rem;cursor:pointer;border-radius:0}
+.btn-ghost:hover{background:var(--ink);color:var(--paper)}
+.lang button{border:0;background:none;font:500 .72rem/1 var(--f-mono);letter-spacing:.08em;padding:.4rem;cursor:pointer;color:var(--ink-soft)}
+.lang button[aria-pressed="true"]{color:var(--ink);text-decoration:underline;text-underline-offset:4px}
+.menu-btn{display:inline-flex}
+@media(min-width:900px){.nav{display:flex}.menu-btn{display:none}}
+.overlay{position:fixed;inset:0;z-index:70;background:var(--ink);color:var(--paper);padding:calc(env(safe-area-inset-top,0px) + 20px) max(20px,env(safe-area-inset-right,0px)) calc(env(safe-area-inset-bottom,0px) + 24px) max(20px,env(safe-area-inset-left,0px));display:flex;flex-direction:column;gap:var(--s-4);clip-path:inset(0 0 100% 0);transition:clip-path var(--dur-3) var(--ease-out);visibility:hidden}
+.overlay.open{clip-path:inset(0 0 0 0);visibility:visible}
+.overlay nav{display:flex;flex-direction:column;gap:.25rem;margin-top:auto}
+.overlay nav a{font-family:var(--f-display);font-size:clamp(2.6rem,12vw,4rem);text-decoration:none;line-height:1.05}
+.overlay .btn-ghost{border-color:var(--paper);color:var(--paper);align-self:flex-end}
+
+/* hero */
+.hero{padding-block:var(--s-4) var(--s-6)}
+.hero-grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:var(--s-3);align-items:end}
+.hero h1{grid-column:1/-1;font-size:clamp(3.4rem,12.5vw,12.5rem);line-height:.86}
+.hero h1 .l{display:block;overflow:hidden;padding-bottom:.06em}
+.hero h1 .l span{display:inline-block;animation:rise var(--dur-3) var(--ease-out) both}
+.hero h1 .l:nth-child(2) span{animation-delay:90ms}.hero h1 .l:nth-child(3) span{animation-delay:180ms}
+.hero h1 .indent{padding-left:18%}
+.hero h1 em{font-style:italic}
+@keyframes rise{from{transform:translateY(102%)}to{transform:none}}
+.hero-fig{grid-column:1/-1;margin:var(--s-3) 0 0}
+.hero-copy{grid-column:1/-1;display:flex;flex-direction:column;gap:var(--s-3);max-width:34rem}
+@media(min-width:900px){
+  .hero h1{grid-column:1/9;grid-row:1}
+  .hero-fig{grid-column:9/13;grid-row:1/3;margin:0}
+  .hero-copy{grid-column:2/7;grid-row:2}
+}
+.plate{background:var(--paper-2);aspect-ratio:4/5;max-width:100%;position:relative;overflow:hidden}
+.plate svg{width:100%;height:100%;display:block}
+figcaption{display:flex;justify-content:space-between;gap:1rem;padding-top:.6rem;border-top:1px solid var(--rule);margin-top:.6rem}
+.lede{font-size:clamp(1.05rem,1.4vw,1.25rem);max-width:34rem}
+.ctas{display:flex;flex-wrap:wrap;gap:var(--s-2);align-items:center}
+.btn{display:inline-flex;align-items:center;gap:.75rem;background:var(--ink);color:var(--paper);text-decoration:none;padding:1rem 1.35rem;font:500 .95rem/1 var(--f-body);border:1px solid var(--ink);transition:background var(--dur-1),color var(--dur-1)}
+.btn:hover{background:var(--paper);color:var(--ink)}
+.btn .arr{transition:transform var(--dur-2) var(--ease-out)}.btn:hover .arr{transform:translateX(4px)}
+.link{font-size:.95rem;text-decoration:underline;text-underline-offset:5px;text-decoration-thickness:1px}
+.link:hover{color:var(--pencil)}
+
+section{padding-block:var(--s-6)}
+.sec-head{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:var(--s-3);border-top:1px solid var(--ink);padding-top:var(--s-2);margin-bottom:var(--s-5)}
+.sec-head .mono{grid-column:1/-1}
+.sec-head h2{grid-column:1/-1;font-size:clamp(2.4rem,6vw,5.6rem)}
+@media(min-width:900px){.sec-head .mono{grid-column:1/4}.sec-head h2{grid-column:4/13}}
+
+/* intro */
+.intro{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:var(--s-3)}
+.intro .big{grid-column:1/-1;font-family:var(--f-display);font-size:clamp(1.7rem,3.4vw,3.1rem);line-height:1.12}
+.intro .big em{font-style:italic}
+.intro .notes{grid-column:1/-1;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,15rem),1fr));gap:var(--s-3);margin-top:var(--s-4)}
+.intro .notes div{border-top:1px solid var(--rule);padding-top:.8rem;display:flex;flex-direction:column;gap:.5rem}
+@media(min-width:900px){.intro .big{grid-column:4/12}.intro .notes{grid-column:4/13}}
+
+/* collections index */
+.index{list-style:none;margin:0;padding:0;border-top:1px solid var(--rule)}
+.index li{border-bottom:1px solid var(--rule)}
+.index button{all:unset;box-sizing:border-box;width:100%;cursor:pointer;display:grid;grid-template-columns:3.5rem 1fr auto;align-items:baseline;gap:var(--s-2);padding-block:1.1rem}
+.index .name{font-family:var(--f-display);font-size:clamp(2rem,6.4vw,5.4rem);line-height:1;transition:transform var(--dur-2) var(--ease-out),color var(--dur-1)}
+.index button:hover .name,.index li.open .name{transform:translateX(.6rem);font-style:italic}
+.index .detail{display:grid;grid-template-rows:0fr;transition:grid-template-rows var(--dur-2) var(--ease-out)}
+.index li.open .detail{grid-template-rows:1fr}
+.index .detail>div{overflow:hidden}
+.index .detail .in{display:grid;gap:var(--s-3);padding:0 0 var(--s-3) 0;grid-template-columns:1fr}
+@media(min-width:760px){.index .detail .in{grid-template-columns:3.5rem 1fr 1.2fr;padding-left:0}}
+.index .detail .plate{aspect-ratio:16/10}
+.index .tags{display:flex;flex-wrap:wrap;gap:.4rem .9rem}
+
+/* featured */
+.feature{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:var(--s-3)}
+.feature .stage{grid-column:1/-1;position:relative;background:var(--paper-2);aspect-ratio:16/11;max-width:100%}
+.feature .stage svg{width:100%;height:100%;display:block}
+.hot{position:absolute;width:34px;height:34px;margin:-17px 0 0 -17px;border-radius:50%;border:1.5px solid var(--pencil);background:color-mix(in srgb,var(--paper) 70%,transparent);color:var(--pencil);font:500 .75rem/1 var(--f-mono);cursor:pointer;display:grid;place-items:center}
+.hot::after{content:"";position:absolute;inset:-7px;border-radius:50%;border:1px solid var(--pencil);opacity:.5;animation:pulse 2.4s var(--ease-out) infinite}
+.hot[aria-expanded="true"]{background:var(--pencil);color:var(--paper)}
+@keyframes pulse{from{transform:scale(.8);opacity:.6}to{transform:scale(1.4);opacity:0}}
+.feature .side{grid-column:1/-1;display:flex;flex-direction:column;gap:var(--s-3)}
+.note-card{border-left:2px solid var(--pencil);padding:.2rem 0 .2rem 1rem;min-height:7.5rem}
+.note-card h3{font-size:1.9rem;margin-bottom:.4rem}
+.specs{display:grid;grid-template-columns:auto 1fr;gap:.5rem 1.5rem;border-top:1px solid var(--rule);padding-top:1rem;font-size:.92rem}
+.specs dt{font-family:var(--f-mono);font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);padding-top:.2rem}
+.specs dd{margin:0}
+@media(min-width:900px){.feature .stage{grid-column:1/9}.feature .side{grid-column:9/13}}
+
+/* process */
+.process{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:var(--s-3)}
+.process .stick{grid-column:1/-1}
+.process ol{grid-column:1/-1;list-style:none;margin:0;padding:0;counter-reset:s}
+.process li{counter-increment:s;display:grid;grid-template-columns:4.2rem 1fr;gap:var(--s-2);padding-block:var(--s-3);border-top:1px solid var(--rule)}
+.process li::before{content:counter(s,decimal-leading-zero);font-family:var(--f-mono);font-size:.8rem;color:var(--pencil);padding-top:.7rem}
+.process li h3{font-size:clamp(2rem,4.6vw,3.6rem)}
+.process li p{grid-column:2;max-width:36rem;color:var(--ink-soft)}
+@media(min-width:900px){.process .stick{grid-column:1/5;position:sticky;top:120px;align-self:start}.process ol{grid-column:6/13}}
+
+/* modular */
+.mod{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:var(--s-3);align-items:start}
+.mod .board{grid-column:1/-1;display:grid;grid-template-columns:repeat(4,1fr);gap:6px;background:var(--ink);padding:6px;aspect-ratio:4/3;max-width:100%}
+.cell{all:unset;background:var(--paper-2);display:grid;place-items:center;cursor:pointer;position:relative;transition:background var(--dur-1)}
+.cell:hover{background:var(--paper)}
+.cell:focus-visible{outline:2px solid var(--pencil);outline-offset:-4px}
+.cell svg{width:72%;height:72%}
+.cell .plus{font-family:var(--f-mono);color:var(--ink-soft);font-size:.9rem}
+.mod .panel{grid-column:1/-1;display:flex;flex-direction:column;gap:var(--s-3)}
+.palette{display:flex;flex-wrap:wrap;gap:.5rem}
+.palette button{font:500 .72rem/1 var(--f-mono);letter-spacing:.06em;text-transform:uppercase;padding:.6rem .8rem;border:1px solid var(--ink);background:none;cursor:pointer;color:var(--ink)}
+.palette button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+@media(min-width:900px){.mod .board{grid-column:1/8}.mod .panel{grid-column:9/13}}
+
+/* journal */
+.journal{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,18rem),1fr));gap:var(--s-4) var(--s-3)}
+.entry{display:flex;flex-direction:column;gap:.8rem;text-decoration:none}
+.entry .plate{aspect-ratio:3/2}
+.entry h3{font-size:1.75rem;line-height:1.08}
+.entry:hover h3{font-style:italic}
+
+/* drops */
+.drops{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:var(--s-3)}
+.drops .list{grid-column:1/-1;border-top:1px solid var(--rule)}
+.drops .row{display:grid;grid-template-columns:1fr auto;gap:1rem;padding-block:1rem;border-bottom:1px solid var(--rule);align-items:baseline}
+.drops .row h3{font-size:1.6rem}
+form.notify{grid-column:1/-1;display:flex;flex-direction:column;gap:.8rem}
+form.notify label{font-family:var(--f-mono);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase}
+.field{display:flex;border-bottom:1px solid var(--ink)}
+.field input{flex:1;min-width:0;border:0;background:none;font:400 1.15rem var(--f-body);padding:.8rem 0;color:var(--ink)}
+.field input:focus{outline:none}
+.field:focus-within{border-bottom-color:var(--pencil);box-shadow:0 1px 0 var(--pencil)}
+.field button{all:unset;cursor:pointer;font:500 .95rem var(--f-body);padding:.4rem 0 .4rem 1rem}
+.field button:focus-visible{outline:2px solid var(--pencil)}
+.form-msg{min-height:1.4em;font-size:.88rem}
+@media(min-width:900px){.drops .list{grid-column:1/7}form.notify{grid-column:8/13}}
+
+/* closing */
+.closing{padding-block:var(--s-6) var(--s-5);text-align:left}
+.closing p.statement{font-family:var(--f-display);font-size:clamp(3rem,10.5vw,10rem);line-height:.9;letter-spacing:-.015em}
+.closing em{font-style:italic}
+footer{background:var(--ink);color:var(--paper);padding-block:var(--s-5) calc(var(--s-3) + env(safe-area-inset-bottom,0px))}
+footer .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,11rem),1fr));gap:var(--s-4)}
+footer h4{font:500 .72rem/1 var(--f-mono);letter-spacing:.08em;text-transform:uppercase;margin:0 0 1rem;color:#B8AE9F}
+footer ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.45rem}
+footer a{text-decoration:none}footer a:hover{text-decoration:underline}
+.foot-logo{width:120px;height:120px;display:block}
+.legal{display:flex;flex-wrap:wrap;justify-content:space-between;gap:1rem;border-top:1px solid #3A3530;margin-top:var(--s-5);padding-top:var(--s-2);color:#B8AE9F}
+
+/* spec drawer */
+.drawer{position:fixed;z-index:80;right:0;top:0;bottom:0;width:min(440px,100%);background:var(--paper);border-left:1px solid var(--ink);padding:calc(env(safe-area-inset-top,0px) + 24px) max(24px,env(safe-area-inset-right,0px)) calc(env(safe-area-inset-bottom,0px) + 24px) 24px;overflow-y:auto;transform:translateX(102%);transition:transform var(--dur-2) var(--ease-out);display:flex;flex-direction:column;gap:1.5rem}
+.drawer.open{transform:none}
+.sw{display:grid;grid-template-columns:repeat(5,1fr);gap:.4rem}
+.sw div{aspect-ratio:1;border:1px solid var(--rule);display:flex;align-items:flex-end;padding:.3rem;font:400 .55rem/1.2 var(--f-mono)}
+.badge{position:fixed;z-index:40;left:max(12px,env(safe-area-inset-left,0px));bottom:calc(12px + env(safe-area-inset-bottom,0px));background:var(--ink);color:var(--paper);padding:.5rem .7rem;font:500 .64rem/1 var(--f-mono);letter-spacing:.08em;text-transform:uppercase}
+
+/* scroll-driven reveals: progressive enhancement, content is visible without support */
+@supports (animation-timeline:view()){
+  .reveal{animation:fadeup linear both;animation-timeline:view();animation-range:entry 0% entry 40%}
+  @keyframes fadeup{from{transform:translateY(36px)}to{transform:none}}
+  .parallax svg{animation:drift linear both;animation-timeline:view()}
+  @keyframes drift{from{transform:translateY(-4%)}to{transform:translateY(4%)}}
+}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+</style>
+
+<div class="badge" data-vi="Bản xem trước · Hướng A">Preview · Direction A</div>
+
+<header class="hdr" id="hdr">
+  <div class="wrap">
+    <a class="brand" href="#top" aria-label="Saint Vincent Studio — home"><img src="{{LOGO}}" alt="Saint Vincent Studio" width="64" height="64"></a>
+    <nav class="nav" aria-label="Primary">
+      <a href="#collections" data-vi="Bộ sưu tập">Collections</a>
+      <a href="#studio" data-vi="Studio">The Studio</a>
+      <a href="#process" data-vi="Quy trình">Process</a>
+      <a href="#journal" data-vi="Nhật ký">Journal</a>
+      <a href="#upcoming" data-vi="Sắp ra mắt">Upcoming</a>
+    </nav>
+    <div class="tools">
+      <div class="lang" role="group" aria-label="Language"><button type="button" data-lang="en" aria-pressed="true">EN</button><button type="button" data-lang="vi" aria-pressed="false">VI</button></div>
+      <button class="btn-ghost" type="button" id="specBtn" aria-controls="drawer" aria-expanded="false">Spec</button>
+      <button class="btn-ghost menu-btn" type="button" id="menuBtn" aria-controls="overlay" aria-expanded="false">Menu</button>
+    </div>
+  </div>
+</header>
+
+<div class="overlay" id="overlay" aria-hidden="true">
+  <button class="btn-ghost" type="button" id="menuClose">Close</button>
+  <nav aria-label="Mobile">
+    <a href="#collections" data-vi="Bộ sưu tập">Collections</a>
+    <a href="#studio" data-vi="Studio">The Studio</a>
+    <a href="#process" data-vi="Quy trình">Process</a>
+    <a href="#journal" data-vi="Nhật ký">Journal</a>
+    <a href="#upcoming" data-vi="Sắp ra mắt">Upcoming</a>
+  </nav>
+  <p class="mono" style="color:#B8AE9F">saintvincent.studio</p>
+</div>
+
+<main id="top">
+<section class="hero" style="padding-top:var(--s-4)">
+  <div class="wrap hero-grid">
+    <h1><span class="l"><span data-vi="Đồ vật">Objects</span></span><span class="l indent"><span data-vi="mang một"><em>with a</em></span></span><span class="l"><span data-vi="góc nhìn.">point of view.</span></span></h1>
+    <figure class="hero-fig parallax">
+      <div class="plate">
+        <svg viewBox="0 0 400 500" role="img" aria-label="Concept drawing of a sculptural lamp with pencil annotations">
+          <g fill="none" stroke="#141210" stroke-width="1.4">
+            <ellipse cx="200" cy="140" rx="92" ry="22"/>
+            <path d="M108 140 L132 300 M292 140 L268 300"/>
+            <ellipse cx="200" cy="300" rx="68" ry="15"/>
+            <path d="M200 315 V398"/>
+            <path d="M150 398 h100 l14 30 h-128z"/>
+            <ellipse cx="200" cy="300" rx="40" ry="8" stroke-dasharray="3 4"/>
+          </g>
+          <g fill="none" stroke="#2B3FB0" stroke-width="1">
+            <path d="M80 140 V300 M74 140 h12 M74 300 h12"/>
+            <path d="M108 460 H292 M108 454 v12 M292 454 v12"/>
+            <circle cx="200" cy="230" r="26" stroke-dasharray="2 3"/>
+          </g>
+          <g fill="#2B3FB0" font-family="IBM Plex Mono,monospace" font-size="11">
+            <text x="30" y="224" transform="rotate(-90 40 224)">H — tbd</text>
+            <text x="172" y="482">Ø — tbd</text>
+            <text x="236" y="210">warm diffusion</text>
+          </g>
+        </svg>
+      </div>
+      <figcaption class="mono muted"><span data-vi="Hình 01 — Nghiên cứu đèn">Fig. 01 — Lantern study</span><span data-vi="Bản vẽ concept">Concept drawing</span></figcaption>
+    </figure>
+    <div class="hero-copy">
+      <p class="lede" data-vi="Saint Vincent Studio là studio thiết kế và sản xuất độc lập. Chúng tôi tạo ra những thế giới thu nhỏ, mô hình lắp ghép và đồ vật được thiết kế để giữ lại lâu dài.">Saint Vincent Studio is an independent design and manufacturing studio. We make miniature worlds, modular models and objects designed to be kept.</p>
+      <div class="ctas">
+        <a class="btn" href="#collections"><span data-vi="Khám phá bộ sưu tập">Explore the collections</span><span class="arr">→</span></a>
+        <a class="link" href="#studio" data-vi="Về studio">Discover the studio</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="studio">
+  <div class="wrap">
+    <div class="sec-head"><p class="mono" data-vi="Studio">The Studio</p><h2 data-vi="Thiết kế trước. Mọi thứ khác theo sau."><em>Design first.</em> Everything else follows.</h2></div>
+    <div class="intro">
+      <p class="big reveal" data-vi="Mỗi vật phẩm bắt đầu bằng một bản vẽ, được thử nghiệm qua nhiều mẫu và chỉ ra đời khi tỷ lệ, chi tiết và cảm giác cầm nắm <em>đúng</em> như ý định.">Every object starts as a drawing, is tested through prototypes, and is only released when its proportions, details and feel in the hand are <em>right</em>.</p>
+      <div class="notes">
+        <div class="reveal"><span class="mono pencil" data-vi="Thiết kế độc quyền">Original design</span><p data-vi="Mọi sản phẩm được thiết kế tại studio. Không sao chép, không hàng có sẵn.">Every piece is designed in-house. No catalogue stock, no copies.</p></div>
+        <div class="reveal"><span class="mono pencil" data-vi="Hệ thống module">Modular by intent</span><p data-vi="Các thiết kế được nghĩ như một hệ thống, để mở rộng và kết hợp theo thời gian.">Designs are planned as systems that extend and combine over time.</p></div>
+        <div class="reveal"><span class="mono pencil" data-vi="Sản xuất chính xác">Precision made</span><p data-vi="Thiết kế và sản xuất dưới cùng một mái nhà, nên mỗi chi tiết đều được kiểm soát.">Design and making share one roof, so every detail stays under our control.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="collections">
+  <div class="wrap">
+    <div class="sec-head"><p class="mono" data-vi="Bộ sưu tập">Collections</p><h2 data-vi="Năm thế giới, một bàn vẽ.">Five worlds, <em>one drawing table.</em></h2></div>
+    <ul class="index" id="index"></ul>
+  </div>
+</section>
+
+<section id="featured">
+  <div class="wrap">
+    <div class="sec-head"><p class="mono" data-vi="Thiết kế tiêu biểu">Featured design</p><h2 data-vi="Góc phố, tỷ lệ 1:64.">The Corner, <em>at 1:64.</em></h2></div>
+    <div class="feature">
+      <div class="stage" id="stage">
+        <svg viewBox="0 0 800 550" role="img" aria-label="Concept drawing of a modular street-corner diorama for 1:64 scale cars">
+          <g fill="none" stroke="#141210" stroke-width="1.4">
+            <path d="M120 360 L400 470 L690 340 L410 240 Z"/>
+            <path d="M120 360 v26 L400 496 v-26 M690 340 v26 L400 496"/>
+            <path d="M210 330 L430 418 M300 300 L520 386" stroke-dasharray="10 8"/>
+            <path d="M450 262 L560 302 L560 180 L450 140 Z"/>
+            <path d="M560 302 L640 268 L640 148 L560 180 M450 140 L530 108 L640 148"/>
+            <path d="M470 180 l20 7 v26 l-20 -7z M510 194 l20 7 v26 l-20 -7z M470 228 l20 7 v26 l-20 -7z M510 242 l20 7 v26 l-20 -7z"/>
+            <path d="M250 352 l52 20 l20 -9 l-52 -20 z M250 352 v8 l52 20 v-8 M302 380 l20 -9 v-8"/>
+          </g>
+          <g fill="none" stroke="#2B3FB0" stroke-width="1" stroke-dasharray="3 4"><path d="M690 340 L760 312 M120 360 L48 330"/></g>
+          <g fill="#2B3FB0" font-family="IBM Plex Mono,monospace" font-size="12"><text x="704" y="300">connects →</text><text x="20" y="318">← connects</text></g>
+        </svg>
+        <button class="hot" style="left:35%;top:66%" data-i="0" aria-expanded="false" aria-label="Detail: 1:64 parking bay">1</button>
+        <button class="hot" style="left:68%;top:38%" data-i="1" aria-expanded="false" aria-label="Detail: facade module">2</button>
+        <button class="hot" style="left:88%;top:60%" data-i="2" aria-expanded="false" aria-label="Detail: connector edge">3</button>
+        <button class="hot" style="left:46%;top:58%" data-i="3" aria-expanded="false" aria-label="Detail: road markings">4</button>
+      </div>
+      <div class="side">
+        <p class="mono pencil" data-vi="Concept · đang phát triển">Concept · in development</p>
+        <div class="note-card" aria-live="polite" id="note"><h3 id="noteT">Select a detail</h3><p id="noteB" class="muted">Tap the numbered points on the drawing to read the design notes.</p></div>
+        <dl class="specs">
+          <dt data-vi="Tỷ lệ">Scale</dt><dd>1:64</dd>
+          <dt data-vi="Bộ sưu tập">Collection</dt><dd>Miniature Worlds</dd>
+          <dt data-vi="Kích thước">Dimensions</dt><dd class="muted" data-vi="Công bố khi hoàn thiện mẫu">Published when the prototype is final</dd>
+          <dt data-vi="Vật liệu">Materials</dt><dd class="muted" data-vi="Công bố khi hoàn thiện mẫu">Published when the prototype is final</dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="process">
+  <div class="wrap process">
+    <div class="stick">
+      <div class="sec-head" style="display:block;margin-bottom:var(--s-3)"><p class="mono" style="margin-bottom:1rem" data-vi="Từ ý tưởng đến vật thể">From idea to object</p><h2 data-vi="Sáu bước, không đi tắt.">Six steps. <em>No shortcuts.</em></h2></div>
+      <p class="muted" style="max-width:24rem" data-vi="Thời gian của một thiết kế được đo bằng số lần làm lại, không phải bằng số ngày.">A design is measured by how many times it was redrawn, not by how many days it took.</p>
+    </div>
+    <ol>
+      <li class="reveal"><h3 data-vi="Ý tưởng">Concept</h3><p data-vi="Một câu hỏi, một bản phác. Vật thể này để làm gì, và vì sao người ta muốn giữ nó.">A question and a sketch. What the object is for, and why someone would want to keep it.</p></li>
+      <li class="reveal"><h3 data-vi="Thiết kế">Design</h3><p data-vi="Tỷ lệ, hình khối, khớp nối. Mọi kích thước được dựng trên bản vẽ kỹ thuật.">Proportion, form, joinery. Every dimension is drawn before anything is made.</p></li>
+      <li class="reveal"><h3 data-vi="Mẫu thử">Prototype</h3><p data-vi="Mẫu vật lý đầu tiên, để kiểm tra những điều bản vẽ không nói được.">The first physical model, to test what a drawing cannot tell you.</p></li>
+      <li class="reveal"><h3 data-vi="Tinh chỉnh">Refine</h3><p data-vi="Sửa dung sai, cân lại tỷ lệ, bỏ những gì không cần thiết.">Tolerances corrected, proportions rebalanced, anything unnecessary removed.</p></li>
+      <li class="reveal"><h3 data-vi="Sản xuất">Manufacture</h3><p data-vi="Sản xuất tại studio với quy trình được kiểm soát cho từng chi tiết.">Made in the studio, with a controlled process for each part.</p></li>
+      <li class="reveal"><h3 data-vi="Hoàn thiện">Finish</h3><p data-vi="Xử lý bề mặt, kiểm tra và đóng gói bằng tay.">Surfaces finished, each piece checked and packed by hand.</p></li>
+    </ol>
+  </div>
+</section>
+
+<section id="modular">
+  <div class="wrap">
+    <div class="sec-head"><p class="mono" data-vi="Vũ trụ module">The Modular Universe</p><h2 data-vi="Bắt đầu với một ô. Mở rộng theo cách của bạn.">Start with one tile. <em>Grow it your way.</em></h2></div>
+    <div class="mod">
+      <div class="board" id="board" role="grid" aria-label="Modular base plate, 4 by 3"></div>
+      <div class="panel">
+        <p class="muted" data-vi="Chọn một module rồi chạm vào ô trống để đặt. Đây là phác thảo cho trình cấu hình trong tương lai.">Pick a module, then tap a tile to place it. This is a sketch of the future configurator.</p>
+        <div class="palette" id="palette" role="group" aria-label="Modules"></div>
+        <dl class="specs"><dt data-vi="Đã đặt">Placed</dt><dd id="count" style="font-variant-numeric:tabular-nums">0 / 12</dd><dt data-vi="Giá">Price</dt><dd class="muted" data-vi="Hiển thị ở chế độ bán hàng">Shown in commerce mode</dd></dl>
+        <button class="btn-ghost" type="button" id="clear" style="align-self:flex-start" data-vi="Xoá bố cục">Clear layout</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="journal">
+  <div class="wrap">
+    <div class="sec-head"><p class="mono" data-vi="Nhật ký thiết kế">Design Journal</p><h2 data-vi="Ghi chép từ bàn vẽ.">Notes from <em>the drawing table.</em></h2></div>
+    <div class="journal">
+      <a class="entry reveal" href="#journal"><div class="plate"></div><span class="mono muted" data-vi="Hậu trường thiết kế · Bài mẫu">Behind the design · Sample entry</span><h3 data-vi="Vì sao chúng tôi chọn tỷ lệ 1:64">Why we draw at 1:64</h3></a>
+      <a class="entry reveal" href="#journal"><div class="plate"></div><span class="mono muted" data-vi="Thử nghiệm · Bài mẫu">Experiments · Sample entry</span><h3 data-vi="Ánh sáng qua mười hai lớp chụp đèn">Light through twelve shades</h3></a>
+      <a class="entry reveal" href="#journal"><div class="plate"></div><span class="mono muted" data-vi="Hướng dẫn lắp ráp · Bài mẫu">Assembly guide · Sample entry</span><h3 data-vi="Một khớp nối, ba cách dùng">One joint, three uses</h3></a>
+    </div>
+  </div>
+</section>
+
+<section id="upcoming">
+  <div class="wrap">
+    <div class="sec-head"><p class="mono" data-vi="Sắp ra mắt">Upcoming</p><h2 data-vi="Đang ở trên bàn vẽ.">Currently <em>on the table.</em></h2></div>
+    <div class="drops">
+      <div class="list">
+        <div class="row"><h3>The Corner</h3><span class="mono muted" data-vi="Mẫu thử">Prototype</span></div>
+        <div class="row"><h3>Lantern Study</h3><span class="mono muted" data-vi="Thiết kế">Design</span></div>
+        <div class="row"><h3>Desk Plinth</h3><span class="mono muted" data-vi="Ý tưởng">Concept</span></div>
+      </div>
+      <form class="notify" id="notify" novalidate>
+        <label for="email" data-vi="Nhận thông báo khi ra mắt">Be told when they're released</label>
+        <div class="field"><input id="email" name="email" type="email" autocomplete="email" placeholder="you@example.com" required><button type="submit" data-vi="Đăng ký">Notify me</button></div>
+        <p class="form-msg muted" id="formMsg" role="status"></p>
+        <p class="mono muted" data-vi="Không spam. Chỉ thông báo ra mắt.">No spam. Release notes only.</p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<div class="closing"><div class="wrap"><p class="statement reveal" data-vi="Trí tưởng tượng, <em>được làm ra để giữ lại.</em>">Imagination, <em>made to be kept.</em></p></div></div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="grid">
+      <div><img class="foot-logo" src="{{LOGO}}" alt="Saint Vincent Studio" width="120" height="120"></div>
+      <div><h4 data-vi="Khám phá">Explore</h4><ul><li><a href="#collections" data-vi="Bộ sưu tập">Collections</a></li><li><a href="#studio">The Studio</a></li><li><a href="#journal" data-vi="Nhật ký">Journal</a></li><li><a href="#upcoming" data-vi="Sắp ra mắt">Upcoming</a></li></ul></div>
+      <div><h4 data-vi="Hỗ trợ">Support</h4><ul><li><a href="#top">FAQ</a></li><li><a href="#top" data-vi="Vận chuyển">Shipping &amp; Delivery</a></li><li><a href="#top" data-vi="Đổi trả">Returns &amp; Exchanges</a></li><li><a href="#top" data-vi="Bảo quản sản phẩm">Product Care</a></li></ul></div>
+      <div><h4 data-vi="Liên hệ">Contact</h4><ul><li>hello@saintvincent.studio</li><li>Instagram</li><li>TikTok</li></ul></div>
+    </div>
+    <div class="legal mono"><span>© 2026 Saint Vincent Studio</span><span data-vi="Chính sách bảo mật · Điều khoản">Privacy · Terms</span></div>
+  </div>
+</footer>
+
+<aside class="drawer" id="drawer" aria-hidden="true" aria-label="Direction A specification">
+  <div style="display:flex;justify-content:space-between;align-items:center"><span class="mono">Direction A — Spec</span><button class="btn-ghost" type="button" id="specClose">Close</button></div>
+  <h2 style="font-size:2.6rem">The Creative Atelier</h2>
+  <p class="muted">An editorial sketchbook. The studio is presented through drawings, annotations and big classical type that echoes the logo's serif wordmark.</p>
+  <div><p class="mono" style="margin-bottom:.6rem">Palette</p><div class="sw"><div style="background:#FDF5EA">Paper<br>#FDF5EA</div><div style="background:#F6EBDC">Paper 2<br>#F6EBDC</div><div style="background:#141210;color:#FDF5EA">Ink<br>#141210</div><div style="background:#5B544C;color:#FDF5EA">Ink soft<br>#5B544C</div><div style="background:#2B3FB0;color:#FDF5EA">Pencil<br>#2B3FB0</div></div></div>
+  <div><p class="mono" style="margin-bottom:.6rem">Type</p><p style="font-family:var(--f-display);font-size:2rem;line-height:1">Bodoni Moda</p><p>Hanken Grotesk — body &amp; UI</p><p style="font-family:var(--f-mono);font-size:.85rem">IBM Plex Mono — labels, specs</p></div>
+  <div><p class="mono" style="margin-bottom:.6rem">Motion</p><p class="muted">Line-by-line mask reveal on headlines, slow parallax on drawings, underline wipes on links, a curtain wipe for the mobile menu. Everything turns off under reduced motion.</p></div>
+  <div><p class="mono" style="margin-bottom:.6rem">Best for</p><p class="muted">Storytelling, journal content, gift and lifestyle objects, lamps. Weaker at dense catalogue browsing.</p></div>
+</aside>
+
+<script>
+(()=>{
+  const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+  const store={get(k){try{return localStorage.getItem(k)}catch(e){return null}},set(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
+  // header state
+  const hdr=$('#hdr');addEventListener('scroll',()=>hdr.classList.toggle('scrolled',scrollY>10),{passive:true});
+  // menu
+  const ov=$('#overlay'),mb=$('#menuBtn');
+  const setMenu=o=>{ov.classList.toggle('open',o);ov.setAttribute('aria-hidden',!o);mb.setAttribute('aria-expanded',o);document.body.style.overflow=o?'hidden':''};
+  mb.onclick=()=>setMenu(true);$('#menuClose').onclick=()=>setMenu(false);$$('#overlay a').forEach(a=>a.onclick=()=>setMenu(false));
+  // drawer
+  const dr=$('#drawer'),sb=$('#specBtn');const setDr=o=>{dr.classList.toggle('open',o);dr.setAttribute('aria-hidden',!o);sb.setAttribute('aria-expanded',o)};
+  sb.onclick=()=>setDr(!dr.classList.contains('open'));$('#specClose').onclick=()=>setDr(false);
+  addEventListener('keydown',e=>{if(e.key==='Escape'){setMenu(false);setDr(false)}});
+  // collections
+  const cols=[
+    ['Miniature Worlds','Thế giới thu nhỏ','Dioramas, architectural miniatures and display environments for 1:64 cars.','Sa bàn, mô hình kiến trúc và không gian trưng bày cho xe tỷ lệ 1:64.',['Dioramas','Architecture','Street scenes','1:64 displays']],
+    ['Modular Models','Mô hình module','Assembly kits made of interchangeable modules, designed to grow.','Bộ lắp ráp từ các module có thể hoán đổi, được thiết kế để mở rộng.',['Assembly kits','Modules','Expansions']],
+    ['Lighting Objects','Đèn trang trí','Ambient, bedside and sculptural lamps.','Đèn không gian, đèn ngủ và đèn điêu khắc.',['Ambient','Bedside','Sculptural']],
+    ['Everyday Objects','Đồ dùng hằng ngày','Desk accessories and decorative objects with a purpose.','Phụ kiện bàn làm việc và vật trang trí có công năng.',['Desk','Decor','Functional']],
+    ['Studio Editions','Studio Editions','Original concepts, experiments and collaborations.','Những concept nguyên bản, thử nghiệm và hợp tác.',['Concepts','Experiments','Collaborations']]
+  ];
+  const draw=i=>{const s=['<path d="M40 150 L160 190 L280 140 L160 100Z M160 100 v-40 l40 -14 v40"/>','<path d="M70 80h60v60h-60z M130 80h60v60h-60z M100 140h60v60h-60z" />','<ellipse cx="160" cy="70" rx="60" ry="14"/><path d="M100 70 L120 170 M220 70 L200 170 M160 184 v30"/>','<path d="M70 170 h180 M90 170 v-60 h60 v60 M170 170 v-90 h50 v90"/>','<circle cx="160" cy="120" r="64"/><path d="M96 120 h128 M160 56 v128"/>'][i];return `<svg viewBox="0 0 320 220" role="img" aria-label="Concept drawing"><g fill="none" stroke="#141210" stroke-width="1.4">${s}</g></svg>`};
+  const ix=$('#index');
+  cols.forEach((c,i)=>{const li=document.createElement('li');li.innerHTML=`<button type="button" aria-expanded="false"><span class="mono muted">${String(i+1).padStart(2,'0')}</span><span class="name" data-vi="${c[1]}">${c[0]}</span><span class="mono muted">+</span></button><div class="detail"><div><div class="in"><span></span><p data-vi="${c[3]}">${c[2]}</p><div class="plate">${draw(i)}</div></div><div class="tags mono muted" style="padding-bottom:1.4rem">${c[4].map(t=>`<span>${t}</span>`).join('')}</div></div></div>`;
+    const b=li.querySelector('button');b.onclick=()=>{const o=!li.classList.contains('open');$$('#index li').forEach(x=>{x.classList.remove('open');x.querySelector('button').setAttribute('aria-expanded','false')});li.classList.toggle('open',o);b.setAttribute('aria-expanded',o)};ix.appendChild(li)});
+  ix.firstChild.querySelector('button').click();
+  // hotspots
+  const notes=[['1:64 parking bay','Sized to the standard 1:64 die-cast footprint so a collection can be parked and shown.'],['Facade module','The building is a separate module. Facades are planned to swap between styles.'],['Connector edge','Each base joins the next one, so a single corner can become a street.'],['Road markings','Markings and kerbs are part of the base, not stickers. Final finish to be confirmed.']];
+  $$('.hot').forEach(h=>h.onclick=()=>{$$('.hot').forEach(x=>x.setAttribute('aria-expanded','false'));h.setAttribute('aria-expanded','true');const n=notes[h.dataset.i];$('#noteT').textContent=n[0];$('#noteB').textContent=n[1]});
+  // modular board
+  const mods={tile:['Base','<rect x="10" y="30" width="80" height="40"/>'],build:['Building','<path d="M25 85V30l25-15 25 15v55z M40 45h20v15H40z"/>'],tree:['Tree','<circle cx="50" cy="40" r="22"/><path d="M50 62v25"/>'],lamp:['Street lamp','<path d="M50 88V25h18"/><circle cx="70" cy="28" r="5"/>']};
+  let cur='build';const pal=$('#palette');
+  Object.entries(mods).forEach(([k,[n]])=>{const b=document.createElement('button');b.type='button';b.textContent=n;b.setAttribute('aria-pressed',k===cur);b.onclick=()=>{cur=k;$$('#palette button').forEach(x=>x.setAttribute('aria-pressed',x===b))};pal.appendChild(b)});
+  const board=$('#board'),state=Array(12).fill(null);
+  const render=()=>{board.innerHTML='';state.forEach((v,i)=>{const c=document.createElement('button');c.className='cell';c.type='button';c.setAttribute('aria-label',v?`${mods[v][0]} at tile ${i+1}, tap to remove`:`Empty tile ${i+1}`);c.innerHTML=v?`<svg viewBox="0 0 100 100"><g fill="none" stroke="#141210" stroke-width="2">${mods[v][1]}</g></svg>`:'<span class="plus">+</span>';c.onclick=()=>{state[i]=state[i]?null:cur;render();board.children[i].focus()};board.appendChild(c)});$('#count').textContent=state.filter(Boolean).length+' / 12'};
+  [0,1,5].forEach((i,n)=>state[i]=['tile','build','tree'][n]);render();$('#clear').onclick=()=>{state.fill(null);render()};
+  // notify (preview only)
+  $('#notify').addEventListener('submit',e=>{e.preventDefault();const v=$('#email').value.trim();const m=$('#formMsg');m.textContent=/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)?(document.documentElement.lang==='vi'?'Bản xem trước: chưa có email nào được gửi hoặc lưu.':'Preview only: nothing was sent or saved.'):(document.documentElement.lang==='vi'?'Vui lòng nhập một địa chỉ email hợp lệ.':'Enter a valid email address, like name@example.com.')});
+  // language
+  const setLang=l=>{$$('[data-vi]').forEach(el=>{if(el.dataset.en===undefined)el.dataset.en=el.innerHTML;el.innerHTML=l==='vi'?el.dataset.vi:el.dataset.en});document.documentElement.lang=l;$$('.lang button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.lang===l));store.set('sv-lang',l)};
+  $$('.lang button').forEach(b=>b.onclick=()=>setLang(b.dataset.lang));
+  setLang(store.get('sv-lang')==='vi'?'vi':'en');
+})();
+</script>
