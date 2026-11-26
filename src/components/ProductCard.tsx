@@ -7,7 +7,7 @@ import { SaveButton } from './SaveButton'
 
 export async function ProductCard({ product, showSave }: { product: Product; showSave: boolean }) {
   const t = await getTranslations()
-  const cover = asMedia(product.gallery?.[0])
+  const cover = asMedia(product.cardImage) ?? asMedia(product.gallery?.[0])
   const collection = (product.collections ?? []).find((c): c is ProductCollection => typeof c === 'object')
   return (
     <article className="card">

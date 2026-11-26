@@ -3,18 +3,55 @@ import type { Media as MediaDoc } from '@/payload-types'
 
 export const asMedia = (m: unknown): MediaDoc | null => (m && typeof m === 'object' && 'url' in m ? (m as MediaDoc) : null)
 
-export function MediaImage({ media, sizes, priority, className }: { media: MediaDoc; sizes: string; priority?: boolean; className?: string }) {
+const SITE_ORIGIN = (process.env.NEXT_PUBLIC_SITE_URL ?? '').replace(/\/$/, '')
+
+/** Payload returns absolute URLs for local uploads; make same-site ones relative so next/image treats them as local. */
+export function mediaSrc(url: string) {
+  if (SITE_ORIGIN && url.startsWith(SITE_ORIGIN + '/')) return url.slice(SITE_ORIGIN.length)
+  return url
+}
+
+/** Media docs from a hasMany upload field, populated ones only. */
+export const asMediaList = (list: unknown): MediaDoc[] =>
+  (Array.isArray(list) ? list : []).map(asMedia).filter((m): m is MediaDoc => Boolean(m?.url && m.width && m.height))
+
+/**
+ * `fit="cover"` fills a fixed-ratio plate. `fit="natural"` keeps the image's own aspect ratio (no cropping),
+ * which is what hotspots and product photos need.
+ */
+export function MediaImage({
+  media,
+  sizes,
+  priority,
+  className,
+  fit = 'cover',
+}: {
+  media: MediaDoc
+  sizes: string
+  priority?: boolean
+  className?: string
+  fit?: 'cover' | 'contain' | 'natural'
+}) {
   if (!media.url || !media.width || !media.height) return null
+  const style =
+    fit === 'natural'
+      ? { width: '100%', height: 'auto' }
+      : { width: '100%', height: '100%', objectFit: fit, objectPosition: focal(media) }
   return (
     <Image
-      src={media.url}
+      src={mediaSrc(media.url)}
       alt={media.alt ?? ''}
       width={media.width}
       height={media.height}
       sizes={sizes}
       priority={priority}
+      fetchPriority={priority ? 'high' : undefined}
       className={className}
-      style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+      style={style}
     />
   )
+}
+
+function focal(m: MediaDoc) {
+  return typeof m.focalX === 'number' && typeof m.focalY === 'number' ? `${m.focalX}% ${m.focalY}%` : undefined
 }

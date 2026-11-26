@@ -11,7 +11,7 @@ import { CornerDrawing, LanternDrawing, ObjectDrawing } from '@/components/Drawi
 import { DropBoard } from '@/components/DropBoard'
 import { ExplodedLamp } from '@/components/ExplodedLamp'
 import { Hotspots } from '@/components/Hotspots'
-import { MediaImage, asMedia } from '@/components/Media'
+import { MediaImage, asMedia, asMediaList } from '@/components/Media'
 import { ModularBoard } from '@/components/ModularBoard'
 import { NotifyForm } from '@/components/NotifyForm'
 
@@ -39,14 +39,59 @@ export default async function HomePage({ params }: Props) {
   ])
   const journal = settings.features?.journal ? await getJournalPosts(locale, 3) : []
   const featured = typeof home.featuredProduct === 'object' ? (home.featuredProduct as Product | null) : null
-  const featuredImage = asMedia(featured?.gallery?.[0])
+  const featuredImage = asMedia(featured?.planImage) ?? asMedia(featured?.gallery?.[0])
   const heroImage = asMedia(home.heroImage)
+  const heroProduct = typeof home.heroProduct === 'object' ? (home.heroProduct as Product | null) : null
+  const wide = home.heroLayout === 'wide' && Boolean(heroImage)
+  const strip = asMediaList(home.detailStrip).slice(0, 3)
   const featuredCollection = (featured?.collections ?? []).find((c): c is ProductCollection => typeof c === 'object')
   const html = (key: string) => ({ __html: t.raw(key) as string })
 
   return (
     <>
       {/* 01 Hero */}
+      {wide && heroImage ? (
+        <section className="hero hero-wide">
+          <div className="wrap">
+            <figure className="hero-wide-fig">
+              {heroProduct ? (
+                <Link href={`/objects/${heroProduct.slug}`} className="hero-wide-link" aria-label={heroProduct.name}>
+                  <MediaImage media={heroImage} fit="natural" priority sizes="(min-width: 1440px) 1360px, (min-width: 900px) calc(100vw - 80px), calc(100vw - 32px)" />
+                </Link>
+              ) : (
+                <MediaImage media={heroImage} fit="natural" priority sizes="(min-width: 1440px) 1360px, (min-width: 900px) calc(100vw - 80px), calc(100vw - 32px)" />
+              )}
+              {(heroImage.caption || home.heroNote) && (
+                <figcaption className="figcap label muted">
+                  <span>{heroImage.caption}</span>
+                  {home.heroNote && <span className="hero-note">{home.heroNote}</span>}
+                </figcaption>
+              )}
+            </figure>
+            <div className="hero-wide-grid">
+              {home.heroLabel && <p className="label pencil hero-label">{home.heroLabel}</p>}
+              <h1 className="d-xl">
+                {(home.heroLines ?? []).map((line, i) => (
+                  <span key={i} className={`l${line.indent ? ' indent' : ''}`}>
+                    <span>{line.italic ? <em>{line.text}</em> : line.text}</span>
+                  </span>
+                ))}
+              </h1>
+              <div className="hero-copy">
+                {home.heroLede && <p className="lede">{home.heroLede}</p>}
+                <div className="ctas">
+                  {heroProduct ? (
+                    <Link className="btn" href={`/objects/${heroProduct.slug}`}>{t('featured.view')} <span className="arr">→</span></Link>
+                  ) : (
+                    <Link className="btn" href="/collections">{t('home.ctaCollections')} <span className="arr">→</span></Link>
+                  )}
+                  <Link className="link" href={heroProduct ? '/collections' : '/studio'}>{heroProduct ? t('home.ctaCollections') : t('home.ctaStudio')}</Link>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      ) : (
       <section className="hero">
         <div className="wrap hero-grid">
           <h1 className="d-xl">
@@ -61,7 +106,7 @@ export default async function HomePage({ params }: Props) {
               {heroImage ? <MediaImage media={heroImage} sizes="(min-width: 900px) 33vw, 100vw" priority /> : <LanternDrawing label={t('common.conceptDrawing')} />}
             </div>
             <figcaption className="figcap label muted">
-              <span>Fig. 01 — Lantern Study</span>
+              <span>{heroImage?.caption ?? (heroImage ? '' : 'Fig. 01 — Lantern Study')}</span>
               <span>{heroImage?.isConcept === false ? '' : t('common.conceptDrawing')}</span>
             </figcaption>
           </figure>
@@ -74,6 +119,8 @@ export default async function HomePage({ params }: Props) {
           </div>
         </div>
       </section>
+
+      )}
 
       {/* 02 Brand introduction */}
       <section className="section" id="studio">
@@ -124,7 +171,7 @@ export default async function HomePage({ params }: Props) {
           <div className="wrap">
             <div className="sec-head">
               <p className="label">{t('home.featuredEyebrow')}</p>
-              <h2 className="d-l">{featured.name}{featured.tagline ? <em> {featured.tagline}</em> : null}</h2>
+              <h2 className="d-l">{featured.name}{featured.tagline ? <><br /><em>{featured.tagline}</em></> : null}</h2>
             </div>
             <div className="feature">
               <Hotspots
@@ -132,10 +179,17 @@ export default async function HomePage({ params }: Props) {
                 emptyTitle={t('home.selectDetail')}
                 emptyBody={t('home.selectDetailHint')}
               >
-                <div className="plate r-1611">
-                  {featuredImage ? <MediaImage media={featuredImage} sizes="(min-width: 900px) 66vw, 100vw" /> : featured.productType === 'diorama' ? <CornerDrawing label={`${t('common.conceptDrawing')}: ${featured.name}`} /> : <ObjectDrawing kind={featured.productType} label={featured.name} />}
-                  {(!featuredImage || featuredImage.isConcept) && <span className="concept-tag">{t('common.concept')}</span>}
-                </div>
+                {featuredImage ? (
+                  <>
+                    <MediaImage media={featuredImage} fit="natural" sizes="(min-width: 1440px) 900px, (min-width: 900px) 64vw, calc(100vw - 32px)" />
+                    {featuredImage.isConcept && <span className="concept-tag">{t('common.concept')}</span>}
+                  </>
+                ) : (
+                  <div className="plate r-1611">
+                    {featured.productType === 'diorama' ? <CornerDrawing label={`${t('common.conceptDrawing')}: ${featured.name}`} /> : <ObjectDrawing kind={featured.productType} label={featured.name} />}
+                    <span className="concept-tag">{t('common.concept')}</span>
+                  </div>
+                )}
               </Hotspots>
               <div className="side">
                 <p className="label pencil">{featured.catalogueNumber ? `${featured.catalogueNumber} · ` : ''}{t(`status.${featured.status}`)}</p>
@@ -143,11 +197,24 @@ export default async function HomePage({ params }: Props) {
                   {featuredCollection && (<><dt>{t('featured.collection')}</dt><dd>{featuredCollection.name}</dd></>)}
                   {featured.specs?.scale && (<><dt>{t('featured.scale')}</dt><dd>{featured.specs.scale}</dd></>)}
                   <dt>{t('featured.dimensions')}</dt><dd className={formatDimensions(featured.specs) ? '' : 'muted'}>{formatDimensions(featured.specs) ?? t('common.pendingSpec')}</dd>
-                  <dt>{t('featured.materials')}</dt><dd className={featured.specs?.materials ? '' : 'muted'}>{featured.specs?.materials ?? t('common.pendingSpec')}</dd>
+                  {(featured.specs?.extra ?? []).slice(0, 2).map((row) => (
+                    <div key={row.id ?? row.label}><dt>{row.label}</dt><dd>{row.value}</dd></div>
+                  ))}
+                  {!featured.specs?.extra?.length && (<><dt>{t('featured.materials')}</dt><dd className={featured.specs?.materials ? '' : 'muted'}>{featured.specs?.materials ?? t('common.pendingSpec')}</dd></>)}
                 </dl>
-                <Link className="link" href={`/objects/${featured.slug}`}>{t('featured.view')} →</Link>
+                <Link className="btn" href={`/objects/${featured.slug}`}>{t('featured.view')} <span className="arr">→</span></Link>
               </div>
             </div>
+            {strip.length > 0 && (
+              <ul className="strip" aria-label={t('home.detailStrip', { name: featured.name })}>
+                {strip.map((m, i) => (
+                  <li key={m.id} className={`strip-item s${i + 1}`}>
+                    <div className="plate"><MediaImage media={m} sizes={i === 0 ? '(min-width: 900px) 56vw, 82vw' : '(min-width: 900px) 40vw, 82vw'} /></div>
+                    {m.caption && <p className="figcap label muted"><span>{m.caption}</span></p>}
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
         </section>
       )}

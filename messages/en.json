@@ -63,7 +63,8 @@
     "journalEyebrow": "Design Journal",
     "journalHeading": "Notes from <em>the drawing table.</em>",
     "upcomingEyebrow": "Upcoming",
-    "upcomingHeading": "Currently <em>on the table.</em>"
+    "upcomingHeading": "Currently <em>on the table.</em>",
+    "detailStrip": "Details of {name}"
   },
   "process": {
     "concept": [
@@ -175,7 +176,20 @@
     "notifyLede": "Leave your email and we'll tell you when it is released.",
     "related": "Related pieces",
     "status": "Status",
-    "catalogue": "Catalogue no."
+    "catalogue": "Catalogue no.",
+    "openImage": "Open image {n} of {total}",
+    "viewer": "{name}, images",
+    "prev": "Previous image",
+    "next": "Next image",
+    "counter": "{n} / {total}",
+    "planEyebrow": "Plan view",
+    "planHeading": "The whole street, <em>seen from above.</em>",
+    "detailsEyebrow": "Details",
+    "layoutEyebrow": "Layout",
+    "layoutHeading": "Two bases, <em>one street.</em>",
+    "joint": "Hidden joint",
+    "diagramLabel": "Plan diagram of the set: {modules}, joined into one street",
+    "diagramNote": "Schematic plan · overall dimensions to scale"
   },
   "studio": {
     "title": "The Studio",

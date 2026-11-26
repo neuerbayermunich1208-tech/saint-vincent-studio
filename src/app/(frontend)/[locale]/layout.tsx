@@ -13,9 +13,11 @@ import { SiteHeader, type NavItem } from '@/components/SiteHeader'
 import { CartProvider } from '@/components/cart/CartProvider'
 import '@/styles/globals.css'
 
-const display = Noto_Serif_Display({ subsets: ['latin', 'vietnamese'], style: ['normal', 'italic'], variable: '--f-display', display: 'swap' })
+// Display type is only set at weight 400; a single static weight is much lighter than the full variable font.
+const display = Noto_Serif_Display({ subsets: ['latin', 'vietnamese'], weight: ['400'], style: ['normal', 'italic'], variable: '--f-display', display: 'swap' })
 const body = Hanken_Grotesk({ subsets: ['latin', 'vietnamese'], variable: '--f-body', display: 'swap' })
-const mono = IBM_Plex_Mono({ subsets: ['latin', 'vietnamese'], weight: ['400', '500'], variable: '--f-mono', display: 'swap' })
+// Mono is only used for small labels: not preloaded, so the hero image and display fonts load first.
+const mono = IBM_Plex_Mono({ subsets: ['latin', 'vietnamese'], weight: ['400', '500'], variable: '--f-mono', display: 'swap', preload: false })
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }))

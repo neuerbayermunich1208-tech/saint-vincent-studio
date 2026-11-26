@@ -22,6 +22,7 @@
     "migrate": "payload migrate",
     "migrate:create": "payload migrate:create",
     "seed": "tsx --env-file=.env src/seed/run.ts",
+    "seed:product": "tsx --env-file=.env src/seed/products/supercar-street-food.ts",
     "previews": "python3 previews/build.py"
   },
   "dependencies": {

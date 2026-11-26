@@ -166,9 +166,21 @@ export interface Product {
    * Drag to reorder.
    */
   gallery?: (number | Media)[] | null;
+  /**
+   * Small line under the gallery, e.g. “Prototype shown. The release edition differs in …”. Leave empty if the photos show the final product.
+   */
+  photoNote?: string | null;
+  /**
+   * Optional. Image for product cards. Defaults to the first gallery image.
+   */
+  cardImage?: (number | null) | Media;
   video?: (number | null) | Media;
   /**
-   * Numbered design notes placed on the first gallery image (position in %).
+   * Optional. The image the hotspots sit on (e.g. a top-down view). Defaults to the first gallery image.
+   */
+  planImage?: (number | null) | Media;
+  /**
+   * Numbered design notes placed on the plan image (position in %).
    */
   hotspots?:
     | {
@@ -179,6 +191,29 @@ export interface Product {
         id?: string | null;
       }[]
     | null;
+  /**
+   * Close-ups for the “Details” block. The image caption is shown under each.
+   */
+  detailImages?: (number | Media)[] | null;
+  /**
+   * Optional plan diagram for sets made of several bases. Only public dimensions.
+   */
+  layout?: {
+    modules?:
+      | {
+          code: string;
+          name?: string | null;
+          id?: string | null;
+        }[]
+      | null;
+    notes?:
+      | {
+          label: string;
+          value: string;
+          id?: string | null;
+        }[]
+      | null;
+  };
   /**
    * Only fill in what is confirmed. Empty fields are hidden on the website.
    */
@@ -199,6 +234,16 @@ export interface Product {
     includedComponents?:
       | {
           item?: string | null;
+          id?: string | null;
+        }[]
+      | null;
+    /**
+     * Extra rows for the spec list, e.g. “Road width · 80 mm”. Confirmed values only.
+     */
+    extra?:
+      | {
+          label: string;
+          value: string;
           id?: string | null;
         }[]
       | null;
@@ -733,7 +778,10 @@ export interface ProductsSelect<T extends boolean = true> {
   tagline?: T;
   story?: T;
   gallery?: T;
+  photoNote?: T;
+  cardImage?: T;
   video?: T;
+  planImage?: T;
   hotspots?:
     | T
     | {
@@ -742,6 +790,25 @@ export interface ProductsSelect<T extends boolean = true> {
         title?: T;
         body?: T;
         id?: T;
+      };
+  detailImages?: T;
+  layout?:
+    | T
+    | {
+        modules?:
+          | T
+          | {
+              code?: T;
+              name?: T;
+              id?: T;
+            };
+        notes?:
+          | T
+          | {
+              label?: T;
+              value?: T;
+              id?: T;
+            };
       };
   specs?:
     | T
@@ -763,6 +830,13 @@ export interface ProductsSelect<T extends boolean = true> {
           | T
           | {
               item?: T;
+              id?: T;
+            };
+        extra?:
+          | T
+          | {
+              label?: T;
+              value?: T;
               id?: T;
             };
         packaging?: T;
@@ -1146,6 +1220,19 @@ export interface Homepage {
    * Optional. Without it, the studio drawing is shown.
    */
   heroImage?: (number | null) | Media;
+  heroLayout?: ('portrait' | 'wide') | null;
+  /**
+   * Small mono line above the headline, e.g. “SM-01 + SM-02 · Prototype”.
+   */
+  heroLabel?: string | null;
+  /**
+   * Small line under the hero image, e.g. a prototype note.
+   */
+  heroNote?: string | null;
+  /**
+   * Optional. Links the hero image to this product.
+   */
+  heroProduct?: (number | null) | Product;
   introHeading?: string | null;
   introStatement?: string | null;
   pillars?:
@@ -1156,6 +1243,10 @@ export interface Homepage {
       }[]
     | null;
   featuredProduct?: (number | null) | Product;
+  /**
+   * Optional. Up to three close-ups shown under the featured design.
+   */
+  detailStrip?: (number | Media)[] | null;
   closingStatement?: string | null;
   _status?: ('draft' | 'published') | null;
   updatedAt?: string | null;
@@ -1236,6 +1327,10 @@ export interface HomepageSelect<T extends boolean = true> {
       };
   heroLede?: T;
   heroImage?: T;
+  heroLayout?: T;
+  heroLabel?: T;
+  heroNote?: T;
+  heroProduct?: T;
   introHeading?: T;
   introStatement?: T;
   pillars?:
@@ -1246,6 +1341,7 @@ export interface HomepageSelect<T extends boolean = true> {
         id?: T;
       };
   featuredProduct?: T;
+  detailStrip?: T;
   closingStatement?: T;
   _status?: T;
   updatedAt?: T;

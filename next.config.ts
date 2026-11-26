@@ -14,6 +14,8 @@ const securityHeaders = [
 const nextConfig: NextConfig = {
   images: {
     formats: ['image/avif', 'image/webp'],
+    // Media on Vercel Blob (production). Local uploads are served from /api/media/file and made relative in <MediaImage>.
+    remotePatterns: [{ protocol: 'https', hostname: '*.public.blob.vercel-storage.com' }],
   },
   async headers() {
     return [{ source: '/:path*', headers: securityHeaders }]
