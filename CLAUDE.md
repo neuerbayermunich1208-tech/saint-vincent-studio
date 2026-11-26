@@ -24,9 +24,10 @@ Instructions for any AI coding assistant working on this project. Read this firs
 7. Do not delete working source code without asking.
 
 ## Current phase
-Phase 2 done (three previews). Waiting for the owner to pick a direction (A, B, C or a hybrid). Do not build the commerce system before that.
+Phase 3 (website foundation) built on branch phase-3-foundation: hybrid direction (A frame, B product pages, C collector mechanics).
+Next: Phase 4 commerce (cart, checkout in sandbox, orders). Site runs in prelaunch mode until the owner switches Site Settings to commerce.
 
-## Stack (planned, see ARCHITECTURE.md)
+## Stack (see ARCHITECTURE.md)
 Next.js 16 App Router + TypeScript + Tailwind CSS v4 + custom tokens, Motion for animation, Payload CMS 3 (embedded in the Next app)
 on PostgreSQL, S3-compatible object storage, next-intl for UI strings. Verify versions against official docs before installing.
 

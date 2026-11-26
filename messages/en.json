@@ -1,0 +1,246 @@
+{
+  "meta": {
+    "siteName": "Saint Vincent Studio",
+    "defaultTitle": "Saint Vincent Studio · Independent Design & Manufacturing",
+    "defaultDescription": "An independent design and manufacturing studio making miniature worlds, modular models, lighting and objects designed to be kept."
+  },
+  "nav": {
+    "home": "Home",
+    "collections": "Collections",
+    "studio": "The Studio",
+    "process": "Process",
+    "journal": "Journal",
+    "upcoming": "Upcoming",
+    "contact": "Contact",
+    "faq": "FAQ",
+    "menu": "Menu",
+    "close": "Close",
+    "primary": "Primary",
+    "language": "Language",
+    "skip": "Skip to content",
+    "homeLabel": "Saint Vincent Studio, home"
+  },
+  "common": {
+    "concept": "Concept",
+    "conceptDrawing": "Concept drawing",
+    "explore": "Explore",
+    "readMore": "Read more",
+    "viewAll": "View all",
+    "tba": "To be announced",
+    "pendingSpec": "Published when the prototype is final",
+    "sampleEntry": "Sample entry",
+    "back": "Back"
+  },
+  "status": {
+    "concept": "Concept",
+    "in_development": "In development",
+    "prototype": "Prototype",
+    "available": "Available",
+    "archived": "Archived",
+    "design": "Design",
+    "refine": "Refine",
+    "production": "Production"
+  },
+  "home": {
+    "ctaCollections": "Explore the collections",
+    "ctaStudio": "Discover the studio",
+    "studioEyebrow": "The Studio",
+    "collectionsEyebrow": "Collections",
+    "collectionsHeading": "Five worlds, <em>one drawing table.</em>",
+    "featuredEyebrow": "Featured design",
+    "selectDetail": "Select a detail",
+    "selectDetailHint": "Tap the numbered points to read the design notes.",
+    "processEyebrow": "From idea to object",
+    "processHeading": "Six steps. <em>No shortcuts.</em>",
+    "processLede": "A design is measured by how many times it was redrawn, not by how many days it took.",
+    "modularEyebrow": "The Modular Universe",
+    "modularHeading": "Start with one tile. <em>Grow it your way.</em>",
+    "modularHint": "Pick a module, then tap a tile to place it. A first sketch of the configurator.",
+    "placed": "Placed",
+    "clear": "Clear layout",
+    "price": "Price",
+    "priceLater": "Shown when the shop opens",
+    "journalEyebrow": "Design Journal",
+    "journalHeading": "Notes from <em>the drawing table.</em>",
+    "upcomingEyebrow": "Upcoming",
+    "upcomingHeading": "Currently <em>on the table.</em>"
+  },
+  "process": {
+    "concept": [
+      "Concept",
+      "A question and a sketch. What the object is for, and why someone would want to keep it."
+    ],
+    "design": [
+      "Design",
+      "Proportion, form, joinery. Every dimension is drawn before anything is made."
+    ],
+    "prototype": [
+      "Prototype",
+      "The first physical model, to test what a drawing cannot tell you."
+    ],
+    "refine": [
+      "Refine",
+      "Tolerances corrected, proportions rebalanced, anything unnecessary removed."
+    ],
+    "manufacture": [
+      "Manufacture",
+      "Made in the studio, with a controlled process for each part."
+    ],
+    "finish": [
+      "Finish",
+      "Surfaces finished, each piece checked and packed by hand."
+    ]
+  },
+  "modules": {
+    "base": "Base",
+    "building": "Building",
+    "tree": "Tree",
+    "lamp": "Street lamp",
+    "empty": "Empty tile {n}",
+    "placedAt": "{module} on tile {n}, press to remove"
+  },
+  "drops": {
+    "number": "No.",
+    "piece": "Piece",
+    "stage": "Stage",
+    "release": "Release",
+    "empty": "The next pieces will be listed here soon."
+  },
+  "notify": {
+    "label": "Be told when new pieces are released",
+    "placeholder": "you@example.com",
+    "submit": "Notify me",
+    "sending": "Sending…",
+    "success": "Thank you. You're on the list.",
+    "already": "You're already on the list.",
+    "invalid": "Enter a valid email address, like name@example.com.",
+    "rateLimited": "Too many attempts. Try again in a minute.",
+    "error": "Something went wrong on our side. Please try again later.",
+    "note": "No spam. Release notes only."
+  },
+  "contact": {
+    "title": "Contact",
+    "heading": "Write to <em>the studio.</em>",
+    "lede": "For questions about a piece, collaborations or press. We read every message.",
+    "name": "Name",
+    "email": "Email",
+    "topic": "Topic",
+    "topics": {
+      "general": "General",
+      "product": "A product",
+      "collaboration": "Collaboration",
+      "press": "Press",
+      "order": "An order"
+    },
+    "subject": "Subject",
+    "message": "Message",
+    "send": "Send message",
+    "success": "Thank you. Your message has reached the studio.",
+    "invalid": "Please check the highlighted fields.",
+    "directEmail": "Or email us directly"
+  },
+  "collections": {
+    "title": "Collections",
+    "heading": "Every collection is <em>its own world.</em>",
+    "pieces": "Pieces",
+    "noPieces": "Pieces for this collection are still on the drawing table.",
+    "includes": "Includes"
+  },
+  "product": {
+    "collection": "Collection",
+    "scale": "Scale",
+    "dimensions": "Dimensions",
+    "weight": "Weight",
+    "materials": "Materials",
+    "finish": "Surface finish",
+    "colors": "Colours",
+    "included": "In the box",
+    "packaging": "Packaging",
+    "care": "Care",
+    "assembly": "Assembly",
+    "difficulty": "Difficulty",
+    "time": "Time",
+    "manual": "Download the assembly manual",
+    "compatible": "Works with",
+    "lighting": "Light",
+    "lightSource": "Light source",
+    "power": "Power",
+    "wattage": "Wattage",
+    "colorTemperature": "Colour temperature",
+    "dimming": "Dimming",
+    "safety": "Safety",
+    "story": "The story",
+    "specs": "Specifications",
+    "notifyHeading": "This piece is in development",
+    "notifyLede": "Leave your email and we'll tell you when it is released.",
+    "related": "Related pieces",
+    "status": "Status",
+    "catalogue": "Catalogue no."
+  },
+  "studio": {
+    "title": "The Studio",
+    "heading": "Design first. <em>Everything else follows.</em>"
+  },
+  "upcoming": {
+    "title": "Upcoming releases",
+    "heading": "Currently <em>on the table.</em>",
+    "lede": "Pieces in development. Dates are announced only when they are certain."
+  },
+  "faq": {
+    "title": "Frequently asked questions"
+  },
+  "journal": {
+    "title": "Design Journal"
+  },
+  "footer": {
+    "explore": "Explore",
+    "support": "Support",
+    "contact": "Contact",
+    "follow": "Follow",
+    "legal": "Legal",
+    "rights": "All rights reserved."
+  },
+  "wishlist": {
+    "add": "Save {name}",
+    "remove": "Remove {name} from saved"
+  },
+  "notFound": {
+    "title": "This page is not on the table.",
+    "back": "Back to the home page"
+  },
+  "explode": {
+    "eyebrow": "In detail",
+    "heading": "Lantern Study, <em>taken apart.</em>",
+    "hint": "Concept · scroll to separate the parts",
+    "label": "Exploded concept drawing of a modular lamp",
+    "parts": [
+      [
+        "Cap",
+        "Twist-lock, tool-free"
+      ],
+      [
+        "Diffuser",
+        "Even, glare-free light"
+      ],
+      [
+        "Light module",
+        "Specs published after testing"
+      ],
+      [
+        "Stem",
+        "Interchangeable heights"
+      ],
+      [
+        "Base",
+        "Shared with the Desk Plinth system"
+      ]
+    ]
+  },
+  "featured": {
+    "collection": "Collection",
+    "scale": "Scale",
+    "dimensions": "Dimensions",
+    "materials": "Materials",
+    "view": "View the piece"
+  }
+}
