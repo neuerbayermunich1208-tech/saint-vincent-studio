@@ -14,3 +14,6 @@ previews/dist/
 /playwright-report/
 next-env.d.ts
 *.tsbuildinfo
+.vercel
+.env*
+!.env.example

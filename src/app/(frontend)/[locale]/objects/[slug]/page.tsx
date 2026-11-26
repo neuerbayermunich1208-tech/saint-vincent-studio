@@ -10,8 +10,11 @@ import { breadcrumbJsonLd, buildMetadata } from '@/lib/seo'
 import { absoluteUrl, formatDimensions, formatPrice } from '@/lib/site'
 import { CornerDrawing, ObjectDrawing } from '@/components/Drawings'
 import { Hotspots } from '@/components/Hotspots'
-import { MediaImage, asMedia } from '@/components/Media'
+import { MediaImage, asMedia, asMediaList, mediaSrc } from '@/components/Media'
+import { LayoutDiagram } from '@/components/LayoutDiagram'
+import { ProductGallery } from '@/components/ProductGallery'
 import { NotifyForm } from '@/components/NotifyForm'
+import { AddToCart, type SellableVariant } from '@/components/cart/AddToCart'
 import { ProductCard } from '@/components/ProductCard'
 import { SaveButton } from '@/components/SaveButton'
 
@@ -25,8 +28,8 @@ type Props = { params: Promise<{ locale: Locale; slug: string }> }
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale, slug } = await params
   const p = await getProductBySlug(slug, locale)
-  if (!p) return {}
-  const img = asMedia(p.seo?.image) ?? asMedia(p.gallery?.[0])
+  if (!p || p.status === 'archived') return {}
+  const img = asMedia(p.seo?.image) ?? asMedia(p.cardImage) ?? asMedia(p.gallery?.[0])
   return buildMetadata({
     locale,
     path: `/objects/${slug}`,
@@ -46,14 +49,27 @@ export default async function ProductPage({ params }: Props) {
   const { locale, slug } = await params
   setRequestLocale(locale)
   const product = await getProductBySlug(slug, locale)
-  if (!product) notFound()
+  // Archived pieces are kept in the CMS but no longer have a public page.
+  if (!product || product.status === 'archived') notFound()
   const [t, settings] = await Promise.all([getTranslations(), getSiteSettings()])
 
-  const gallery = (product.gallery ?? []).map(asMedia).filter((m): m is NonNullable<typeof m> => Boolean(m))
+  const gallery = asMediaList(product.gallery)
+  const planImage = asMedia(product.planImage) ?? gallery[0] ?? null
+  const details = asMediaList(product.detailImages)
+  const modules = (product.layout?.modules ?? []).filter((m) => m.code)
+  const layoutNotes = (product.layout?.notes ?? []).filter((n) => n.label && n.value)
+  const spots = (product.hotspots ?? []).map((h) => ({ x: h.x, y: h.y, title: h.title ?? '', body: h.body }))
+  const included = (product.specs?.includedComponents ?? []).map((c) => c.item).filter((x): x is string => Boolean(x))
   const collection = (product.collections ?? []).find((c): c is ProductCollection => typeof c === 'object')
   const s = product.specs
   const commerce = settings.mode === 'commerce'
   const firstPrice = product.variants?.find((v) => typeof v.priceVnd === 'number')?.priceVnd
+  const sellable: SellableVariant[] =
+    commerce && product.status === 'available'
+      ? (product.variants ?? [])
+          .filter((v) => typeof v.priceVnd === 'number' && v.priceVnd > 0)
+          .map((v) => ({ sku: v.sku, label: v.label || v.sku, priceText: formatPrice(v.priceVnd!, 'VND', locale), inStock: (v.stock ?? 0) > 0 }))
+      : []
   const related = (product.related ?? []).filter((r): r is Product => typeof r === 'object')
   const compatible = (product.assembly?.compatibleWith ?? []).filter((r): r is Product => typeof r === 'object')
   const manual = asMedia(product.assembly?.manual)
@@ -88,33 +104,29 @@ export default async function ProductPage({ params }: Props) {
         </ol>
         <div className="pdp">
           <div className="pdp-gallery">
-            <div className="feature" style={{ display: 'block' }}>
-              <Hotspots
-                spots={(product.hotspots ?? []).map((h) => ({ x: h.x, y: h.y, title: h.title ?? '', body: h.body }))}
-                emptyTitle={product.hotspots?.length ? t('home.selectDetail') : product.name}
-                emptyBody={product.hotspots?.length ? t('home.selectDetailHint') : product.tagline ?? ''}
-              >
-                <div className="plate r-1611">
-                  {gallery[0] ? (
-                    <MediaImage media={gallery[0]} sizes="(min-width: 900px) 58vw, 100vw" priority />
-                  ) : product.productType === 'diorama' ? (
-                    <CornerDrawing label={`${t('common.conceptDrawing')}: ${product.name}`} />
-                  ) : (
-                    <ObjectDrawing kind={product.productType} label={`${t('common.conceptDrawing')}: ${product.name}`} />
-                  )}
-                  {(!gallery[0] || gallery[0].isConcept) && <span className="concept-tag">{t('common.concept')}</span>}
-                </div>
-              </Hotspots>
-            </div>
-            {gallery.slice(1).map((g) => (
-              <div key={g.id} className="plate r-32"><MediaImage media={g} sizes="(min-width: 900px) 58vw, 100vw" /></div>
-            ))}
-            {product.story && (
-              <div className="prose" style={{ marginTop: 'var(--s-4)' }}>
-                <h2 className="label" style={{ marginBottom: '1rem' }}>{t('product.story')}</h2>
-                <RichText data={product.story} />
+            {gallery.length > 0 ? (
+              <ProductGallery
+                images={gallery.map((g) => ({ id: g.id, src: mediaSrc(g.url!), width: g.width!, height: g.height!, alt: g.alt ?? '', caption: g.caption }))}
+                labels={{
+                  open: t.raw('product.openImage') as string,
+                  viewer: t('product.viewer', { name: product.name }),
+                  prev: t('product.prev'),
+                  next: t('product.next'),
+                  close: t('nav.close'),
+                  counter: t.raw('product.counter') as string,
+                }}
+              />
+            ) : (
+              <div className="plate r-1611">
+                {product.productType === 'diorama' ? (
+                  <CornerDrawing label={`${t('common.conceptDrawing')}: ${product.name}`} />
+                ) : (
+                  <ObjectDrawing kind={product.productType} label={`${t('common.conceptDrawing')}: ${product.name}`} />
+                )}
+                <span className="concept-tag">{t('common.concept')}</span>
               </div>
             )}
+            {product.photoNote && <p className="photo-note">{product.photoNote}</p>}
           </div>
 
           <aside className="pdp-info">
@@ -138,7 +150,10 @@ export default async function ProductPage({ params }: Props) {
               <Row label={t('product.materials')} value={s?.materials} />
               <Row label={t('product.finish')} value={s?.finish} />
               <Row label={t('product.colors')} value={s?.colors?.map((c) => c.label).join(', ')} />
-              <Row label={t('product.included')} value={s?.includedComponents?.map((c) => c.item).join(', ')} />
+              {(s?.extra ?? []).map((row) => <Row key={row.id ?? row.label} label={row.label} value={row.value} />)}
+              {included.length > 0 && (
+                <><dt>{t('product.included')}</dt><dd><ul className="inbox">{included.map((item) => <li key={item}>{item}</li>)}</ul></dd></>
+              )}
               <Row label={t('product.packaging')} value={s?.packaging} />
               {product.productType === 'lighting' && (
                 <>
@@ -164,7 +179,9 @@ export default async function ProductPage({ params }: Props) {
             {manual?.url && <a className="link" href={manual.url}>{t('product.manual')} ↓</a>}
             {s?.care && <p className="muted"><span className="label">{t('product.care')} · </span>{s.care}</p>}
 
-            {(!commerce || product.status !== 'available') && (
+            {sellable.length > 0 && <AddToCart productId={product.id} variants={sellable} />}
+
+            {sellable.length === 0 && (
               <div style={{ borderTop: '1px solid var(--ink)', paddingTop: 'var(--s-3)', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
                 <h2 className="h3">{t('product.notifyHeading')}</h2>
                 <p className="muted">{t('product.notifyLede')}</p>
@@ -172,7 +189,70 @@ export default async function ProductPage({ params }: Props) {
               </div>
             )}
           </aside>
+          {product.story && (
+            <div className="pdp-story prose">
+              <h2 className="label">{t('product.story')}</h2>
+              <RichText data={product.story} />
+            </div>
+          )}
         </div>
+
+        {planImage && spots.length > 0 && (
+          <div className="pdp-sec" id="plan">
+            <div className="sec-head">
+              <p className="label">{t('product.planEyebrow')}</p>
+              <h2 className="d-l" dangerouslySetInnerHTML={{ __html: t.raw('product.planHeading') as string }} />
+            </div>
+            <div className="feature">
+              <Hotspots spots={spots} emptyTitle={t('home.selectDetail')} emptyBody={t('home.selectDetailHint')}>
+                <MediaImage media={planImage} fit="natural" sizes="(min-width: 1440px) 900px, (min-width: 900px) 64vw, calc(100vw - 32px)" />
+              </Hotspots>
+            </div>
+          </div>
+        )}
+
+        {details.length > 0 && (
+          <div className="pdp-sec" id="details">
+            <div className="sec-head"><p className="label">{t('product.detailsEyebrow')}</p></div>
+            <div className="details">
+              {details.map((d, i) => (
+                <figure key={d.id} className="detail">
+                  <MediaImage media={d} fit="natural" sizes="(min-width: 900px) 46vw, calc(100vw - 32px)" />
+                  <figcaption className="figcap label muted">
+                    <span>{`Fig. ${String(i + 1).padStart(2, '0')}`}</span>
+                    {d.caption && <span>{d.caption}</span>}
+                  </figcaption>
+                </figure>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {modules.length > 0 && (
+          <div className="pdp-sec" id="layout">
+            <div className="sec-head">
+              <p className="label">{t('product.layoutEyebrow')}</p>
+              <h2 className="d-l" dangerouslySetInnerHTML={{ __html: t.raw('product.layoutHeading') as string }} />
+            </div>
+            <div className="layout">
+              <div className="layout-fig">
+                <LayoutDiagram
+                  modules={modules.map((m) => ({ code: m.code, name: m.name }))}
+                  widthMm={s?.widthMm}
+                  depthMm={s?.depthMm}
+                  jointLabel={t('product.joint')}
+                  label={t('product.diagramLabel', { modules: modules.map((m) => m.code).join(' + ') })}
+                />
+                <p className="label muted">{t('product.diagramNote')}</p>
+              </div>
+              {layoutNotes.length > 0 && (
+                <dl className="specs">
+                  {layoutNotes.map((n) => <Row key={n.id ?? n.label} label={n.label} value={n.value} />)}
+                </dl>
+              )}
+            </div>
+          </div>
+        )}
 
         {related.length > 0 && (
           <div style={{ marginTop: 'var(--s-6)' }}>

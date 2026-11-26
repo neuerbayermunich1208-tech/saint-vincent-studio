@@ -14,6 +14,10 @@ const securityHeaders = [
 const nextConfig: NextConfig = {
   images: {
     formats: ['image/avif', 'image/webp'],
+    // 85 for photos in place, 90 for the gallery and lightbox (sharp on retina); 75 stays the default for UI images.
+    qualities: [75, 85, 90],
+    // Media on Vercel Blob (production). Local uploads are served from /api/media/file and made relative in <MediaImage>.
+    remotePatterns: [{ protocol: 'https', hostname: '*.public.blob.vercel-storage.com' }],
   },
   async headers() {
     return [{ source: '/:path*', headers: securityHeaders }]

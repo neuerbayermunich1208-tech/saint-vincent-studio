@@ -75,6 +75,7 @@ export interface Config {
     media: Media;
     subscribers: Subscriber;
     inquiries: Inquiry;
+    orders: Order;
     users: User;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
@@ -91,6 +92,7 @@ export interface Config {
     media: MediaSelect<false> | MediaSelect<true>;
     subscribers: SubscribersSelect<false> | SubscribersSelect<true>;
     inquiries: InquiriesSelect<false> | InquiriesSelect<true>;
+    orders: OrdersSelect<false> | OrdersSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
@@ -164,9 +166,21 @@ export interface Product {
    * Drag to reorder.
    */
   gallery?: (number | Media)[] | null;
+  /**
+   * Small line under the gallery, e.g. “Prototype shown. The release edition differs in …”. Leave empty if the photos show the final product.
+   */
+  photoNote?: string | null;
+  /**
+   * Optional. Image for product cards. Defaults to the first gallery image.
+   */
+  cardImage?: (number | null) | Media;
   video?: (number | null) | Media;
   /**
-   * Numbered design notes placed on the first gallery image (position in %).
+   * Optional. The image the hotspots sit on (e.g. a top-down view). Defaults to the first gallery image.
+   */
+  planImage?: (number | null) | Media;
+  /**
+   * Numbered design notes placed on the plan image (position in %).
    */
   hotspots?:
     | {
@@ -177,6 +191,29 @@ export interface Product {
         id?: string | null;
       }[]
     | null;
+  /**
+   * Close-ups for the “Details” block. The image caption is shown under each.
+   */
+  detailImages?: (number | Media)[] | null;
+  /**
+   * Optional plan diagram for sets made of several bases. Only public dimensions.
+   */
+  layout?: {
+    modules?:
+      | {
+          code: string;
+          name?: string | null;
+          id?: string | null;
+        }[]
+      | null;
+    notes?:
+      | {
+          label: string;
+          value: string;
+          id?: string | null;
+        }[]
+      | null;
+  };
   /**
    * Only fill in what is confirmed. Empty fields are hidden on the website.
    */
@@ -197,6 +234,16 @@ export interface Product {
     includedComponents?:
       | {
           item?: string | null;
+          id?: string | null;
+        }[]
+      | null;
+    /**
+     * Extra rows for the spec list, e.g. “Road width · 80 mm”. Confirmed values only.
+     */
+    extra?:
+      | {
+          label: string;
+          value: string;
           id?: string | null;
         }[]
       | null;
@@ -288,6 +335,8 @@ export interface Media {
    * Shows a “Concept” label on the website.
    */
   isConcept?: boolean | null;
+  prefix?: string | null;
+  _objectKey?: string | null;
   updatedAt: string;
   createdAt: string;
   url?: string | null;
@@ -512,6 +561,78 @@ export interface Inquiry {
   createdAt: string;
 }
 /**
+ * Created by the website checkout. Change the status as the order moves; cancelling returns stock.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "orders".
+ */
+export interface Order {
+  id: number;
+  orderNumber: string;
+  status:
+    | 'pending_payment'
+    | 'awaiting_transfer'
+    | 'confirmed'
+    | 'paid'
+    | 'processing'
+    | 'shipped'
+    | 'delivered'
+    | 'cancelled'
+    | 'refunded';
+  paymentMethod: 'cod' | 'bank_transfer' | 'payos';
+  customer: {
+    name: string;
+    phone: string;
+    email: string;
+  };
+  shipping: {
+    address: string;
+    ward?: string | null;
+    district?: string | null;
+    province: string;
+    note?: string | null;
+    /**
+     * Fill in when shipped.
+     */
+    trackingNumber?: string | null;
+  };
+  items: {
+    product?: (number | null) | Product;
+    productName: string;
+    sku: string;
+    variantLabel?: string | null;
+    unitPriceVnd: number;
+    quantity: number;
+    lineTotalVnd: number;
+    id?: string | null;
+  }[];
+  subtotalVnd: number;
+  /**
+   * Empty = to be confirmed with the customer.
+   */
+  shippingVnd?: number | null;
+  totalVnd: number;
+  /**
+   * Filled in by payOS. Bank transfers and cash are confirmed by changing the status.
+   */
+  payment?: {
+    payosOrderCode?: number | null;
+    payosPaymentLinkId?: string | null;
+    paidAt?: string | null;
+    reference?: string | null;
+    checkoutUrl?: string | null;
+  };
+  /**
+   * Only visible to staff.
+   */
+  internalNotes?: string | null;
+  locale?: ('en' | 'vi') | null;
+  stockReserved?: boolean | null;
+  accessToken: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "users".
  */
@@ -599,6 +720,10 @@ export interface PayloadLockedDocument {
         value: number | Inquiry;
       } | null)
     | ({
+        relationTo: 'orders';
+        value: number | Order;
+      } | null)
+    | ({
         relationTo: 'users';
         value: number | User;
       } | null);
@@ -653,7 +778,10 @@ export interface ProductsSelect<T extends boolean = true> {
   tagline?: T;
   story?: T;
   gallery?: T;
+  photoNote?: T;
+  cardImage?: T;
   video?: T;
+  planImage?: T;
   hotspots?:
     | T
     | {
@@ -662,6 +790,25 @@ export interface ProductsSelect<T extends boolean = true> {
         title?: T;
         body?: T;
         id?: T;
+      };
+  detailImages?: T;
+  layout?:
+    | T
+    | {
+        modules?:
+          | T
+          | {
+              code?: T;
+              name?: T;
+              id?: T;
+            };
+        notes?:
+          | T
+          | {
+              label?: T;
+              value?: T;
+              id?: T;
+            };
       };
   specs?:
     | T
@@ -683,6 +830,13 @@ export interface ProductsSelect<T extends boolean = true> {
           | T
           | {
               item?: T;
+              id?: T;
+            };
+        extra?:
+          | T
+          | {
+              label?: T;
+              value?: T;
               id?: T;
             };
         packaging?: T;
@@ -846,6 +1000,8 @@ export interface MediaSelect<T extends boolean = true> {
   alt?: T;
   caption?: T;
   isConcept?: T;
+  prefix?: T;
+  _objectKey?: T;
   updatedAt?: T;
   createdAt?: T;
   url?: T;
@@ -916,6 +1072,62 @@ export interface InquiriesSelect<T extends boolean = true> {
   message?: T;
   locale?: T;
   status?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "orders_select".
+ */
+export interface OrdersSelect<T extends boolean = true> {
+  orderNumber?: T;
+  status?: T;
+  paymentMethod?: T;
+  customer?:
+    | T
+    | {
+        name?: T;
+        phone?: T;
+        email?: T;
+      };
+  shipping?:
+    | T
+    | {
+        address?: T;
+        ward?: T;
+        district?: T;
+        province?: T;
+        note?: T;
+        trackingNumber?: T;
+      };
+  items?:
+    | T
+    | {
+        product?: T;
+        productName?: T;
+        sku?: T;
+        variantLabel?: T;
+        unitPriceVnd?: T;
+        quantity?: T;
+        lineTotalVnd?: T;
+        id?: T;
+      };
+  subtotalVnd?: T;
+  shippingVnd?: T;
+  totalVnd?: T;
+  payment?:
+    | T
+    | {
+        payosOrderCode?: T;
+        payosPaymentLinkId?: T;
+        paidAt?: T;
+        reference?: T;
+        checkoutUrl?: T;
+      };
+  internalNotes?: T;
+  locale?: T;
+  stockReserved?: T;
+  accessToken?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -1008,6 +1220,19 @@ export interface Homepage {
    * Optional. Without it, the studio drawing is shown.
    */
   heroImage?: (number | null) | Media;
+  heroLayout?: ('portrait' | 'wide') | null;
+  /**
+   * Small mono line above the headline, e.g. “SM-01 + SM-02 · Prototype”.
+   */
+  heroLabel?: string | null;
+  /**
+   * Small line under the hero image, e.g. a prototype note.
+   */
+  heroNote?: string | null;
+  /**
+   * Optional. Links the hero image to this product.
+   */
+  heroProduct?: (number | null) | Product;
   introHeading?: string | null;
   introStatement?: string | null;
   pillars?:
@@ -1018,6 +1243,10 @@ export interface Homepage {
       }[]
     | null;
   featuredProduct?: (number | null) | Product;
+  /**
+   * Optional. Up to three close-ups shown under the featured design.
+   */
+  detailStrip?: (number | Media)[] | null;
   closingStatement?: string | null;
   _status?: ('draft' | 'published') | null;
   updatedAt?: string | null;
@@ -1058,6 +1287,27 @@ export interface SiteSetting {
      */
     facebook?: string | null;
   };
+  /**
+   * Only used in commerce mode. Switch on only the methods that are really set up.
+   */
+  checkout?: {
+    payos?: boolean | null;
+    bankTransfer?: boolean | null;
+    cod?: boolean | null;
+    bank?: {
+      bankName?: string | null;
+      accountName?: string | null;
+      accountNumber?: string | null;
+    };
+    /**
+     * Empty = confirmed with each customer.
+     */
+    shippingFlatVnd?: number | null;
+    /**
+     * Optional.
+     */
+    freeShippingOverVnd?: number | null;
+  };
   defaultCurrency?: ('VND' | 'USD') | null;
   updatedAt?: string | null;
   createdAt?: string | null;
@@ -1077,6 +1327,10 @@ export interface HomepageSelect<T extends boolean = true> {
       };
   heroLede?: T;
   heroImage?: T;
+  heroLayout?: T;
+  heroLabel?: T;
+  heroNote?: T;
+  heroProduct?: T;
   introHeading?: T;
   introStatement?: T;
   pillars?:
@@ -1087,6 +1341,7 @@ export interface HomepageSelect<T extends boolean = true> {
         id?: T;
       };
   featuredProduct?: T;
+  detailStrip?: T;
   closingStatement?: T;
   _status?: T;
   updatedAt?: T;
@@ -1115,6 +1370,22 @@ export interface SiteSettingsSelect<T extends boolean = true> {
         instagram?: T;
         tiktok?: T;
         facebook?: T;
+      };
+  checkout?:
+    | T
+    | {
+        payos?: T;
+        bankTransfer?: T;
+        cod?: T;
+        bank?:
+          | T
+          | {
+              bankName?: T;
+              accountName?: T;
+              accountNumber?: T;
+            };
+        shippingFlatVnd?: T;
+        freeShippingOverVnd?: T;
       };
   defaultCurrency?: T;
   updatedAt?: T;
