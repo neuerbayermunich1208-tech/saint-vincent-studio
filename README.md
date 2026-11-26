@@ -43,3 +43,14 @@ previews/            Mã nguồn 3 preview tương tác
 - Chưa có repository GitHub. Khi có, toàn bộ thư mục này sẽ là commit đầu tiên.
 - Chưa có ứng dụng Next.js (bắt đầu ở Phase 3, sau khi chọn direction).
 - Chưa có dịch vụ trả phí nào được đăng ký.
+
+
+## Local development (Phase 3)
+1. Node 20.9+ and PostgreSQL 16. Create a database, e.g. `createdb saintvincent`.
+2. `cp .env.example .env` and fill in `DATABASE_URL`, `PAYLOAD_SECRET` (a long random string), `NEXT_PUBLIC_SITE_URL`.
+3. `npm install`, then `npm run dev` (dev mode pushes the schema automatically).
+4. `npm run seed` loads the concept collections, products, homepage and FAQ (safe to re-run).
+5. Open `http://localhost:3000/admin` and create the first user: it becomes the owner.
+6. Before calling work done: `npm run lint && npm run typecheck && npm test && npm run check:brand && npm run build`.
+
+Production uses migrations: `npm run migrate:create` after schema changes, and `npm run build:prod` (runs `payload migrate` then `next build`).

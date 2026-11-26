@@ -12,7 +12,7 @@ Ngữ nghĩa (tách khỏi accent): `--ok`, `--warn`, `--error` cho form, đơn 
 3 vai trò: `--f-display` (tiêu đề, dùng tiết chế), `--f-body` (nội dung, UI), `--f-mono` (nhãn, SKU, thông số).
 Thang chữ (fluid, `clamp`): display-xl 3.4→12.5rem · display-l 2.4→5.6rem · display-m 1.7→3.1rem · h3 1.6→2rem · body 1.0625rem ·
 small .875rem · label .72rem (uppercase, letter-spacing .04–.08em). Văn bản dài ≤ 65 ký tự/dòng. Tiêu đề `text-wrap: balance`.
-Font tải bằng `next/font` (self-host, subset latin + vietnamese, `display: swap`). Mọi font đã chọn đều cần kiểm tra dấu tiếng Việt ở Phase 3.
+Font tải bằng `next/font` (self-host, subset latin + vietnamese, `display: swap`). Phase 3: font hiển thị là Noto Serif Display (Bodoni Moda không có subset tiếng Việt), chữ thân Hanken Grotesk, nhãn IBM Plex Mono; đã kiểm tra dấu tiếng Việt.
 
 ## Spacing
 `--s-1` .5rem · `--s-2` 1rem · `--s-3` 1.5rem · `--s-4` 2.5rem · `--s-5` 4rem · `--s-6` 7rem. Gutter ngang tối thiểu 16px (mobile), 32–40px (desktop),

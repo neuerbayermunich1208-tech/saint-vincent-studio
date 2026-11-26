@@ -1,0 +1,348 @@
+{
+  "meta": {
+    "siteName": "Saint Vincent Studio",
+    "defaultTitle": "Saint Vincent Studio · Studio thiết kế và sản xuất độc lập",
+    "defaultDescription": "Studio thiết kế và sản xuất độc lập, tạo ra những thế giới thu nhỏ, mô hình module, đèn và đồ vật được thiết kế để giữ lại lâu dài."
+  },
+  "nav": {
+    "home": "Trang chủ",
+    "collections": "Bộ sưu tập",
+    "studio": "Studio",
+    "process": "Quy trình",
+    "journal": "Nhật ký",
+    "upcoming": "Sắp ra mắt",
+    "contact": "Liên hệ",
+    "faq": "Câu hỏi thường gặp",
+    "menu": "Menu",
+    "close": "Đóng",
+    "primary": "Điều hướng chính",
+    "language": "Ngôn ngữ",
+    "skip": "Đến nội dung chính",
+    "homeLabel": "Saint Vincent Studio, trang chủ"
+  },
+  "common": {
+    "concept": "Concept",
+    "conceptDrawing": "Bản vẽ concept",
+    "explore": "Khám phá",
+    "readMore": "Đọc tiếp",
+    "viewAll": "Xem tất cả",
+    "tba": "Sẽ thông báo",
+    "pendingSpec": "Công bố khi mẫu hoàn thiện",
+    "sampleEntry": "Bài mẫu",
+    "back": "Quay lại"
+  },
+  "status": {
+    "concept": "Ý tưởng",
+    "in_development": "Đang phát triển",
+    "prototype": "Mẫu thử",
+    "available": "Đang bán",
+    "archived": "Ngừng sản xuất",
+    "design": "Thiết kế",
+    "refine": "Tinh chỉnh",
+    "production": "Sản xuất"
+  },
+  "home": {
+    "ctaCollections": "Khám phá bộ sưu tập",
+    "ctaStudio": "Về studio",
+    "studioEyebrow": "Studio",
+    "collectionsEyebrow": "Bộ sưu tập",
+    "collectionsHeading": "Năm thế giới, <em>một bàn vẽ.</em>",
+    "featuredEyebrow": "Thiết kế tiêu biểu",
+    "selectDetail": "Chọn một chi tiết",
+    "selectDetailHint": "Chạm vào các điểm đánh số để đọc ghi chú thiết kế.",
+    "processEyebrow": "Từ ý tưởng đến vật thể",
+    "processHeading": "Sáu bước. <em>Không đi tắt.</em>",
+    "processLede": "Một thiết kế được đo bằng số lần vẽ lại, không phải bằng số ngày.",
+    "modularEyebrow": "Vũ trụ module",
+    "modularHeading": "Bắt đầu với một ô. <em>Mở rộng theo cách của bạn.</em>",
+    "modularHint": "Chọn một module rồi chạm vào ô trống để đặt. Đây là phác thảo đầu tiên của trình cấu hình.",
+    "placed": "Đã đặt",
+    "clear": "Xoá bố cục",
+    "price": "Giá",
+    "priceLater": "Hiển thị khi cửa hàng mở",
+    "journalEyebrow": "Nhật ký thiết kế",
+    "journalHeading": "Ghi chép từ <em>bàn vẽ.</em>",
+    "upcomingEyebrow": "Sắp ra mắt",
+    "upcomingHeading": "Đang ở <em>trên bàn vẽ.</em>",
+    "detailStrip": "Chi tiết của {name}"
+  },
+  "process": {
+    "concept": [
+      "Ý tưởng",
+      "Một câu hỏi, một bản phác. Vật thể này để làm gì, và vì sao người ta muốn giữ nó."
+    ],
+    "design": [
+      "Thiết kế",
+      "Tỷ lệ, hình khối, khớp nối. Mọi kích thước được vẽ ra trước khi làm."
+    ],
+    "prototype": [
+      "Mẫu thử",
+      "Mẫu vật lý đầu tiên, để kiểm tra những điều bản vẽ không nói được."
+    ],
+    "refine": [
+      "Tinh chỉnh",
+      "Sửa dung sai, cân lại tỷ lệ, bỏ đi những gì không cần thiết."
+    ],
+    "manufacture": [
+      "Sản xuất",
+      "Làm ra tại studio, với quy trình được kiểm soát cho từng chi tiết."
+    ],
+    "finish": [
+      "Hoàn thiện",
+      "Xử lý bề mặt, kiểm tra và đóng gói từng sản phẩm bằng tay."
+    ]
+  },
+  "modules": {
+    "base": "Đế",
+    "building": "Toà nhà",
+    "tree": "Cây",
+    "lamp": "Đèn đường",
+    "empty": "Ô trống {n}",
+    "placedAt": "{module} ở ô {n}, bấm để gỡ"
+  },
+  "drops": {
+    "number": "Mã",
+    "piece": "Vật phẩm",
+    "stage": "Giai đoạn",
+    "release": "Ra mắt",
+    "empty": "Những vật phẩm tiếp theo sẽ sớm được giới thiệu ở đây."
+  },
+  "notify": {
+    "label": "Nhận thông báo khi có vật phẩm mới",
+    "placeholder": "ban@email.com",
+    "submit": "Đăng ký",
+    "sending": "Đang gửi…",
+    "success": "Cảm ơn bạn. Bạn đã có tên trong danh sách.",
+    "already": "Email này đã có trong danh sách.",
+    "invalid": "Vui lòng nhập một địa chỉ email hợp lệ, ví dụ ten@email.com.",
+    "rateLimited": "Bạn thử quá nhiều lần. Vui lòng đợi một phút.",
+    "error": "Có lỗi từ phía chúng tôi. Vui lòng thử lại sau.",
+    "note": "Không spam. Chỉ gửi tin ra mắt."
+  },
+  "contact": {
+    "title": "Liên hệ",
+    "heading": "Gửi lời nhắn <em>đến studio.</em>",
+    "lede": "Hỏi về một sản phẩm, hợp tác hay báo chí. Chúng tôi đọc mọi tin nhắn.",
+    "name": "Họ tên",
+    "email": "Email",
+    "topic": "Chủ đề",
+    "topics": {
+      "general": "Chung",
+      "product": "Về sản phẩm",
+      "collaboration": "Hợp tác",
+      "press": "Báo chí",
+      "order": "Về đơn hàng"
+    },
+    "subject": "Tiêu đề",
+    "message": "Nội dung",
+    "send": "Gửi tin nhắn",
+    "success": "Cảm ơn bạn. Tin nhắn đã được gửi đến studio.",
+    "invalid": "Vui lòng kiểm tra lại các ô được đánh dấu.",
+    "directEmail": "Hoặc gửi email trực tiếp"
+  },
+  "collections": {
+    "title": "Bộ sưu tập",
+    "heading": "Mỗi bộ sưu tập là <em>một thế giới riêng.</em>",
+    "pieces": "Vật phẩm",
+    "noPieces": "Các vật phẩm của bộ sưu tập này vẫn đang trên bàn vẽ.",
+    "includes": "Gồm"
+  },
+  "product": {
+    "collection": "Bộ sưu tập",
+    "scale": "Tỷ lệ",
+    "dimensions": "Kích thước",
+    "weight": "Khối lượng",
+    "materials": "Vật liệu",
+    "finish": "Bề mặt",
+    "colors": "Màu sắc",
+    "included": "Trong hộp",
+    "packaging": "Đóng gói",
+    "care": "Bảo quản",
+    "assembly": "Lắp ráp",
+    "difficulty": "Độ khó",
+    "time": "Thời gian",
+    "manual": "Tải hướng dẫn lắp ráp",
+    "compatible": "Kết hợp được với",
+    "lighting": "Ánh sáng",
+    "lightSource": "Nguồn sáng",
+    "power": "Nguồn điện",
+    "wattage": "Công suất",
+    "colorTemperature": "Nhiệt độ màu",
+    "dimming": "Điều chỉnh độ sáng",
+    "safety": "An toàn",
+    "story": "Câu chuyện",
+    "specs": "Thông số",
+    "notifyHeading": "Vật phẩm này đang được phát triển",
+    "notifyLede": "Để lại email, chúng tôi sẽ báo bạn khi vật phẩm ra mắt.",
+    "related": "Vật phẩm liên quan",
+    "status": "Trạng thái",
+    "catalogue": "Mã catalogue",
+    "openImage": "Mở ảnh {n} trên {total}",
+    "viewer": "{name}, hình ảnh",
+    "prev": "Ảnh trước",
+    "next": "Ảnh sau",
+    "counter": "{n} / {total}",
+    "planEyebrow": "Mặt bằng",
+    "planHeading": "Cả con phố, <em>nhìn từ trên xuống.</em>",
+    "detailsEyebrow": "Chi tiết",
+    "layoutEyebrow": "Bố cục",
+    "layoutHeading": "Hai đế, <em>một con phố.</em>",
+    "joint": "Mối nối ẩn",
+    "diagramLabel": "Sơ đồ mặt bằng của bộ: {modules}, ghép thành một con phố",
+    "diagramNote": "Sơ đồ nguyên lý · kích thước tổng đúng tỷ lệ"
+  },
+  "studio": {
+    "title": "Studio",
+    "heading": "Thiết kế trước. <em>Mọi thứ khác theo sau.</em>"
+  },
+  "upcoming": {
+    "title": "Sắp ra mắt",
+    "heading": "Đang ở <em>trên bàn vẽ.</em>",
+    "lede": "Những vật phẩm đang phát triển. Ngày ra mắt chỉ được công bố khi đã chắc chắn."
+  },
+  "faq": {
+    "title": "Câu hỏi thường gặp"
+  },
+  "journal": {
+    "title": "Nhật ký thiết kế"
+  },
+  "footer": {
+    "explore": "Khám phá",
+    "support": "Hỗ trợ",
+    "contact": "Liên hệ",
+    "follow": "Theo dõi",
+    "legal": "Pháp lý",
+    "rights": "Bảo lưu mọi quyền."
+  },
+  "wishlist": {
+    "add": "Lưu {name}",
+    "remove": "Bỏ lưu {name}"
+  },
+  "notFound": {
+    "title": "Trang này không có trên bàn vẽ.",
+    "back": "Về trang chủ"
+  },
+  "explode": {
+    "eyebrow": "Chi tiết",
+    "heading": "Lantern Study, <em>tháo rời.</em>",
+    "hint": "Concept · cuộn để tách các bộ phận",
+    "label": "Bản vẽ concept tách lớp của một chiếc đèn module",
+    "parts": [
+      [
+        "Nắp",
+        "Khoá xoay, không cần dụng cụ"
+      ],
+      [
+        "Chụp tán quang",
+        "Ánh sáng đều, không chói"
+      ],
+      [
+        "Mô-đun đèn",
+        "Thông số công bố sau khi kiểm tra"
+      ],
+      [
+        "Thân",
+        "Đổi được chiều cao"
+      ],
+      [
+        "Đế",
+        "Dùng chung hệ Desk Plinth"
+      ]
+    ]
+  },
+  "featured": {
+    "collection": "Bộ sưu tập",
+    "scale": "Tỷ lệ",
+    "dimensions": "Kích thước",
+    "materials": "Vật liệu",
+    "view": "Xem vật phẩm"
+  },
+  "cart": {
+    "title": "Giỏ hàng",
+    "link": "Giỏ hàng",
+    "count": "Giỏ hàng, {count} sản phẩm",
+    "empty": "Giỏ hàng đang trống.",
+    "browse": "Xem các bộ sưu tập",
+    "add": "Thêm vào giỏ",
+    "added": "Đã thêm vào giỏ",
+    "variant": "Lựa chọn",
+    "quantity": "Số lượng",
+    "remove": "Xoá",
+    "subtotal": "Tạm tính",
+    "shipping": "Vận chuyển",
+    "shippingFree": "Miễn phí",
+    "shippingTbc": "Studio xác nhận với bạn sau khi đặt",
+    "total": "Tổng cộng",
+    "checkout": "Tiếp tục thanh toán",
+    "loading": "Đang kiểm tra giá và tình trạng hàng…",
+    "outOfStock": "Hết hàng",
+    "problem_unavailable": "Sản phẩm không còn bán. Vui lòng xoá.",
+    "problem_noPrice": "Sản phẩm chưa mở bán. Vui lòng xoá.",
+    "problem_outOfStock": "Đã hết hàng. Vui lòng xoá.",
+    "problem_limitedStock": "Chỉ còn {count}. Vui lòng giảm số lượng.",
+    "fix": "Vui lòng sửa các sản phẩm ở trên trước khi thanh toán.",
+    "soldOut": "Hết hàng",
+    "price": "Giá"
+  },
+  "checkout": {
+    "title": "Thanh toán",
+    "contact": "Liên hệ",
+    "shipping": "Địa chỉ giao hàng",
+    "payment": "Thanh toán",
+    "summary": "Tóm tắt đơn hàng",
+    "name": "Họ và tên",
+    "phone": "Số điện thoại",
+    "email": "Email",
+    "address": "Số nhà, tên đường",
+    "ward": "Phường / xã",
+    "district": "Quận / huyện",
+    "province": "Tỉnh / thành phố",
+    "note": "Ghi chú cho studio (không bắt buộc)",
+    "method_payos": "Chuyển khoản VietQR (payOS)",
+    "method_payos_hint": "Bạn sẽ được chuyển sang payOS để quét mã QR bằng ứng dụng ngân hàng. Đơn được xác nhận tự động.",
+    "method_bank_transfer": "Chuyển khoản thủ công",
+    "method_bank_transfer_hint": "Thông tin tài khoản hiện sau khi đặt. Studio xác nhận khi nhận được tiền.",
+    "method_cod": "Thanh toán khi nhận hàng (COD)",
+    "method_cod_hint": "Trả tiền cho người giao hàng khi nhận.",
+    "noMethods": "Thanh toán chưa mở. Vui lòng liên hệ studio để đặt hàng.",
+    "submit": "Đặt hàng",
+    "submitting": "Đang đặt hàng…",
+    "invalid": "Vui lòng kiểm tra các ô được đánh dấu.",
+    "cartChanged": "Giá hoặc tình trạng hàng đã thay đổi. Vui lòng xem lại giỏ hàng.",
+    "methodUnavailable": "Phương thức thanh toán này hiện không dùng được.",
+    "rateLimited": "Bạn thử quá nhiều lần. Vui lòng đợi vài phút.",
+    "closed": "Cửa hàng chưa mở.",
+    "error": "Đã có lỗi, đơn hàng chưa được đặt. Vui lòng thử lại.",
+    "paymentError": "Không mở được trang thanh toán. Đơn đã huỷ và bạn chưa bị trừ tiền. Vui lòng thử lại hoặc chọn cách khác.",
+    "privacy": "Thông tin này chỉ dùng để giao đơn hàng của bạn.",
+    "back": "Quay lại giỏ hàng"
+  },
+  "order": {
+    "title": "Đơn hàng {number}",
+    "thanks": "Cảm ơn bạn. Đơn hàng đã được ghi nhận.",
+    "lede": "Hãy lưu lại trang này: đường link này dùng để xem tình trạng đơn.",
+    "status": "Tình trạng",
+    "status_pending_payment": "Đang chờ thanh toán",
+    "status_awaiting_transfer": "Đang chờ bạn chuyển khoản",
+    "status_confirmed": "Đã xác nhận, thanh toán khi nhận hàng",
+    "status_paid": "Đã thanh toán",
+    "status_processing": "Đang chuẩn bị",
+    "status_shipped": "Đã gửi hàng",
+    "status_delivered": "Đã giao",
+    "status_cancelled": "Đã huỷ",
+    "status_refunded": "Đã hoàn tiền",
+    "transferHeading": "Thông tin chuyển khoản",
+    "bank": "Ngân hàng",
+    "accountName": "Chủ tài khoản",
+    "accountNumber": "Số tài khoản",
+    "amount": "Số tiền",
+    "reference": "Nội dung chuyển khoản",
+    "transferNote": "Vui lòng ghi đúng nội dung để studio đối chiếu.",
+    "payNow": "Tiếp tục thanh toán",
+    "cancelledNote": "Thanh toán chưa hoàn tất nên đơn đã huỷ. Bạn chưa bị trừ tiền.",
+    "items": "Sản phẩm",
+    "deliverTo": "Giao tới",
+    "tracking": "Mã vận đơn",
+    "contact": "Có câu hỏi về đơn hàng? Liên hệ studio và cho biết mã đơn."
+  }
+}
