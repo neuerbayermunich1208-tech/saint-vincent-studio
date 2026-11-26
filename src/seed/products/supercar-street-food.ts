@@ -177,8 +177,16 @@ function findPhoto(dir: string, key: string) {
 async function upsertMedia(payload: Payload, file: string, key: string) {
   const meta = PHOTOS[key]
   const filename = path.basename(file)
-  const existing = await payload.find({ collection: 'media', where: { filename: { equals: filename } }, limit: 1, overrideAccess: true })
-  let id = existing.docs[0]?.id
+  // Storage may have renamed an earlier upload to "name-1.png", so match the base name with an optional numeric suffix.
+  const ext = path.extname(filename)
+  const base = path.basename(filename, ext)
+  const candidates = await payload.find({ collection: 'media', where: { filename: { like: base } }, limit: 20, overrideAccess: true, sort: 'createdAt' })
+  const sameFile = (name: string) => {
+    if (!name.toLowerCase().endsWith(ext.toLowerCase())) return false
+    const stem = name.slice(0, -ext.length)
+    return stem === base || (stem.startsWith(`${base}-`) && /^\d+$/.test(stem.slice(base.length + 1)))
+  }
+  let id = candidates.docs.find((d) => d.filename && sameFile(d.filename))?.id
   if (id) {
     payload.logger.info(`media ${filename}: exists, updating text`)
     await payload.update({ collection: 'media', id, locale: 'en', overrideAccess: true, data: { alt: meta.alt.en, caption: meta.caption.en, isConcept: false } })
