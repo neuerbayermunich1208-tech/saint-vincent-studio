@@ -12,6 +12,7 @@ import { CornerDrawing, ObjectDrawing } from '@/components/Drawings'
 import { Hotspots } from '@/components/Hotspots'
 import { MediaImage, asMedia } from '@/components/Media'
 import { NotifyForm } from '@/components/NotifyForm'
+import { AddToCart, type SellableVariant } from '@/components/cart/AddToCart'
 import { ProductCard } from '@/components/ProductCard'
 import { SaveButton } from '@/components/SaveButton'
 
@@ -54,6 +55,12 @@ export default async function ProductPage({ params }: Props) {
   const s = product.specs
   const commerce = settings.mode === 'commerce'
   const firstPrice = product.variants?.find((v) => typeof v.priceVnd === 'number')?.priceVnd
+  const sellable: SellableVariant[] =
+    commerce && product.status === 'available'
+      ? (product.variants ?? [])
+          .filter((v) => typeof v.priceVnd === 'number' && v.priceVnd > 0)
+          .map((v) => ({ sku: v.sku, label: v.label || v.sku, priceText: formatPrice(v.priceVnd!, 'VND', locale), inStock: (v.stock ?? 0) > 0 }))
+      : []
   const related = (product.related ?? []).filter((r): r is Product => typeof r === 'object')
   const compatible = (product.assembly?.compatibleWith ?? []).filter((r): r is Product => typeof r === 'object')
   const manual = asMedia(product.assembly?.manual)
@@ -164,7 +171,9 @@ export default async function ProductPage({ params }: Props) {
             {manual?.url && <a className="link" href={manual.url}>{t('product.manual')} ↓</a>}
             {s?.care && <p className="muted"><span className="label">{t('product.care')} · </span>{s.care}</p>}
 
-            {(!commerce || product.status !== 'available') && (
+            {sellable.length > 0 && <AddToCart productId={product.id} variants={sellable} />}
+
+            {sellable.length === 0 && (
               <div style={{ borderTop: '1px solid var(--ink)', paddingTop: 'var(--s-3)', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
                 <h2 className="h3">{t('product.notifyHeading')}</h2>
                 <p className="muted">{t('product.notifyLede')}</p>

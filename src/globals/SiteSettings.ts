@@ -43,6 +43,36 @@ export const SiteSettings: GlobalConfig = {
         { name: 'facebook', type: 'text', admin: { description: 'Full URL' } },
       ],
     },
+    {
+      name: 'checkout',
+      type: 'group',
+      label: 'Checkout',
+      admin: { description: 'Only used in commerce mode. Switch on only the methods that are really set up.' },
+      fields: [
+        {
+          type: 'row',
+          fields: [
+            { name: 'payos', type: 'checkbox', defaultValue: false, label: 'payOS (VietQR) — needs PAYOS_* keys on the server' },
+            { name: 'bankTransfer', type: 'checkbox', defaultValue: false, label: 'Manual bank transfer' },
+            { name: 'cod', type: 'checkbox', defaultValue: false, label: 'Cash on delivery' },
+          ],
+        },
+        {
+          name: 'bank',
+          type: 'group',
+          label: 'Bank account for manual transfers',
+          admin: { condition: (data) => Boolean(data?.checkout?.bankTransfer) },
+          fields: [{ type: 'row', fields: [{ name: 'bankName', type: 'text' }, { name: 'accountName', type: 'text' }, { name: 'accountNumber', type: 'text' }] }],
+        },
+        {
+          type: 'row',
+          fields: [
+            { name: 'shippingFlatVnd', type: 'number', min: 0, label: 'Shipping fee (VND)', admin: { description: 'Empty = confirmed with each customer.' } },
+            { name: 'freeShippingOverVnd', type: 'number', min: 0, label: 'Free shipping from (VND)', admin: { description: 'Optional.' } },
+          ],
+        },
+      ],
+    },
     { name: 'defaultCurrency', type: 'select', defaultValue: 'VND', options: ['VND', 'USD'] },
   ],
 }

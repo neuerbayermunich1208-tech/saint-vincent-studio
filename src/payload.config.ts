@@ -7,6 +7,7 @@ import { vercelBlobStorage } from '@payloadcms/storage-vercel-blob'
 import sharp from 'sharp'
 
 import { Users } from './collections/Users'
+import { Orders } from './collections/Orders'
 import { seedStarterEndpoint } from './endpoints/seedStarter'
 import { Media } from './collections/Media'
 import { Products } from './collections/Products'
@@ -45,7 +46,7 @@ export default buildConfig({
     components: { beforeDashboard: ['/admin/SeedStarterButton'] },
   },
   endpoints: [seedStarterEndpoint],
-  collections: [Products, ProductCollections, Releases, JournalPosts, Pages, Media, Subscribers, Inquiries, Users],
+  collections: [Products, ProductCollections, Releases, JournalPosts, Pages, Media, Subscribers, Inquiries, Orders, Users],
   globals: [Homepage, SiteSettings],
   localization: {
     locales: [

@@ -10,6 +10,7 @@ import { organizationJsonLd } from '@/lib/seo'
 import { SITE_URL } from '@/lib/site'
 import { SiteFooter } from '@/components/SiteFooter'
 import { SiteHeader, type NavItem } from '@/components/SiteHeader'
+import { CartProvider } from '@/components/cart/CartProvider'
 import '@/styles/globals.css'
 
 const display = Noto_Serif_Display({ subsets: ['latin', 'vietnamese'], style: ['normal', 'italic'], variable: '--f-display', display: 'swap' })
@@ -53,14 +54,17 @@ export default async function LocaleLayout({ children, params }: { children: Rea
     <html lang={locale} className={`${display.variable} ${body.variable} ${mono.variable}`}>
       <body>
         <NextIntlClientProvider>
+          <CartProvider>
           <a className="skip" href="#main">{t('skip')}</a>
           <SiteHeader
             locale={locale as Locale}
             items={items}
+            commerce={settings.mode === 'commerce'}
             labels={{ menu: t('menu'), close: t('close'), primary: t('primary'), language: t('language'), homeLabel: t('homeLabel') }}
           />
           <main id="main">{children}</main>
           <SiteFooter items={items} settings={settings} pages={pages} />
+          </CartProvider>
         </NextIntlClientProvider>
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd()) }} />
       </body>

@@ -1,5 +1,14 @@
 # Changelog
 
+## 2026-11-26 — Phase 4: bán hàng (bản đầu)
+- Chủ dự án chọn payOS (VietQR) làm cổng thanh toán online đầu tiên.
+- Collection **Orders** (nhóm Shop): khách, địa chỉ, dòng sản phẩm chụp lại giá lúc đặt, tổng tiền, trạng thái, thông tin payOS. Huỷ/hoàn đơn tự trả tồn kho.
+- Site settings → Checkout: bật/tắt payOS, chuyển khoản thủ công (kèm số tài khoản), COD; phí vận chuyển cố định và mức miễn phí (để trống = studio xác nhận sau).
+- Giỏ hàng trên trình duyệt, nút "Thêm vào giỏ" trên trang sản phẩm (chỉ khi Commerce + Available + có giá), trang /cart, /checkout, /order/[mã].
+- Máy chủ luôn tính lại giá, kiểm tra tồn kho và tổng tiền khách đã thấy trước khi tạo đơn.
+- payOS: tạo link thanh toán có chữ ký, webhook `/api/payos/webhook` kiểm tra chữ ký rồi hỏi lại payOS trước khi đánh dấu Paid.
+- Migration `orders_checkout`. Hướng dẫn: docs/PAYOS.md. Thêm 6 test cho giá giỏ hàng và chữ ký payOS.
+
 ## 2026-11-26 — Chuẩn bị deploy Vercel
 - Ảnh lưu ở Vercel Blob (`@payloadcms/storage-vercel-blob`), có migration cho cột mới của Media.
 - `vercel.json` + script `build:vercel` (migration qua kết nối trực tiếp, vùng Singapore).

@@ -4,16 +4,18 @@ import Image from 'next/image'
 import { useEffect, useState } from 'react'
 import { Link, usePathname } from '@/i18n/navigation'
 import type { Locale } from '@/i18n/routing'
+import { CartLink } from '@/components/cart/CartLink'
 
 export type NavItem = { href: string; label: string }
 
 type Props = {
   locale: Locale
   items: NavItem[]
+  commerce?: boolean
   labels: { menu: string; close: string; primary: string; language: string; homeLabel: string }
 }
 
-export function SiteHeader({ locale, items, labels }: Props) {
+export function SiteHeader({ locale, items, labels, commerce = false }: Props) {
   const pathname = usePathname()
   const [open, setOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
@@ -49,6 +51,7 @@ export function SiteHeader({ locale, items, labels }: Props) {
             ))}
           </nav>
           <div className="tools">
+            {commerce && <CartLink />}
             <div className="lang" role="group" aria-label={labels.language}>
               {(['en', 'vi'] as const).map((l) => (
                 <Link key={l} href={pathname} locale={l} aria-current={l === locale ? 'true' : undefined} hrefLang={l}>
@@ -73,6 +76,7 @@ export function SiteHeader({ locale, items, labels }: Props) {
             </Link>
           ))}
         </nav>
+        {commerce && <CartLink onNavigate={() => setOpen(false)} />}
         <p className="label" style={{ color: 'var(--rule)' }}>saintvincent.studio</p>
       </div>
     </>
