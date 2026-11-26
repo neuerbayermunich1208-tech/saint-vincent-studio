@@ -34,8 +34,8 @@ const PHOTOS: Record<string, { alt: Loc; caption: Loc }> = {
   },
   '03-cafe-tables-detail': {
     alt: {
-      en: 'Bistro tables and chairs on the pavement beside a flowering hedge, with a street lamp, a tree and the road behind.',
-      vi: 'Bàn ghế bistro trên vỉa hè cạnh hàng rào cây có hoa, phía sau là đèn đường, cây xanh và mặt đường.',
+      en: 'Bistro tables and chairs on the pavement beside a hedge with white flowers, with a street lamp, a tree and the road behind.',
+      vi: 'Bàn ghế bistro trên vỉa hè cạnh hàng rào cây xanh có hoa trắng, phía sau là đèn đường, cây xanh và mặt đường.',
     },
     caption: { en: 'Bistro tables and chairs', vi: 'Bàn ghế bistro' },
   },
@@ -118,7 +118,7 @@ const INCLUDED: Loc[] = [
   { en: '4 street lamps', vi: '4 đèn đường' },
   { en: '4 bins', vi: '4 thùng rác' },
   { en: '3 menu boards', vi: '3 bảng menu' },
-  { en: '6 hedges, 2 flower planters', vi: '6 bụi cây, 2 chậu hoa' },
+  { en: '6 hedges, 2 flower planters', vi: '6 hàng rào cây xanh, 2 bồn hoa' },
   { en: '7 trees', vi: '7 cây xanh' },
 ]
 
@@ -153,7 +153,7 @@ const STORY: Loc[] = [
   },
   {
     en: 'Seven stalls line the street: burger, ice cream and banh mi on SM-01; a pizza truck, milk tea, takoyaki and coffee on SM-02. Picnic tables, benches and bistro chairs sit between them, with street lamps, menu boards, hedges and flower planters around.',
-    vi: 'Bảy quầy nằm dọc con phố: burger, kem và bánh mì trên SM-01; xe pizza, trà sữa, takoyaki và cà phê trên SM-02. Xen giữa là bàn picnic, ghế băng và ghế bistro, xung quanh có đèn đường, bảng menu, bụi cây và chậu hoa.',
+    vi: 'Bảy quầy nằm dọc con phố: burger, kem và bánh mì trên SM-01; xe pizza, trà sữa, takoyaki và cà phê trên SM-02. Xen giữa là bàn picnic, ghế băng và ghế bistro, xung quanh có đèn đường, bảng menu, hàng rào cây xanh và bồn hoa.',
   },
   {
     en: 'The road is marked like a real one, with crossings, lane arrows and six parking bays waiting for your cars. At the entrance to the street stands the SAINT VINCENT arch.',
