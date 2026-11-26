@@ -30,6 +30,18 @@ export const Homepage: GlobalConfig = {
             },
             { name: 'heroLede', type: 'textarea', localized: true },
             { name: 'heroImage', type: 'upload', relationTo: 'media', admin: { description: 'Optional. Without it, the studio drawing is shown.' } },
+            {
+              name: 'heroLayout',
+              type: 'select',
+              defaultValue: 'portrait',
+              options: [
+                { label: 'Portrait image beside the headline', value: 'portrait' },
+                { label: 'Wide image across the page, headline below', value: 'wide' },
+              ],
+            },
+            { name: 'heroLabel', type: 'text', localized: true, admin: { description: 'Small mono line above the headline, e.g. “SM-01 + SM-02 · Prototype”.' } },
+            { name: 'heroNote', type: 'text', localized: true, admin: { description: 'Small line under the hero image, e.g. a prototype note.' } },
+            { name: 'heroProduct', type: 'relationship', relationTo: 'products', admin: { description: 'Optional. Links the hero image to this product.' } },
           ],
         },
         {
@@ -50,7 +62,17 @@ export const Homepage: GlobalConfig = {
         },
         {
           label: 'Featured design',
-          fields: [{ name: 'featuredProduct', type: 'relationship', relationTo: 'products' }],
+          fields: [
+            { name: 'featuredProduct', type: 'relationship', relationTo: 'products' },
+            {
+              name: 'detailStrip',
+              type: 'upload',
+              relationTo: 'media',
+              hasMany: true,
+              maxRows: 3,
+              admin: { description: 'Optional. Up to three close-ups shown under the featured design.' },
+            },
+          ],
         },
         {
           label: 'Closing',

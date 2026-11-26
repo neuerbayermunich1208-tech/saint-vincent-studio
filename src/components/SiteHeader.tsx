@@ -41,7 +41,7 @@ export function SiteHeader({ locale, items, labels, commerce = false }: Props) {
       <header className="hdr" data-scrolled={scrolled}>
         <div className="wrap hdr-in">
           <Link className="brand" href="/" aria-label={labels.homeLabel}>
-            <Image src="/brand/logo-horizontal.png" alt="Saint Vincent Studio" width={1086} height={362} priority />
+            <Image src="/brand/logo-horizontal.png" alt="Saint Vincent Studio" width={1086} height={362} sizes="(min-width: 900px) 140px, 120px" priority />
           </Link>
           <nav className="nav" aria-label={labels.primary}>
             {items.map((it) => (

@@ -18,7 +18,7 @@ export function Hotspots({ spots, children, emptyTitle, emptyBody }: { spots: Ho
             className="hot"
             style={{ left: `${s.x}%`, top: `${s.y}%` }}
             aria-pressed={active === i}
-            aria-label={s.title}
+            aria-label={`${i + 1}. ${s.title}`}
             onClick={() => setActive(i)}
           >
             {i + 1}

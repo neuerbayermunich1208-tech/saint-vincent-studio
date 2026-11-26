@@ -5,7 +5,8 @@
  * See BRAND_GUIDELINES.md. Run: npm run check:brand
  */
 import { readdirSync, readFileSync, statSync } from 'node:fs'
-import { join, extname } from 'node:path'
+import { join, extname, resolve, sep } from 'node:path'
+import { pathToFileURL } from 'node:url'
 
 export const BANNED = [
   /3\s*d[\s-]*print(ing|ed)?\s*(service|products?|shop|farm)?/i,
@@ -35,11 +36,12 @@ export function findViolations(text) {
   return BANNED.filter((re) => re.test(text)).map((re) => re.source)
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) {
+// pathToFileURL keeps this working on Windows too (a plain `file://${argv[1]}` never matches there).
+if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) {
   const problems = []
   for (const root of ROOTS) {
     for (const file of walk(root)) {
-      if (SELF.includes(file)) continue
+      if (SELF.includes(file.split(sep).join('/'))) continue
       const lines = readFileSync(file, 'utf8').split('\n')
       lines.forEach((line, i) => {
         const hits = findViolations(line)

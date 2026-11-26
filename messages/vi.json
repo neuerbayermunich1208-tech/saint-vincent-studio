@@ -63,7 +63,8 @@
     "journalEyebrow": "Nhật ký thiết kế",
     "journalHeading": "Ghi chép từ <em>bàn vẽ.</em>",
     "upcomingEyebrow": "Sắp ra mắt",
-    "upcomingHeading": "Đang ở <em>trên bàn vẽ.</em>"
+    "upcomingHeading": "Đang ở <em>trên bàn vẽ.</em>",
+    "detailStrip": "Chi tiết của {name}"
   },
   "process": {
     "concept": [
@@ -175,7 +176,20 @@
     "notifyLede": "Để lại email, chúng tôi sẽ báo bạn khi vật phẩm ra mắt.",
     "related": "Vật phẩm liên quan",
     "status": "Trạng thái",
-    "catalogue": "Mã catalogue"
+    "catalogue": "Mã catalogue",
+    "openImage": "Mở ảnh {n} trên {total}",
+    "viewer": "{name}, hình ảnh",
+    "prev": "Ảnh trước",
+    "next": "Ảnh sau",
+    "counter": "{n} / {total}",
+    "planEyebrow": "Mặt bằng",
+    "planHeading": "Cả con phố, <em>nhìn từ trên xuống.</em>",
+    "detailsEyebrow": "Chi tiết",
+    "layoutEyebrow": "Bố cục",
+    "layoutHeading": "Hai đế, <em>một con phố.</em>",
+    "joint": "Mối nối ẩn",
+    "diagramLabel": "Sơ đồ mặt bằng của bộ: {modules}, ghép thành một con phố",
+    "diagramNote": "Sơ đồ nguyên lý · kích thước tổng đúng tỷ lệ"
   },
   "studio": {
     "title": "Studio",

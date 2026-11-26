@@ -1,0 +1,9 @@
+# Never upload local data or secrets with a CLI deploy
+.env
+.env.*
+!.env.example
+media/
+.next/
+node_modules/
+previews/dist/
+*.tsbuildinfo

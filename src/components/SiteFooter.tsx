@@ -20,7 +20,7 @@ export async function SiteFooter({ items, settings, pages }: { items: NavItem[];
       <div className="wrap">
         <div className="ftr-grid">
           <div className="ftr-logo">
-            <Image src="/brand/logo-stacked.png" alt="Saint Vincent Studio" width={627} height={627} />
+            <Image src="/brand/logo-stacked.png" alt="Saint Vincent Studio" width={627} height={627} sizes="140px" />
           </div>
           <div>
             <h2>{t('explore')}</h2>
