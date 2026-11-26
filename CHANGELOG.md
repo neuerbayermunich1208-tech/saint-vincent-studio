@@ -1,6 +1,7 @@
 # Changelog
 
 ## 2026-11-27 — Dọn trang chủ và khung ảnh trước khi lên production
+- Bỏ "1:64" khỏi phần giới thiệu Miniature Worlds ("cho xe mô hình sưu tầm", chủ đề "Collector displays" / "Trưng bày xe sưu tầm") và câu hỏi FAQ về kích thước xe. Đã áp dụng trên production.
 - Bỏ mục "Lantern Study, taken apart" khỏi trang chủ (giữ component). Hiệu ứng tiêu đề hero còn 400 ms, giãn cách 60 ms.
 - "The Corner" chuyển sang Archived, bỏ nổi bật, ẩn khỏi bảng phát hành (seed:product làm việc này). Sản phẩm Archived không còn trang công khai.
 - Ảnh: hero 2:1 tràn viền trên mobile; ảnh mặt trước 2:1 của gallery tách riêng ở đầu, các ảnh dọc còn lại vuốt ngang theo đúng tỷ lệ gốc (không viền trống); dải chi tiết trang chủ dùng tỷ lệ gốc, lưới 5/4/3. Chất lượng ảnh 85 (90 cho gallery và lightbox) để nét trên màn hình 2x.

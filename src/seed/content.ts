@@ -50,8 +50,8 @@ export async function seedStarterContent(payload: Payload) {
     {
       slug: 'miniature-worlds', code: 'MW', collector: true,
       name: { en: 'Miniature Worlds', vi: 'Thế giới thu nhỏ' },
-      summary: { en: 'Dioramas, architectural miniatures and display environments for 1:64 cars.', vi: 'Sa bàn, mô hình kiến trúc và không gian trưng bày cho xe tỷ lệ 1:64.' },
-      themes: [{ en: 'Dioramas', vi: 'Sa bàn' }, { en: 'Architectural miniatures', vi: 'Kiến trúc thu nhỏ' }, { en: 'Street scenes', vi: 'Góc phố' }, { en: '1:64 displays', vi: 'Trưng bày 1:64' }],
+      summary: { en: 'Dioramas, architectural miniatures and display environments for collector model cars.', vi: 'Sa bàn, mô hình kiến trúc và không gian trưng bày cho xe mô hình sưu tầm.' },
+      themes: [{ en: 'Dioramas', vi: 'Sa bàn' }, { en: 'Architectural miniatures', vi: 'Kiến trúc thu nhỏ' }, { en: 'Street scenes', vi: 'Góc phố' }, { en: 'Collector displays', vi: 'Trưng bày xe sưu tầm' }],
     },
     {
       slug: 'modular-models', code: 'MM',
@@ -202,7 +202,7 @@ export async function seedStarterContent(payload: Payload) {
       body: doc(
         h('Can I buy a piece yet?'), p('Not yet. The first collection is in development. Join the release list on the Upcoming page and we will write when pieces are ready.'),
         h('Who designs the pieces?'), p('Every piece is designed and developed in-house at Saint Vincent Studio.'),
-        h('Do the miniatures fit my 1:64 cars?'), p('Pieces marked 1:64 are designed around the 1:64 scale used by die-cast collectors. Exact dimensions are published for each piece once its prototype is final.'),
+        h('Will my model cars fit?'), p('Each piece lists the cars it is designed for, for example the longest car a parking bay takes. Exact dimensions are published for each piece once its prototype is final.'),
         h('Do you ship outside Vietnam?'), p('Shipping options will be announced before the first release.'),
         h('How can I contact the studio?'), p('Use the contact form or write to hello@saintvincent.studio.'),
       ),
@@ -212,7 +212,7 @@ export async function seedStarterContent(payload: Payload) {
       body: doc(
         h('Tôi đã mua sản phẩm được chưa?'), p('Chưa. Bộ sưu tập đầu tiên đang được phát triển. Bạn hãy đăng ký ở trang Sắp ra mắt, chúng tôi sẽ báo khi sản phẩm sẵn sàng.'),
         h('Ai thiết kế các sản phẩm?'), p('Mọi sản phẩm đều được thiết kế và phát triển tại Saint Vincent Studio.'),
-        h('Mô hình có vừa xe 1:64 của tôi không?'), p('Những sản phẩm ghi 1:64 được thiết kế theo tỷ lệ 1:64 mà người sưu tầm xe die-cast đang dùng. Kích thước chính xác sẽ được công bố cho từng sản phẩm khi mẫu hoàn thiện.'),
+        h('Xe mô hình của tôi có vừa không?'), p('Mỗi sản phẩm ghi rõ loại xe phù hợp, ví dụ chiều dài xe tối đa vừa một ô đỗ. Kích thước chính xác sẽ được công bố cho từng sản phẩm khi mẫu hoàn thiện.'),
         h('Studio có giao hàng ra nước ngoài không?'), p('Các phương án vận chuyển sẽ được thông báo trước đợt ra mắt đầu tiên.'),
         h('Liên hệ studio bằng cách nào?'), p('Dùng form liên hệ hoặc gửi email đến hello@saintvincent.studio.'),
       ),

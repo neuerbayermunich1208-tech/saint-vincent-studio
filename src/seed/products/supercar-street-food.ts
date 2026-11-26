@@ -289,6 +289,54 @@ async function run() {
     payload.logger.info('created release SM-01 + SM-02')
   }
 
+  // Miniature Worlds copy: no scale named, the pieces are described by the cars they fit.
+  const mw = collection.docs[0]
+  await payload.update({ collection: 'product-collections', id: mw.id, locale: 'en', overrideAccess: true, data: { summary: 'Dioramas, architectural miniatures and display environments for collector model cars.' } })
+  await payload.update({ collection: 'product-collections', id: mw.id, locale: 'vi', overrideAccess: true, data: { summary: 'Sa bàn, mô hình kiến trúc và không gian trưng bày cho xe mô hình sưu tầm.' } })
+  for (const loc of ['en', 'vi'] as const) {
+    const full = await payload.findByID({ collection: 'product-collections', id: mw.id, locale: loc, overrideAccess: true, depth: 0 })
+    const themes = (full.themes ?? []).map((row) => (row.label && /1:64/.test(row.label) ? { ...row, label: loc === 'en' ? 'Collector displays' : 'Trưng bày xe sưu tầm' } : row))
+    await payload.update({ collection: 'product-collections', id: mw.id, locale: loc, overrideAccess: true, data: { themes } })
+  }
+  payload.logger.info('updated product-collections/miniature-worlds copy')
+
+  // FAQ: the fit question no longer names a scale. Only these two text nodes per locale are replaced.
+  const FAQ_SWAP: Record<'en' | 'vi', [string, string][]> = {
+    en: [
+      ['Do the miniatures fit my 1:64 cars?', 'Will my model cars fit?'],
+      ['Pieces marked 1:64 are designed around the 1:64 scale used by die-cast collectors. Exact dimensions are published for each piece once its prototype is final.', 'Each piece lists the cars it is designed for, for example the longest car a parking bay takes. Exact dimensions are published for each piece once its prototype is final.'],
+    ],
+    vi: [
+      ['Mô hình có vừa xe 1:64 của tôi không?', 'Xe mô hình của tôi có vừa không?'],
+      ['Những sản phẩm ghi 1:64 được thiết kế theo tỷ lệ 1:64 mà người sưu tầm xe die-cast đang dùng. Kích thước chính xác sẽ được công bố cho từng sản phẩm khi mẫu hoàn thiện.', 'Mỗi sản phẩm ghi rõ loại xe phù hợp, ví dụ chiều dài xe tối đa vừa một ô đỗ. Kích thước chính xác sẽ được công bố cho từng sản phẩm khi mẫu hoàn thiện.'],
+    ],
+  }
+  const faq = await payload.find({ collection: 'pages', where: { slug: { equals: 'faq' } }, limit: 1, overrideAccess: true })
+  if (faq.docs[0]) {
+    for (const loc of ['en', 'vi'] as const) {
+      const page = await payload.findByID({ collection: 'pages', id: faq.docs[0].id, locale: loc, overrideAccess: true, depth: 0, fallbackLocale: false })
+      let changed = 0
+      const swap = (node: unknown): unknown => {
+        if (Array.isArray(node)) return node.map(swap)
+        if (node && typeof node === 'object') {
+          const o = { ...(node as Record<string, unknown>) }
+          if (o.type === 'text' && typeof o.text === 'string') {
+            const hit = FAQ_SWAP[loc].find(([from]) => from === o.text)
+            if (hit) { o.text = hit[1]; changed++ }
+          }
+          for (const k of Object.keys(o)) if (k !== 'text' && typeof o[k] === 'object') o[k] = swap(o[k])
+          return o
+        }
+        return node
+      }
+      const body = swap(page.body)
+      if (changed) {
+        await payload.update({ collection: 'pages', id: faq.docs[0].id, locale: loc, overrideAccess: true, data: { body } as never })
+        payload.logger.info(`updated pages/faq (${loc}, ${changed} text nodes)`)
+      }
+    }
+  }
+
   // Retire the starter concept "The Corner": archived (kept in the CMS, no public page), not featured, off the release board.
   const corner = await payload.find({ collection: 'products', where: { slug: { equals: 'the-corner' } }, limit: 1, draft: true, overrideAccess: true })
   if (corner.docs[0]) {
