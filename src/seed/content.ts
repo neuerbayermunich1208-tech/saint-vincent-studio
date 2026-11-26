@@ -1,12 +1,11 @@
 /**
  * Seeds the starting content: settings, home page, five collections, four concept pieces,
  * upcoming releases, FAQ and draft legal pages. Safe to re-run: existing slugs are skipped.
- * Run with: npm run seed
+ * Run with `npm run seed` (src/seed/run.ts) or, on a deployed site, from the admin dashboard (owner only, empty site only).
  *
  * Content rules: no invented specs, dates, stock or claims. Concept pieces carry only what is decided (name, scale, collection).
  */
-import config from '@payload-config'
-import { getPayload, type Payload } from 'payload'
+import type { Payload } from 'payload'
 
 type Loc = { en: string; vi: string }
 
@@ -33,8 +32,7 @@ async function upsertBySlug<T extends 'product-collections' | 'products' | 'page
   return created
 }
 
-async function seed() {
-  const payload = await getPayload({ config })
+export async function seedStarterContent(payload: Payload) {
 
   // Settings
   await payload.updateGlobal({
@@ -238,10 +236,4 @@ async function seed() {
   }
 
   payload.logger.info('Seed complete.')
-  process.exit(0)
 }
-
-seed().catch((err) => {
-  console.error(err)
-  process.exit(1)
-})

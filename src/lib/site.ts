@@ -1,4 +1,8 @@
-export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL ?? 'https://saintvincent.studio').replace(/\/$/, '')
+const vercelUrl = process.env.VERCEL_PROJECT_PRODUCTION_URL ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}` : undefined
+export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || vercelUrl || 'https://saintvincent.studio').replace(/\/$/, '')
+
+/** Search engines may index the site only when explicitly enabled (set once the real domain is live). */
+export const ALLOW_INDEXING = process.env.NEXT_PUBLIC_ALLOW_INDEXING === 'true'
 
 export function absoluteUrl(path: string) {
   return `${SITE_URL}${path.startsWith('/') ? path : `/${path}`}`

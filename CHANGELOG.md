@@ -1,5 +1,13 @@
 # Changelog
 
+## 2026-11-26 — Chuẩn bị deploy Vercel
+- Ảnh lưu ở Vercel Blob (`@payloadcms/storage-vercel-blob`), có migration cho cột mới của Media.
+- `vercel.json` + script `build:vercel` (migration qua kết nối trực tiếp, vùng Singapore).
+- Mặc định `noindex` cho tới khi bật `NEXT_PUBLIC_ALLOW_INDEXING`; địa chỉ site lấy từ Vercel nếu chưa có tên miền.
+- Admin cho phép cookie đăng nhập từ các địa chỉ Vercel của dự án.
+- Nút nạp nội dung mẫu trong admin (chủ, chỉ khi trống); seed tách thành `src/seed/content.ts` + `run.ts`.
+- Hướng dẫn: docs/DEPLOY_VERCEL.md.
+
 ## 2026-11-26 — Phase 3: nền tảng website
 - Chủ dự án chọn hướng lai: khung A Atelier, trang sản phẩm/modular theo B Objects, cơ chế sưu tầm của C Collector (số catalogue, danh sách lưu, bảng phát hành không đếm ngược).
 - Dựng Next.js 16.4 App Router + TypeScript + Tailwind v4 + token riêng; Payload CMS 3.93 nhúng trong app (`/admin`, REST `/api`) trên PostgreSQL.

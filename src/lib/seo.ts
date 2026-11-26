@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import { routing, type Locale } from '@/i18n/routing'
-import { SITE_URL } from './site'
+import { ALLOW_INDEXING, SITE_URL } from './site'
 
 type SeoInput = {
   locale: Locale
@@ -30,7 +30,7 @@ export function buildMetadata({ locale, path, title, description, image, noIndex
       type: 'website',
       images: image ? [{ url: image }] : undefined,
     },
-    robots: noIndex ? { index: false, follow: false } : undefined,
+    robots: noIndex || !ALLOW_INDEXING ? { index: false, follow: false } : undefined,
   }
 }
 
