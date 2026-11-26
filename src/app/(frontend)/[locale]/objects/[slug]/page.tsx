@@ -28,7 +28,7 @@ type Props = { params: Promise<{ locale: Locale; slug: string }> }
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale, slug } = await params
   const p = await getProductBySlug(slug, locale)
-  if (!p) return {}
+  if (!p || p.status === 'archived') return {}
   const img = asMedia(p.seo?.image) ?? asMedia(p.cardImage) ?? asMedia(p.gallery?.[0])
   return buildMetadata({
     locale,
@@ -49,7 +49,8 @@ export default async function ProductPage({ params }: Props) {
   const { locale, slug } = await params
   setRequestLocale(locale)
   const product = await getProductBySlug(slug, locale)
-  if (!product) notFound()
+  // Archived pieces are kept in the CMS but no longer have a public page.
+  if (!product || product.status === 'archived') notFound()
   const [t, settings] = await Promise.all([getTranslations(), getSiteSettings()])
 
   const gallery = asMediaList(product.gallery)

@@ -9,7 +9,6 @@ import { formatDimensions } from '@/lib/site'
 import { CollectionIndex } from '@/components/CollectionIndex'
 import { CornerDrawing, LanternDrawing, ObjectDrawing } from '@/components/Drawings'
 import { DropBoard } from '@/components/DropBoard'
-import { ExplodedLamp } from '@/components/ExplodedLamp'
 import { Hotspots } from '@/components/Hotspots'
 import { MediaImage, asMedia, asMediaList } from '@/components/Media'
 import { ModularBoard } from '@/components/ModularBoard'
@@ -56,10 +55,10 @@ export default async function HomePage({ params }: Props) {
             <figure className="hero-wide-fig">
               {heroProduct ? (
                 <Link href={`/objects/${heroProduct.slug}`} className="hero-wide-link" aria-label={heroProduct.name}>
-                  <MediaImage media={heroImage} fit="natural" priority sizes="(min-width: 1440px) 1360px, (min-width: 900px) calc(100vw - 80px), calc(100vw - 32px)" />
+                  <MediaImage media={heroImage} fit="natural" priority sizes="(min-width: 1440px) 1360px, (min-width: 900px) calc(100vw - 80px), 100vw" />
                 </Link>
               ) : (
-                <MediaImage media={heroImage} fit="natural" priority sizes="(min-width: 1440px) 1360px, (min-width: 900px) calc(100vw - 80px), calc(100vw - 32px)" />
+                <MediaImage media={heroImage} fit="natural" priority sizes="(min-width: 1440px) 1360px, (min-width: 900px) calc(100vw - 80px), 100vw" />
               )}
               {(heroImage.caption || home.heroNote) && (
                 <figcaption className="figcap label muted">
@@ -208,8 +207,8 @@ export default async function HomePage({ params }: Props) {
             {strip.length > 0 && (
               <ul className="strip" aria-label={t('home.detailStrip', { name: featured.name })}>
                 {strip.map((m, i) => (
-                  <li key={m.id} className={`strip-item s${i + 1}`}>
-                    <div className="plate"><MediaImage media={m} sizes={i === 0 ? '(min-width: 900px) 56vw, 82vw' : '(min-width: 900px) 40vw, 82vw'} /></div>
+                  <li key={m.id} className="strip-item">
+                    <MediaImage media={m} fit="natural" sizes={['(min-width: 1440px) 560px, (min-width: 900px) 40vw, 78vw', '(min-width: 1440px) 450px, (min-width: 900px) 32vw, 78vw', '(min-width: 1440px) 340px, (min-width: 900px) 24vw, 78vw'][i] ?? '78vw'} />
                     {m.caption && <p className="figcap label muted"><span>{m.caption}</span></p>}
                   </li>
                 ))}
@@ -218,16 +217,6 @@ export default async function HomePage({ params }: Props) {
           </div>
         </section>
       )}
-
-      {/* 04b Component breakdown */}
-      <section aria-label={t('explode.eyebrow')}>
-        <ExplodedLamp
-          heading={t.raw('explode.heading') as string}
-          hint={t('explode.hint')}
-          label={t('explode.label')}
-          parts={(t.raw('explode.parts') as [string, string][]).map(([title, note]) => ({ title, note }))}
-        />
-      </section>
 
       {/* 05 From idea to object */}
       <section className="section" id="process">

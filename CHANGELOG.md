@@ -1,5 +1,10 @@
 # Changelog
 
+## 2026-11-27 — Dọn trang chủ và khung ảnh trước khi lên production
+- Bỏ mục "Lantern Study, taken apart" khỏi trang chủ (giữ component). Hiệu ứng tiêu đề hero còn 400 ms, giãn cách 60 ms.
+- "The Corner" chuyển sang Archived, bỏ nổi bật, ẩn khỏi bảng phát hành (seed:product làm việc này). Sản phẩm Archived không còn trang công khai.
+- Ảnh: hero 2:1 tràn viền trên mobile; ảnh mặt trước 2:1 của gallery tách riêng ở đầu, các ảnh dọc còn lại vuốt ngang theo đúng tỷ lệ gốc (không viền trống); dải chi tiết trang chủ dùng tỷ lệ gốc, lưới 5/4/3. Chất lượng ảnh 85 (90 cho gallery và lightbox) để nét trên màn hình 2x.
+
 ## 2026-11-26 — Sản phẩm đầu tiên: Saint Vincent Mini (SM-01 + SM-02)
 - Migration `product_page_fields` cho các trường mới: photoNote, cardImage, planImage, detailImages, layout (modules/notes), specs.extra; Homepage: heroLayout, heroLabel, heroNote, heroProduct, detailStrip.
 - Seed riêng `npm run seed:product -- <thư mục ảnh>` (`src/seed/products/supercar-street-food.ts`): chạy lại được, ảnh đã có (theo tên file) thì dùng lại; alt EN/VI mô tả đúng cảnh trong ảnh; 11 hotspot trên ảnh mặt bằng; chỉ thông số công khai (không giá, tồn kho, ngày, tỷ lệ, vật liệu, cân nặng, chiều cao quầy). Ảnh không commit vào git.

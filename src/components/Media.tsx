@@ -25,12 +25,15 @@ export function MediaImage({
   priority,
   className,
   fit = 'cover',
+  quality = 85,
 }: {
   media: MediaDoc
   sizes: string
   priority?: boolean
   className?: string
   fit?: 'cover' | 'contain' | 'natural'
+  /** Product photography is shown at 85 by default so it stays crisp on 2x screens. */
+  quality?: number
 }) {
   if (!media.url || !media.width || !media.height) return null
   const style =
@@ -44,6 +47,7 @@ export function MediaImage({
       width={media.width}
       height={media.height}
       sizes={sizes}
+      quality={quality}
       priority={priority}
       fetchPriority={priority ? 'high' : undefined}
       className={className}

@@ -20,6 +20,11 @@ export function ProductGallery({ images, labels }: { images: GalleryImage[]; lab
   const [visible, setVisible] = useState(0)
   const [open, setOpen] = useState<number | null>(null)
   const total = images.length
+  // A wide first image (e.g. the 2:1 front view) is shown on its own at its true ratio, edge to edge on mobile.
+  // The remaining photos share one swipe track, so no slide is letterboxed.
+  const leadWide = total > 1 && images[0].width / images[0].height >= 1.5
+  const offset = leadWide ? 1 : 0
+  const rest = images.slice(offset)
 
   // Track which slide is in view on the mobile track.
   useEffect(() => {
@@ -28,13 +33,13 @@ export function ProductGallery({ images, labels }: { images: GalleryImage[]; lab
     const items = Array.from(track.children) as HTMLElement[]
     const io = new IntersectionObserver(
       (entries) => {
-        for (const e of entries) if (e.isIntersecting) setVisible(items.indexOf(e.target as HTMLElement))
+        for (const e of entries) if (e.isIntersecting) setVisible(items.indexOf(e.target as HTMLElement) + offset)
       },
       { root: track, threshold: 0.6 },
     )
     items.forEach((el) => io.observe(el))
     return () => io.disconnect()
-  }, [total])
+  }, [total, offset])
 
   const show = useCallback((i: number) => {
     setOpen(i)
@@ -53,27 +58,48 @@ export function ProductGallery({ images, labels }: { images: GalleryImage[]; lab
 
   return (
     <div className="pg">
-      <ul className="pg-track" ref={trackRef}>
-        {images.map((img, i) => (
-          <li key={img.id} className="pg-item">
-            <button type="button" className="pg-open" onClick={() => show(i)} aria-label={fill(labels.open, i + 1, total)}>
-              <Image
-                src={img.src}
-                alt={img.alt}
-                width={img.width}
-                height={img.height}
-                sizes="(min-width: 1440px) 790px, (min-width: 900px) 56vw, calc(100vw - 32px)"
-                priority={i === 0}
-                fetchPriority={i === 0 ? 'high' : 'low'}
-                loading={i === 0 ? undefined : 'lazy'}
-              />
-            </button>
-          </li>
-        ))}
-      </ul>
-      {total > 1 && (
-        <p className="pg-count label" aria-hidden="true">{fill(labels.counter, visible + 1, total)}</p>
+      {leadWide && (
+        <button type="button" className="pg-open pg-lead" onClick={() => show(0)} aria-label={fill(labels.open, 1, total)}>
+          <Image
+            src={images[0].src}
+            alt={images[0].alt}
+            width={images[0].width}
+            height={images[0].height}
+            sizes="(min-width: 1440px) 790px, (min-width: 900px) 56vw, 100vw"
+            quality={90}
+            priority
+            fetchPriority="high"
+          />
+        </button>
       )}
+      <div className="pg-rest">
+        <ul className="pg-track" ref={trackRef}>
+          {rest.map((img, k) => {
+            const i = k + offset
+            const first = i === 0
+            return (
+              <li key={img.id} className="pg-item">
+                <button type="button" className="pg-open" onClick={() => show(i)} aria-label={fill(labels.open, i + 1, total)}>
+                  <Image
+                    src={img.src}
+                    alt={img.alt}
+                    width={img.width}
+                    height={img.height}
+                    sizes="(min-width: 1440px) 790px, (min-width: 900px) 56vw, 84vw"
+                    quality={90}
+                    priority={first}
+                    fetchPriority={first ? 'high' : 'low'}
+                    loading={first ? undefined : 'lazy'}
+                  />
+                </button>
+              </li>
+            )
+          })}
+        </ul>
+        {rest.length > 1 && (
+          <p className="pg-count label" aria-hidden="true">{fill(labels.counter, Math.max(visible, offset) + 1, total)}</p>
+        )}
+      </div>
 
       <dialog
         ref={dialogRef}
@@ -86,7 +112,7 @@ export function ProductGallery({ images, labels }: { images: GalleryImage[]; lab
         {current && (
           <figure className="lb-fig">
             <div className="lb-img">
-              <Image key={current.id} src={current.src} alt={current.alt} width={current.width} height={current.height} sizes="100vw" />
+              <Image key={current.id} src={current.src} alt={current.alt} width={current.width} height={current.height} sizes="100vw" quality={90} />
             </div>
             <figcaption className="lb-cap label">
               <span>{fill(labels.counter, (open ?? 0) + 1, total)}</span>

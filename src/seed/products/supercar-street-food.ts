@@ -1,5 +1,6 @@
 /**
- * Seeds "Saint Vincent Mini" (SM-01 + SM-02) and points the home page at it.
+ * Seeds "Saint Vincent Mini" (SM-01 + SM-02), points the home page at it and retires the starter concept "The Corner".
+ * Only touches those records: nothing else is changed or removed.
  * Usage: npm run seed:product -- <photo dir>
  *
  * Re-runnable: photos already uploaded (same filename) are reused, the product is updated in place.
@@ -278,6 +279,18 @@ async function run() {
     const r = await payload.create({ collection: 'releases', locale: 'en', overrideAccess: true, data: { title: 'Saint Vincent Mini', catalogueNumber: 'SM-01 + SM-02', stage: 'prototype', product: product.id, order: -1, visible: true } as never })
     await payload.update({ collection: 'releases', id: r.id, locale: 'vi', overrideAccess: true, data: { title: 'Saint Vincent Mini' } })
     payload.logger.info('created release SM-01 + SM-02')
+  }
+
+  // Retire the starter concept "The Corner": archived (kept in the CMS, no public page), not featured, off the release board.
+  const corner = await payload.find({ collection: 'products', where: { slug: { equals: 'the-corner' } }, limit: 1, draft: true, overrideAccess: true })
+  if (corner.docs[0]) {
+    await payload.update({ collection: 'products', id: corner.docs[0].id, overrideAccess: true, data: { status: 'archived', featured: false, _status: 'published' } as never })
+    payload.logger.info('archived products/the-corner')
+  }
+  const cornerRelease = await payload.find({ collection: 'releases', where: { catalogueNumber: { equals: 'SV-MW-001' } }, limit: 1, overrideAccess: true })
+  if (cornerRelease.docs[0]) {
+    await payload.update({ collection: 'releases', id: cornerRelease.docs[0].id, overrideAccess: true, data: { visible: false } })
+    payload.logger.info('hid release SV-MW-001')
   }
 
   // Home page: wide hero, featured design and detail strip. The studio headline and lede stay as they are.
